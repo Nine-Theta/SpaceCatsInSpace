@@ -2,23 +2,6 @@
 
 namespace GXPEngine
 {
-	//TODO:
-	/*
-	 * static Deg2Rad
-	 * static Rad2Deg
-	 * static GetUnitVectorDegrees
-	 * static GetUnitVectorRadians
-	 * static RandomUnitVector
-	 * 
-	 * SetAngleDegrees
-	 * SetAngleRadians
-	 * GetAngleRadians
-	 * GetAngleDegrees
-	 * RotateDegrees
-	 * RotateRadians
-	 * RotateAroundDegrees
-	 * RotateAroundRadians
-	*/
 	public class Vec2
 	{
 		public static Vec2 zero { get { return new Vec2(0, 0); } }
@@ -117,9 +100,18 @@ namespace GXPEngine
 		/// </summary>
 		/// <param name="x">The x coordinate.</param>
 		/// <param name="y">The y coordinate.</param>
-		public bool EqualsTo(float x, float y)
+		public bool EqualsTo(float pX, float pY)
 		{
-			return (this.x == x && this.y == y);
+			return (this.x == pX && this.y == pY);
+		}
+		/// <summary>
+		/// Checks if current vector's x and y coordinates are equal to the other vector
+		/// </summary>
+		/// <returns><c>true</c>, if to was equalsed, <c>false</c> otherwise.</returns>
+		/// <param name="other">Other.</param>
+		public bool EqualsTo(Vec2 other)
+		{
+			return (other.x == this.x && other.y == this.y);
 		}
 
 		//Assignment 2
