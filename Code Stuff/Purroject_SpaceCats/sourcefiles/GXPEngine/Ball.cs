@@ -6,7 +6,7 @@ namespace GXPEngine
 	public class Ball : Canvas
 	{
 		public readonly int radius;
-		private Arrow _arrow;
+		//private Arrow _arrow;
 		private Vec2 _position;
 		private Vec2 _velocity;
 		private Vec2 _startPosition;
@@ -49,8 +49,8 @@ namespace GXPEngine
 			SetOrigin (radius, radius);
 			_ballColor = pColor ?? Color.Blue;
 
-			_arrow = new Arrow(_position, _velocity, 20, 0, 1);
-			game.AddChild(_arrow);
+			//_arrow = new Arrow(_position, _velocity, 20, 0, 1);
+			//game.AddChild(_arrow);
 
 			draw ();
 			x = position.x;
@@ -119,7 +119,7 @@ namespace GXPEngine
 			x = _position.x;
 			y = _position.y;
 			_lineCanvas.graphics.DrawLine(_pen, oldX, oldY, _position.x, _position.y);
-			UpdateArrow();
+			//UpdateArrow();
 		}
 
 		public void ResetBall()
@@ -160,12 +160,12 @@ namespace GXPEngine
 			}
 		}
 
-		void UpdateArrow()
-		{
-			_arrow.vector = _velocity;
-			_arrow.startPoint = position;
-			_arrow.color = 0xffffffff;
-		}
+		//void UpdateArrow()
+		//{
+		//	_arrow.vector = _velocity;
+		//	_arrow.startPoint = position;
+		//	_arrow.color = 0xffffffff;
+		//}
 
 		public void SetGravity(string direction)
 		{
