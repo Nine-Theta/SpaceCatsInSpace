@@ -62,6 +62,8 @@
     <Compile Include="Purroject_SpaceCats\Utils\Utils.cs" />
     <Compile Include="MyGame.cs" />
     <Compile Include="Purroject_SpaceCats\Vec2.cs" />
+    <Compile Include="Planet.cs" />
+    <Compile Include="Ball.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Purroject_SpaceCats\" />

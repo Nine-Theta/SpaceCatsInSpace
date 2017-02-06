@@ -4,9 +4,12 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench ActiveDocument="GXPEngine\MyGame.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GXPEngine\Planet.cs">
     <Files>
-      <File FileName="GXPEngine\MyGame.cs" Line="2" Column="22" />
+      <File FileName="GXPEngine\MyGame.cs" Line="17" Column="20" />
+      <File FileName="GXPEngine\Purroject_SpaceCats\Core\GLContext.cs" Line="70" Column="4" />
+      <File FileName="GXPEngine\Purroject_SpaceCats\Sound.cs" Line="55" Column="3" />
+      <File FileName="GXPEngine\Planet.cs" Line="8" Column="11" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.Purroject__SpaceCats PreferredExecutionTarget="MonoDevelop.Default" />
