@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B5126D4C-7FE0-4552-BC8C-E68D529C22B2}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>GXPEngine</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>False</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>False</ConsolePause>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Reference Include="System.Drawing" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Purroject_SpaceCats\Canvas.cs" />
+    <Compile Include="Purroject_SpaceCats\Game.cs" />
+    <Compile Include="Purroject_SpaceCats\GameObject.cs" />
+    <Compile Include="Purroject_SpaceCats\Sound.cs" />
+    <Compile Include="Purroject_SpaceCats\SoundChannel.cs" />
+    <Compile Include="Purroject_SpaceCats\Sprite.cs" />
+    <Compile Include="Purroject_SpaceCats\Core\BlendMode.cs" />
+    <Compile Include="Purroject_SpaceCats\Core\BoxCollider.cs" />
+    <Compile Include="Purroject_SpaceCats\Core\Collider.cs" />
+    <Compile Include="Purroject_SpaceCats\Core\GLContext.cs" />
+    <Compile Include="Purroject_SpaceCats\Core\Rectangle.cs" />
+    <Compile Include="Purroject_SpaceCats\Core\Texture2D.cs" />
+    <Compile Include="Purroject_SpaceCats\Core\Transformable.cs" />
+    <Compile Include="Purroject_SpaceCats\Core\Vector2.cs" />
+    <Compile Include="Purroject_SpaceCats\FMOD\FMOD.cs" />
+    <Compile Include="Purroject_SpaceCats\Managers\CollisionManager.cs" />
+    <Compile Include="Purroject_SpaceCats\Managers\UpdateManager.cs" />
+    <Compile Include="Purroject_SpaceCats\OpenGL\GL.cs" />
+    <Compile Include="Purroject_SpaceCats\Pivot.cs" />
+    <Compile Include="Purroject_SpaceCats\AnimationSprite.cs" />
+    <Compile Include="Purroject_SpaceCats\Mathf.cs" />
+    <Compile Include="Purroject_SpaceCats\Utils\Input.cs" />
+    <Compile Include="Purroject_SpaceCats\Utils\Key.cs" />
+    <Compile Include="Purroject_SpaceCats\Utils\MouseHandler.cs" />
+    <Compile Include="Purroject_SpaceCats\Utils\Time.cs" />
+    <Compile Include="Purroject_SpaceCats\Utils\Utils.cs" />
+    <Compile Include="MyGame.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Purroject_SpaceCats\" />
+  </ItemGroup>
+</Project>
