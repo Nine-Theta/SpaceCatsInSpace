@@ -1,0 +1,13 @@
+﻿<Properties StartupConfiguration="{F6D953A6-600B-4C22-B114-25FFBEFB79F9}|Default">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workbench ActiveDocument="Purroject_SpaceCats\MyGame.cs">
+    <Files>
+      <File FileName="Purroject_SpaceCats\MyGame.cs" Line="5" Column="46" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.Purroject__SpaceCats PreferredExecutionTarget="MonoDevelop.Default" />
+</Properties>
