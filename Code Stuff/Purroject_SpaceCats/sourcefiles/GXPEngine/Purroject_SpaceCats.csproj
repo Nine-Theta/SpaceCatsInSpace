@@ -67,6 +67,7 @@
     <Compile Include="Ball.cs" />
     <Compile Include="SpaceStation.cs" />
     <Compile Include="XMLMap.cs" />
+    <Compile Include="LevelManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Purroject_SpaceCats\" />

@@ -12,10 +12,12 @@ namespace Purroject_SpaceCats
 	[XmlRoot("map")]
 	public class XMLMap
 	{
+		public string[] levelFiles = { "Your level is in another variable", "Level1.tmx", "Level2.tmx" };
+
 		[XmlAttribute("width")]
-		public int Width = 20;
+		public int Width;
 		[XmlAttribute("height")]
-		public int Height = 20;
+		public int Height;
 		[XmlElement("tileset")]
 		public TileSet tileSet;
 		[XmlElement("objectgroup")]
@@ -23,6 +25,25 @@ namespace Purroject_SpaceCats
 
 		public XMLMap()
 		{
+		}
+
+		public XMLMap ReadMap(int pLevel)
+		{
+			switch (pLevel)
+			{
+				case 0:
+					Console.WriteLine(levelFiles[pLevel]);
+					return new XMLMap();
+				case 1:
+					XmlSerializer serializer = new XmlSerializer(typeof(XMLMap));
+
+					TextReader reader = new StreamReader(levelFiles[pLevel]);
+					XMLMap map = serializer.Deserialize(reader) as XMLMap;
+					return map;
+				default:
+					Console.WriteLine("Invalid map loaded, returning empty uninitialized map");
+					return new XMLMap();
+			}
 		}
 	}
 
@@ -76,6 +97,9 @@ namespace Purroject_SpaceCats
 		}
 	}
 
+	/// <summary>
+	/// Image of the tileset.
+	/// </summary>
 	[XmlRoot("image")]
 	public class Image
 	{
@@ -91,9 +115,9 @@ namespace Purroject_SpaceCats
 		public override string ToString()
 		{
 			string stringdata = "";
-			stringdata += "Source:" + source + Environment.NewLine;
-			stringdata += "FileWidth:" + width + Environment.NewLine;
-			stringdata += "FileHeight:" + height + Environment.NewLine;
+			stringdata += " Source:" + source + Environment.NewLine;
+			stringdata += " FileWidth:" + width + Environment.NewLine;
+			stringdata += " FileHeight:" + height + Environment.NewLine;
 			return stringdata;
 		}
 
