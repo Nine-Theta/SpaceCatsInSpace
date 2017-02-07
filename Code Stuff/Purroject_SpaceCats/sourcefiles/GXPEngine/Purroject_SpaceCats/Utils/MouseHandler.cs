@@ -17,7 +17,7 @@ namespace GXPEngine
 		private Game _game;
 
 		//declaration of the delegate type for all types of mouse events
-		public delegate void OnMouseEvent (GameObject target, MouseEventType type);
+		public delegate void OnMouseEvent(GameObject target, MouseEventType type);
 
 		//generated the moment/frame you PRESS down the mouse, no matter where
 		public event OnMouseEvent OnMouseDown;
@@ -42,12 +42,19 @@ namespace GXPEngine
 		//generated if the mouse went down and up on this target
 		public event OnMouseEvent OnMouseClick;
 
+		//generated the moment/frame you PRESS down the RIGHT mouse button, no matter where
+		public event OnMouseEvent OnMouseRightDown;
+		//generated the moment/frame you RELEASE the RIGHT mouse button, no matter where
+		public event OnMouseEvent OnMouseRightUp;
+
+
 		//internal administration variables
-		private bool _wasOnTarget = false;				//was the mouse on target last frame?
-		private bool _wasMouseDown = false;				//was the mouse down last time we checked?
-		private bool _wasMouseDownOnTarget = false;		//was the mouse down on the target last time we checked?
-		private float _lastX;							//where was the mouse last time we checked?
-		private float _lastY;							//where was the mouse last time we checked?
+		private bool _wasOnTarget = false;              //was the mouse on target last frame?
+		private bool _wasMouseDown = false;             //was the mouse down last time we checked?
+		private bool _wasMouseRightDown = false;        //was the RIGHT mouse button down last time we checked?
+		private bool _wasMouseDownOnTarget = false;     //was the mouse down on the target last time we checked?
+		private float _lastX;                           //where was the mouse last time we checked?
+		private float _lastY;                           //where was the mouse last time we checked?
 
 		//what is the difference between the origin of the target and our on target mouse down location?
 		//this allows us to use the mouse down point as drag point instead of seeing the target jump due
@@ -62,7 +69,7 @@ namespace GXPEngine
 		/// Create a new MouseHandler for the given target.
 		/// </summary>
 		/// <param name="target">Target.</param>
-		public MouseHandler (GameObject target)
+		public MouseHandler(GameObject target)
 		{
 			_target = target;
 			_game = _target.game;
@@ -74,72 +81,88 @@ namespace GXPEngine
 		/// <summary>
 		/// Updates the internal adminstrates and triggers events where required.
 		/// </summary>
-		void HandleOnStep ()
+		void HandleOnStep()
 		{
 			//mouse can enter/leave target without moving (the target may move!)
-			bool isOnTarget = _target.HitTestPoint (Input.mouseX, Input.mouseY);
-			if (isOnTarget  && !_wasOnTarget) {
-				if (OnMouseOverTarget != null) OnMouseOverTarget (_target, MouseEventType.MouseOverTarget);
-			} else if (!isOnTarget  && _wasOnTarget) {
-				if (OnMouseOffTarget != null) OnMouseOffTarget (_target, MouseEventType.MouseOffTarget);
+			bool isOnTarget = _target.HitTestPoint(Input.mouseX, Input.mouseY);
+			if (isOnTarget && !_wasOnTarget)
+			{
+				if (OnMouseOverTarget != null) OnMouseOverTarget(_target, MouseEventType.MouseOverTarget);
+			}
+			else if (!isOnTarget && _wasOnTarget)
+			{
+				if (OnMouseOffTarget != null) OnMouseOffTarget(_target, MouseEventType.MouseOffTarget);
 			}
 
 			//did we just press the mouse down?
-			if (!_wasMouseDown && Input.GetMouseButton (0)) {
+			if (!_wasMouseDown && Input.GetMouseButton(0))
+			{
 				if (OnMouseDown != null) OnMouseDown(_target, MouseEventType.MouseDown);
-				if (isOnTarget  && OnMouseDownOnTarget != null) OnMouseDownOnTarget(_target, MouseEventType.MouseDownOnTarget);
+				if (isOnTarget && OnMouseDownOnTarget != null) OnMouseDownOnTarget(_target, MouseEventType.MouseDownOnTarget);
 				_wasMouseDown = true;
 				_wasMouseDownOnTarget = isOnTarget;
 
-				_offset = _target.TransformPoint (0, 0);
+				_offset = _target.TransformPoint(0, 0);
 				_offset.x = _offset.x - Input.mouseX;
 				_offset.y = _offset.y - Input.mouseY;
 
-			} else if (_wasMouseDown && !Input.GetMouseButton (0)) {
+			}
+			else if (_wasMouseDown && !Input.GetMouseButton(0))
+			{
 				if (OnMouseUp != null) OnMouseUp(_target, MouseEventType.MouseUp);
 				if (isOnTarget && OnMouseUpOnTarget != null) OnMouseUpOnTarget(_target, MouseEventType.MouseUpOnTarget);
-				if (isOnTarget && _wasMouseDownOnTarget && OnMouseClick != null) OnMouseClick (_target, MouseEventType.MouseClick);
+				if (isOnTarget && _wasMouseDownOnTarget && OnMouseClick != null) OnMouseClick(_target, MouseEventType.MouseClick);
 
 				_wasMouseDown = false;
 				_wasMouseDownOnTarget = false;
 				_offset.x = _offset.y = 0;
 			}
 
-			if (_lastX != Input.mouseX || _lastY != Input.mouseY) {
-				_lastX = Input.mouseX;
-				_lastY = Input.mouseY;
-				if (OnMouseMove != null) OnMouseMove (_target, MouseEventType.MouseMove);
-				if (isOnTarget && OnMouseMoveOnTarget != null) OnMouseMoveOnTarget(_target, MouseEventType.MouseMoveOnTarget);
+			//did we just press the RIGHT mouse button down?
+			if (!_wasMouseRightDown && Input.GetMouseButton(1))
+			{
+				if (OnMouseRightDown != null) OnMouseRightDown(_target, MouseEventType.MouseRightDown);
+				_wasMouseRightDown = true;
+			}
+			else if (_wasMouseRightDown && !Input.GetMouseButton(1))
+			{
+				if (OnMouseRightUp != null) OnMouseRightUp(_target, MouseEventType.MouseRightUp);
+				_wasMouseRightDown = false;
 			}
 
+			if (_lastX != Input.mouseX || _lastY != Input.mouseY)
+			{
+				_lastX = Input.mouseX;
+				_lastY = Input.mouseY;
+				if (OnMouseMove != null) OnMouseMove(_target, MouseEventType.MouseMove);
+				if (isOnTarget && OnMouseMoveOnTarget != null) OnMouseMoveOnTarget(_target, MouseEventType.MouseMoveOnTarget);
+			}
 			_wasOnTarget = isOnTarget;
 		}
 
 		//contains offset from mouse to target on click
-		public Vector2 offsetToTarget {
-			get { return _offset;}
+		public Vector2 offsetToTarget
+		{
+			get { return _offset; }
 		}
 
 		~MouseHandler()
 		{
 			_game.OnAfterStep -= HandleOnStep;
-
 		}
-
-
 	}
-
-	public enum MouseEventType {
+	public enum MouseEventType
+	{
 		MouseDown,
 		MouseDownOnTarget,
-		MouseUp, 
+		MouseUp,
 		MouseUpOnTarget,
 		MouseMove,
 		MouseMoveOnTarget,
 		MouseOverTarget,
 		MouseOffTarget,
-		MouseClick
+		MouseClick,
+		MouseRightDown,
+		MouseRightUp
 	}
-
 }
-
