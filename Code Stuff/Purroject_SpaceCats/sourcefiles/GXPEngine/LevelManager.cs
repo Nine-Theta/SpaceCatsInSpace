@@ -1,7 +1,9 @@
 ﻿using System;
+using GXPEngine;
+
 namespace Purroject_SpaceCats
 {
-	public class LevelManager
+	public class LevelManager : GameObject
 	{
 		private XMLMap _currentMap;
 		public LevelManager()
@@ -15,10 +17,24 @@ namespace Purroject_SpaceCats
 			string[] splitNames = objectName.Split(' ');
 			switch (splitNames[0])
 			{
-				case "spawn":
-
+				case "Player":
+					Player player = new Player(XMLMap.PLAYER_RADIUS ,new Vec2(pObject.X, pObject.Y));
+					AddChild(player);
 					break;
-					
+				case "Planet":
+					Planet planet = new Planet(new Vec2(pObject.X, pObject.Y), "");
+					AddChild(planet);
+					break;
+				case "Station":
+					//Changes frame if frame is the start, else it uses another frame;
+					int frame;
+					if (splitNames[1] == "Start")
+						frame = 0;
+					else
+						frame = 1;
+					SpaceStation station = new SpaceStation(pObject.X, pObject.Y, frame);
+					AddChild(station);
+					break;
 				default:
 					Console.WriteLine("Unknown object in Object Layer");
 					Console.WriteLine("Name: " + objectName);
