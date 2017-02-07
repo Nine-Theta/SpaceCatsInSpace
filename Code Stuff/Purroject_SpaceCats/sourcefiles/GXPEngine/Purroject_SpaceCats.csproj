@@ -69,6 +69,7 @@
     <Compile Include="XMLMap.cs" />
     <Compile Include="Cat.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="LevelManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Purroject_SpaceCats\" />
