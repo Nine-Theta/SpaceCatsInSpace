@@ -6,9 +6,20 @@ namespace Purroject_SpaceCats
 	public class LevelManager : GameObject
 	{
 		private XMLMap _currentMap;
+		private int _currentlevel;
 		public LevelManager()
 		{
-			_currentMap = _currentMap.ReadMap(1);
+			LoadLevel(1);
+		}
+
+		void LoadLevel(int pLevel)
+		{
+			_currentlevel = pLevel;
+			_currentMap = _currentMap.ReadMap(pLevel);
+			foreach (TiledObject tObject in _currentMap.objectGroup.TiledObject)
+			{
+				InterpretObject(tObject);
+			}
 		}
 
 		void InterpretObject(TiledObject pObject)
