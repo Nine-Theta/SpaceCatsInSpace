@@ -51,7 +51,7 @@ namespace Purroject_SpaceCats
 	/// <summary>
 	/// Object group (functionally identical to object layer).
 	/// </summary>
-	[XmlRootAttribute("objectgroup")]
+	[XmlRoot("objectgroup")]
 	public class ObjectGroup
 	{
 		[XmlAttribute("name")]
@@ -130,7 +130,7 @@ namespace Purroject_SpaceCats
 	/// <summary>
 	/// Tiled objects in the layer.
 	/// </summary>
-	[XmlRootAttribute("object")]
+	[XmlRoot("object")]
 	public class TiledObject
 	{
 		[XmlAttribute("gid")]
@@ -151,7 +151,7 @@ namespace Purroject_SpaceCats
 	/// <summary>
 	/// List of properties.
 	/// </summary>
-	[XmlRootAttribute("properties")]
+	[XmlRoot("properties")]
 	public class Properties
 	{
 		[XmlElement("property")]
@@ -175,7 +175,7 @@ namespace Purroject_SpaceCats
 	/// <summary>
 	/// Property itself.
 	/// </summary>
-	[XmlRootAttribute("property")]
+	[XmlRoot("property")]
 	public class Property
 	{
 		[XmlAttribute("name")]

@@ -3,9 +3,11 @@ using System.Drawing;
 using GXPEngine;
 
 //TODO Implement Nyarn cat (sic)
+//TODO Shank a b*tch for this comment
 
 public class MyGame : Game
-{	private MouseHandler _catHandler = null; //playerhandler won the vote over "ballhandler" & "ballfondler"
+{
+	private MouseHandler _catHandler = null; //playerhandler won the vote over "ballhandler" & "ballfondler"
 	private Player _player = null;
 	private Cat _cat = null;
 	private Planet _planet = null;
