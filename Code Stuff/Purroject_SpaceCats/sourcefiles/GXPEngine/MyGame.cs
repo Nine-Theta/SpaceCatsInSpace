@@ -12,6 +12,7 @@ public class MyGame : Game
 	private Vec2 _mouseDeltaElastic = null;
 
 	private float _accelerationValue = 0.0f;
+	//private int _catCounter = 5;
 
 	public MyGame () : base(800, 600, false)
 	{
@@ -34,9 +35,7 @@ public class MyGame : Game
 
 		_catHandler.OnMouseMove += onCatMouseMove;
 		_catHandler.OnMouseUp += onCatMouseUp;
-
 		//_player.position.SetXY(_playerStartPosition);
-
 	}
 
 	private void onCatMouseMove(GameObject target, MouseEventType type)
@@ -59,6 +58,7 @@ public class MyGame : Game
 
 		_cat.acceleration.Add(_mouseDelta.Clone().Normalize().Scale(_accelerationValue));
 		_player.acceleration.Add(_mouseDelta.Clone().Normalize().Scale(-_accelerationValue));
+		//_catCounter -= 1;
 	}
 
 	private void OnMouseEvent(GameObject target, MouseEventType type)

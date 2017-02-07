@@ -4,15 +4,18 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench ActiveDocument="GXPEngine\XMLMap.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GXPEngine\Ball.cs">
     <Files>
-      <File FileName="GXPEngine\MyGame.cs" Line="1" Column="1" />
-      <File FileName="GXPEngine\Planet.cs" Line="9" Column="25" />
-      <File FileName="GXPEngine\Purroject_SpaceCats\Core\GLContext.cs" Line="70" Column="4" />
-      <File FileName="GXPEngine\Purroject_SpaceCats\Sound.cs" Line="55" Column="3" />
-      <File FileName="GXPEngine\Ball.cs" Line="1" Column="1" />
+      <File FileName="GXPEngine\MyGame.cs" Line="16" Column="4" />
+      <File FileName="GXPEngine\Player.cs" Line="18" Column="3" />
+      <File FileName="GXPEngine\Cat.cs" Line="20" Column="29" />
+      <File FileName="GXPEngine\Ball.cs" Line="23" Column="19" />
+      <File FileName="GXPEngine\Planet.cs" Line="29" Column="8" />
       <File FileName="GXPEngine\SpaceStation.cs" Line="11" Column="37" />
-      <File FileName="GXPEngine\XMLMap.cs" Line="22" Column="18" />
+      <File FileName="GXPEngine\XMLMap.cs" Line="1" Column="1" />
+      <File FileName="GXPEngine\LevelManager.cs" Line="1" Column="1" />
+      <File FileName="GXPEngine\Purroject_SpaceCats\Utils\MouseHandler.cs" Line="139" Column="5" />
+      <File FileName="GXPEngine\Purroject_SpaceCats\Vec2.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.Purroject__SpaceCats PreferredExecutionTarget="MonoDevelop.Default" />
