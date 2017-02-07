@@ -32,6 +32,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Purroject_SpaceCats\Canvas.cs" />
@@ -64,6 +65,8 @@
     <Compile Include="Purroject_SpaceCats\Vec2.cs" />
     <Compile Include="Planet.cs" />
     <Compile Include="Ball.cs" />
+    <Compile Include="SpaceStation.cs" />
+    <Compile Include="XMLMap.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Purroject_SpaceCats\" />

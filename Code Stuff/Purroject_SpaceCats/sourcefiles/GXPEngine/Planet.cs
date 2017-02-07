@@ -24,15 +24,17 @@ namespace Purroject_SpaceCats
 			_hitball = new Ball(width / 2, pPosVec);
 			if (pGravityRange != 0)
 			{
-				_gravityRange = new Ball(pGravityRange, pPosVec);
+				_gravityRange = new Ball(pGravityRange, Vec2.zero);
 			}
 			else
 			{
 				//If gravity range is not specified, set range of gravity to twice the size of the hitbox
-				_gravityRange = new Ball(width, pPosVec);
+				_gravityRange = new Ball(width, Vec2.zero);
 			}
 			_rotationSpeed = pRotationSpeed;
 			_gravityForce = pGravityForce;
+
+			//AddChild(_gravityRange);
 		}
 
 		/// <summary>
@@ -50,6 +52,43 @@ namespace Purroject_SpaceCats
 		void Update()
 		{
 			rotation += _rotationSpeed;
+		}
+
+
+		/// <summary>
+		/// Returns a boolean if in range of gravitational pull
+		/// Accepts separate x and y floats but also a vec2
+		/// </summary>
+		public bool InRange(float pX, float pY, int pRadius)
+		{
+			Vec2 deltaVec = new Vec2(pX, pY);
+			deltaVec.Subtract(posVec);
+			if (pRadius + _gravityRange.radius < deltaVec.Length())
+			{
+				//_gravityRange.color = 0xFF0000;
+				return true;
+			}
+			else
+			{
+				//_gravityRange.color = 0x0000FF;
+				return false;
+			}
+		}
+		/// <summary>
+		/// Returns a boolean if in range of gravitational pull
+		/// /// </summary>
+		public bool InRange(Vec2 pVec, int pRadius)
+		{
+			Vec2 deltaVec = pVec.Clone();
+			deltaVec.Subtract(posVec);
+			if (pRadius + _gravityRange.radius < deltaVec.Length())
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 	}
 }
