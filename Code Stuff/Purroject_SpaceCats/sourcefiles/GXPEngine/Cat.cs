@@ -16,10 +16,8 @@ namespace GXPEngine
 
 			_target = new Vec2(pTarget.x, pTarget.y);
 			position = _target.Add(_target.Clone().Normalize().Scale(pTargetRadius));
-			//position = Vec2.zero;
 			velocity = Vec2.zero;
 			acceleration = Vec2.zero;
-
 		}
 
 		public Vec2 position{
