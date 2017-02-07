@@ -1,7 +1,6 @@
 ﻿using System;
-using GXPEngine;
 
-namespace Purroject_SpaceCats
+namespace GXPEngine
 {
 	public class Planet : Sprite
 	{
@@ -9,22 +8,29 @@ namespace Purroject_SpaceCats
 		private Ball _hitball;
 		//Range for the gravity of this planet (don't add as child)
 		private Ball _gravityRange;
+
+		//the radius of this planet's gravity
+		private int _gravityRadius;
 		//gravity force multiplier
 		private float _gravityForce;
 		//speed with which this planet rotates in degrees per frame
 		private float _rotationSpeed;
+
 		private Vec2 _posVec;
 
 
 		public Planet(Vec2 pPosVec, string pFilename, float pGravityForce = 1.0f, int pGravityRange = 0, float pRotationSpeed = 0.0f) : base (pFilename)
 		{
 			SetOrigin(width / 2, height / 2);
+
+			_gravityRadius = pGravityRange;
 			_posVec = pPosVec;
 			SetXY(_posVec.x, _posVec.y);
-			_hitball = new Ball(width / 2, pPosVec);
+			_hitball = new Ball(width / 2, Vec2.zero);
+
 			if (pGravityRange != 0)
 			{
-				_gravityRange = new Ball(pGravityRange, Vec2.zero);
+				_gravityRange = new Ball(_gravityRadius, Vec2.zero);
 			}
 			else{
 				//If gravity range is not specified, set range of gravity to twice the size of the hitbox
@@ -46,6 +52,14 @@ namespace Purroject_SpaceCats
 				return _gravityForce;
 			}
 		}
+
+		public int gravityRadius
+		{
+			get{
+				return _gravityRadius;
+			}
+		}
+
 
 		void Update()
 		{

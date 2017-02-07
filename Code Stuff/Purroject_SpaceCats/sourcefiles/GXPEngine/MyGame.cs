@@ -2,14 +2,16 @@ using System;
 using System.Drawing;
 using GXPEngine;
 
+//TODO Implement Nyarn cat (sic)
+
 public class MyGame : Game
 {	private MouseHandler _catHandler = null; //playerhandler won the vote over "ballhandler" & "ballfondler"
 	private Player _player = null;
 	private Cat _cat = null;
+	private Planet _planet = null;
 
 	private Vec2 _playerStartPosition = null;
 	private Vec2 _mouseDelta = null;
-	private Vec2 _mouseDeltaElastic = null;
 
 	private float _accelerationValue = 0.0f;
 	//private int _catCounter = 5;
@@ -27,15 +29,16 @@ public class MyGame : Game
 		_catHandler = new MouseHandler(_cat);
 		_catHandler.OnMouseDownOnTarget += onCatMouseDown;
 
+		_planet = new Planet(new Vec2(100, 100), "circle.png", 1);
+		AddChild(_planet);
+
 		_mouseDelta = new Vec2(Input.mouseX, Input.mouseY);
-		_mouseDeltaElastic = new Vec2(0, 0);
 	}
 
 	private void onCatMouseDown(GameObject target, MouseEventType type){
 
 		_catHandler.OnMouseMove += onCatMouseMove;
 		_catHandler.OnMouseUp += onCatMouseUp;
-		//_player.position.SetXY(_playerStartPosition);
 	}
 
 	private void onCatMouseMove(GameObject target, MouseEventType type)
@@ -44,11 +47,6 @@ public class MyGame : Game
 
 		_accelerationValue = _mouseDelta.Length()/10;
 		Console.WriteLine(_accelerationValue);
-		//_mouseDeltaElastic.SetXY(_mouseDelta.Clone().Normalize().Scale(Mathf.Sqrt(_mouseDelta.Length())).Scale(10.0f).Add(_playerStartPosition));
-
-		//_player.position.SetXY(_mouseDeltaElastic.Add(_playerHandler.offsetToTarget));
-
-		//Console.WriteLine("test");
 	}
 
 	private void onCatMouseUp(GameObject target, MouseEventType type)
@@ -58,7 +56,6 @@ public class MyGame : Game
 
 		_cat.acceleration.Add(_mouseDelta.Clone().Normalize().Scale(_accelerationValue));
 		_player.acceleration.Add(_mouseDelta.Clone().Normalize().Scale(-_accelerationValue));
-		//_catCounter -= 1;
 	}
 
 	private void OnMouseEvent(GameObject target, MouseEventType type)
@@ -66,11 +63,23 @@ public class MyGame : Game
 		Console.WriteLine("Eventtype: " + type + " triggered on " + target);
 	}
 
+	private void CheckCollisions(GameObject other)
+	{
+		//if (_player.position.Clone().Subtract(_planet.) - 
+	}
+
+	/// <summary>
+	/// Ollieses the private empty void.
+	/// </summary>
+	private void OlliesPrivateEmptyVoid()
+	{
+
+	}
+
 	void Update ()
 	{
 		_player.Step();
 
-		//_cat.position.SetXY(_player.position.Clone().Add(_mouseDelta.Clone().Normalize().Scale(_player.radius)));
 		_cat.Step();
 
 		_mouseDelta.SetXY(Input.mouseX - _player.position.x, Input.mouseY - _player.position.y);
