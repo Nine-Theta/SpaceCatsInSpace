@@ -65,7 +65,7 @@ public class MyGame : Game
 
 	private void CheckCollisions(GameObject other)
 	{
-		//if (_player.position.Clone().Subtract(_planet.) - 
+		//if (_player.position.Clone().Subtract(_planet.
 	}
 
 	/// <summary>

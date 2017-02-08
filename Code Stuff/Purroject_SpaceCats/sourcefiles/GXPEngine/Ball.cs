@@ -17,7 +17,7 @@ namespace GXPEngine
 			radius = pRadius;
 			position = pPosition;
 			SetOrigin(radius, radius);
-			_ballColor = pColor ?? Color.DeepPink;
+			_ballColor = pColor ?? Color.Pink;
 
 			draw();
 			x = position.x;
