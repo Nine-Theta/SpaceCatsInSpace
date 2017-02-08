@@ -34,10 +34,24 @@ namespace GXPEngine
 			return this;
 		}
 
+		public Vec2 Add(float pX, float pY) //Overload added to support normal XY values
+		{
+			x += pX;
+			y += pY;
+			return this;
+		}
+
 		public Vec2 Subtract(Vec2 other)
 		{
 			x -= other.x;
 			y -= other.y;
+			return this;
+		}
+
+		public Vec2 Subtract(float pX, float pY) //Overload added to support normal XY values
+		{
+			x -= pX;
+			y -= pY;
 			return this;
 		}
 

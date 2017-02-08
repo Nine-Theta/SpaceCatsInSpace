@@ -36,7 +36,7 @@ namespace GXPEngine
 
 			if (pGravityRange != 0)
 			{
-				_gravityRange = new Ball(_gravityRadius, Vec2.zero);
+				_gravityRange = new Ball(_gravityRadius, Vec2.zero, System.Drawing.Color.Cyan);
 			}
 			else{
 				//If gravity range is not specified, set range of gravity to twice the size of the hitbox
@@ -45,7 +45,8 @@ namespace GXPEngine
 			_rotationSpeed = pRotationSpeed;
 			_gravityForce = pGravityForce;
 
-			//AddChild(_gravityRange);
+			AddChild(_gravityRange);
+			_gravityRange.alpha = 0.25f;
 			//AddPlanetList(this);
 		}
 
