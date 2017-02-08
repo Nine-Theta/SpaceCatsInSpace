@@ -51,10 +51,10 @@ public class MyGame : Game
 		_catHandler = new MouseHandler(_cat);
 		_catHandler.OnMouseDownOnTarget += onCatMouseDown;
 
-		_planet = new Planet(new Vec2(300, 200), "circle.png", 5, 1.5f, 150);
+		_planet = new Planet(new Vec2(300, 700), "circle.png", 5, 1.5f, 150);
 		AddChild(_planet);
 
-		_planetTest = new Planet(new Vec2(500, 500), "circle.png", 5, 0.8f, 120);
+		_planetTest = new Planet(new Vec2(1000, 500), "circle.png", 5, 0.8f, 120);
 		AddChild(_planetTest);
 
 		_mouseDelta = new Vec2(Input.mouseX, Input.mouseY);
@@ -65,9 +65,26 @@ public class MyGame : Game
 		_topBoundary = border;
 		_bottomBoundary = height - border;
 
+		DrawBorder(_leftBoundary, true);
+		DrawBorder(_rightBoundary, true);
+		DrawBorder(_topBoundary, false);
+		DrawBorder(_bottomBoundary, false);
 
 		_shankCounter += 1;
 		_shankCounter++;
+	}
+
+	private void DrawBorder(float boundary, bool isXBoundary)
+	{
+		if (isXBoundary)
+		{
+			_background.graphics.DrawLine(new Pen(Color.Lime), boundary, 0, boundary, height);
+			Console.WriteLine("X? "+ boundary);
+		}
+		else {
+			_background.graphics.DrawLine(new Pen(Color.Lime), 0, boundary, width, boundary);
+			Console.WriteLine("Y? "+ boundary);
+		}
 	}
 
 	private void onCatMouseDown(GameObject target, MouseEventType type)
@@ -141,25 +158,25 @@ public class MyGame : Game
 			if (leftHit)
 			{
 				_playerPOI.Scale(_leftBoundary - _playerBouncePos.x);
-				_player.position.Add(_playerPOI);
+				_player.position.Subtract(_playerPOI);
 				_player.velocity.Scale(-1, 1);
 			}
 			if (rightHit)
 			{
 				_playerPOI.Scale(_playerBouncePos.x - _rightBoundary);
-				_player.position.Add(_playerPOI);
+				_player.position.Subtract(_playerPOI);
 				_player.velocity.Scale(-1, 1);
 			}
 			if (topHit)
 			{
 				_playerPOI.Scale(_topBoundary - _playerBouncePos.y);
-				_player.position.Add(_playerPOI);
+				_player.position.Subtract(_playerPOI);
 				_player.velocity.Scale(1, -1);
 			}
 			if (bottomHit)
 			{
 				_playerPOI.Scale(_playerBouncePos.y - _bottomBoundary);
-				_player.position.Add(_playerPOI);
+				_player.position.Subtract(_playerPOI);
 				_player.velocity.Scale(1, -1);
 			}
 		}
@@ -207,10 +224,10 @@ public class MyGame : Game
 
 		_background.graphics.DrawLine(new Pen(Color.White), _playerLastPosition.x, _playerLastPosition.y, _player.x, _player.y);
 
+		checkBoundaryCollisions();
+
 		_playerLastPosition.x = _player.x;
 		_playerLastPosition.y = _player.y;
-
-		checkBoundaryCollisions();
 	}
 
 	static void Main()
