@@ -7,6 +7,7 @@ namespace GXPEngine
 		//private Vec2 _position;
 		private Vec2 _velocity;
 		private Vec2 _acceleration;
+		private float _gravityScale = 0.1f;
 
 		public Player(int pRadius, Vec2 pPosition = null) : base(pRadius, pPosition)
 		{
@@ -42,6 +43,16 @@ namespace GXPEngine
 			y = _position.y;
 
 			_acceleration = Vec2.zero;
+
+			//TODO: Fix this maybe some day in a near future (Wednesday pls)
+			//foreach (Planet planet in Planet.planetList)
+			//{
+			//	if (planet.InRange(_position, radius))
+			//	{
+			//		Vec2 deltaVec = _position.Subtract(planet.posVec);
+			//		_acceleration.Add(deltaVec.Normalize().Scale(_gravityScale));
+			//	}
+			//}
 		}
 	}
 }

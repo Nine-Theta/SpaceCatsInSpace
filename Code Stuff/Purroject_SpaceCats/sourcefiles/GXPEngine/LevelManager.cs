@@ -14,6 +14,7 @@ namespace Purroject_SpaceCats
 
 		void LoadLevel(int pLevel)
 		{
+			//Planet.ClearPlanetList();
 			_currentlevel = pLevel;
 			_currentMap = _currentMap.ReadMap(pLevel);
 			foreach (TiledObject tObject in _currentMap.objectGroup.TiledObject)
@@ -29,15 +30,15 @@ namespace Purroject_SpaceCats
 			switch (splitNames[0])
 			{
 				case "Player":
-					Player player = new Player(XMLMap.PLAYER_RADIUS ,new Vec2(pObject.X, pObject.Y));
+					Player player = new Player(XMLMap.PLAYER_RADIUS, new Vec2(pObject.X, pObject.Y));
 					AddChild(player);
 					break;
 				case "Planet":
-					Planet planet = new Planet(new Vec2(pObject.X, pObject.Y), "");
+					Planet planet = new Planet(new Vec2(pObject.X, pObject.Y), "", 1);
 					AddChild(planet);
 					break;
 				case "Station":
-					//Changes frame if frame is the start, else it uses another frame;
+					//Changes frame if frame is the starting station, else it uses another frame;
 					int frame;
 					if (splitNames[1] == "Start")
 						frame = 0;
