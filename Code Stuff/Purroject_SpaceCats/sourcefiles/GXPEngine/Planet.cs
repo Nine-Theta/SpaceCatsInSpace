@@ -46,7 +46,7 @@ namespace GXPEngine
 			_gravityForce = pGravityForce;
 
 			//AddChild(_gravityRange);
-			AddPlanetList(this);
+			//AddPlanetList(this);
 		}
 
 		/// <summary>
