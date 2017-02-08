@@ -62,6 +62,13 @@ namespace GXPEngine
 			return this;
 		}
 
+		public Vec2 Scale(float pScalarX, float pScalarY) //Overload added to support separate XY scaling
+		{
+			x *= pScalarX;
+			y *= pScalarY;
+			return this;
+		}
+
 		public float Length()
 		{
 			float tLength;
@@ -80,8 +87,7 @@ namespace GXPEngine
 				x = x / tLength;
 				y = y / tLength;
 			}
-			else
-			{
+			else{
 				Console.WriteLine("Normalize failed, 0 in formula");
 			}
 			return this;
@@ -97,7 +103,6 @@ namespace GXPEngine
 		{
 			x = pX;
 			y = pY;
-
 			return this;
 		}
 
@@ -105,7 +110,6 @@ namespace GXPEngine
 		{
 			x = other.x;
 			y = other.y;
-
 			return this;
 		}
 
@@ -212,6 +216,11 @@ namespace GXPEngine
 			this.x += point.x;
 			this.y += point.y;
 			return this;
+		}
+
+		public Vec2 GetNormal()
+		{
+			return new Vec2(-this.y, this.x);
 		}
 	}
 }
