@@ -4,9 +4,7 @@ namespace GXPEngine
 {
 	public class Planet : Sprite
 	{
-		//Planets for Player access
-		//private static Planet[] _planetList;
-
+		
 		//Hitbox for the planet (don't add as child)
 		private Ball _hitball;
 		//Range for the gravity of this planet (don't add as child)
@@ -24,29 +22,32 @@ namespace GXPEngine
 
 		public Planet(Vec2 pPosVec, string pFilename, float pRadius, float pGravityForce = 1.0f, int pGravityRange = 0, float pRotationSpeed = 0.0f) : base (pFilename)
 		{
-			//Potential future changes:
-			//width = pRadius * 2;
-			//height = pRadius * 2;
 			SetOrigin(width / 2, height / 2);
+			width = (int)(pRadius * 2);
+			height = (int)(pRadius * 2);
 
-			_gravityRadius = pGravityRange;
 			_posVec = pPosVec;
 			SetXY(_posVec.x, _posVec.y);
 			_hitball = new Ball(width / 2, Vec2.zero);
 
 			if (pGravityRange != 0)
 			{
-				_gravityRange = new Ball(_gravityRadius, Vec2.zero, System.Drawing.Color.Cyan);
+				_gravityRange = new Ball((int)(pGravityRange / scaleX), Vec2.zero, System.Drawing.Color.Cyan);
+				Console.WriteLine(pGravityRange);
 			}
 			else{
 				//If gravity range is not specified, set range of gravity to twice the size of the hitbox
-				_gravityRange = new Ball(width, Vec2.zero);
+				_gravityRange = new Ball((int)(width * 3 / scaleX), Vec2.zero);
+				Console.WriteLine(_gravityRange.radius);
 			}
+
+			_gravityRadius = _gravityRange.radius;
 			_rotationSpeed = pRotationSpeed;
 			_gravityForce = pGravityForce;
 
 			AddChild(_gravityRange);
 			_gravityRange.alpha = 0.25f;
+			//Console.WriteLine("X:{0}, Y:{1}",_gravityRange.x, _gravityRange.y);
 			//AddPlanetList(this);
 		}
 
@@ -113,33 +114,5 @@ namespace GXPEngine
 				return _posVec;
 			}
 		}
-
-		//TODO: SOMETHING WITH THIS MAYBE
-		////PlanetList setup for accessibility
-		//public static void AddPlanetList(Planet pPlanet)
-		//{
-		//	int index = _planetList.Length;
-		//	_planetList[index] = pPlanet;
-		//}
-
-		//public static void ClearPlanetList()
-		//{
-		//	int index = 0;
-		//	foreach (Planet planet in _planetList)
-		//	{
-		//		planet.Destroy();
-		//		_planetList[index] = null;
-		//		index++;
-		//	}
-		//}
-
-		////ReadOnly, add through AddPlanetList. Only clear when changing levels
-		//public static Planet[] planetList
-		//{
-		//	get
-		//	{
-		//		return _planetList;
-		//	}
-		//}
 	}
 }

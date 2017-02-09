@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="8" height="8" tilewidth="64" tileheight="64" nextobjectid="6">
+ <objectgroup name="Object Layer 1">
+  <object id="1" name="Planet 2" x="391" y="235" width="84" height="112">
+   <properties>
+    <property name="Radius" type="float" value="0"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="2" name="Planet 1" x="79" y="102" width="163" height="102">
+   <ellipse/>
+  </object>
+  <object id="3" name="Player " x="180" y="422" width="176" height="70">
+   <ellipse/>
+  </object>
+ </objectgroup>
+</map>

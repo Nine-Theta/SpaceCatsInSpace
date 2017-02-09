@@ -11,7 +11,8 @@ namespace GXPEngine
 
 		public LevelManager()
 		{
-			//LoadLevel(1);
+			_currentMap = new XMLMap();
+			LoadLevel(1);
 		}
 
 		void LoadLevel(int pLevel)
@@ -27,7 +28,7 @@ namespace GXPEngine
 
 		void InterpretObject(TiledObject pObject)
 		{
-			string objectName = pObject.Properties.property[0].Name;
+			string objectName = pObject.Name;
 			string[] splitNames = objectName.Split(' ');
 			switch (splitNames[0])
 			{
@@ -37,7 +38,7 @@ namespace GXPEngine
 					AddChild(player);
 					break;
 				case "Planet":
-					Planet planet = new Planet(new Vec2(pObject.X, pObject.Y), "", 1);
+					Planet planet = new Planet(new Vec2(pObject.X, pObject.Y), "Planet 1.png", 30, 1, 100, 1);
 					//AddPlanetList(planet);
 					AddChild(planet);
 					break;

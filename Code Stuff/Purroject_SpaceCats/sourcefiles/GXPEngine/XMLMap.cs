@@ -135,10 +135,17 @@ namespace Purroject_SpaceCats
 	{
 		[XmlAttribute("gid")]
 		public int GID;
+		[XmlAttribute("name")]
+		public string Name;
 		[XmlAttribute("x")]
 		public int X;
 		[XmlAttribute("y")]
 		public int Y;
+		[XmlAttribute("width")]
+		public int Width;
+		[XmlAttribute("height")]
+		public int Height;
+
 
 		[XmlElement("properties")]
 		public Properties Properties;
