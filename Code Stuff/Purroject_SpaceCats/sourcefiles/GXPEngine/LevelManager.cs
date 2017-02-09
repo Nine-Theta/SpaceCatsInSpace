@@ -11,7 +11,8 @@ namespace GXPEngine
 
 		public LevelManager()
 		{
-			//LoadLevel(1);
+			_currentMap = new XMLMap();
+			LoadLevel(1);
 		}
 
 		void LoadLevel(int pLevel)
@@ -21,23 +22,25 @@ namespace GXPEngine
 			_currentMap = _currentMap.ReadMap(pLevel);
 			foreach (TiledObject tObject in _currentMap.objectGroup.TiledObject)
 			{
-				InterpretObject(tObject);
+				//TODO: Replace David's code in MyGame with all this code
+				//InterpretObject(tObject);
 			}
 		}
 
 		void InterpretObject(TiledObject pObject)
 		{
-			string objectName = pObject.Properties.property[0].Name;
+			string objectName = pObject.Name;
 			string[] splitNames = objectName.Split(' ');
 			switch (splitNames[0])
 			{
 				case "Player":
 					Player player = new Player(XMLMap.PLAYER_RADIUS, new Vec2(pObject.X, pObject.Y));
 					player.levelRef = this;
+					Console.WriteLine("Player XY: " + player.x + " " + player.y);
 					AddChild(player);
 					break;
 				case "Planet":
-					Planet planet = new Planet(new Vec2(pObject.X, pObject.Y), "", 1);
+					Planet planet = new Planet(new Vec2(pObject.X, pObject.Y), "circle.png", (int)(pObject.Width));
 					//AddPlanetList(planet);
 					AddChild(planet);
 					break;
@@ -58,7 +61,7 @@ namespace GXPEngine
 			}
 		}
 
-		////TODO: SOMETHING WITH THIS MAYBE
+		//TODO: SOMETHING WITH THIS MAYBE PROBABLY NOT
 		//PlanetList setup for accessibility
 		//public void AddPlanetList(Planet pPlanet)
 		//{

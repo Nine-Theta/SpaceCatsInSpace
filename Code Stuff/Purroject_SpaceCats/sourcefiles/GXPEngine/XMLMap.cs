@@ -133,12 +133,16 @@ namespace Purroject_SpaceCats
 	[XmlRoot("object")]
 	public class TiledObject
 	{
-		[XmlAttribute("gid")]
-		public int GID;
+		[XmlAttribute("name")]
+		public string Name;
 		[XmlAttribute("x")]
-		public int X;
+		public float X;
 		[XmlAttribute("y")]
-		public int Y;
+		public float Y;
+		[XmlAttribute("width")]
+		public float Width;
+		[XmlAttribute("height")]
+		public float Height;
 
 		[XmlElement("properties")]
 		public Properties Properties;

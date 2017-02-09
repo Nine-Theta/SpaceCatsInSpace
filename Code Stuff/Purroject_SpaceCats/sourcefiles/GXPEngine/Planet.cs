@@ -22,7 +22,7 @@ namespace GXPEngine
 		private Vec2 _posVec;
 
 
-		public Planet(Vec2 pPosVec, string pFilename, float pRadius, float pGravityForce = 1.0f, int pGravityRange = 0, float pRotationSpeed = 0.0f) : base (pFilename)
+		public Planet(Vec2 pPosVec, string pFilename, int pRadius, float pGravityForce = 1.0f, int pGravityRange = 0, float pRotationSpeed = 0.0f) : base (pFilename)
 		{
 			//Potential future changes:
 			//width = pRadius * 2;
@@ -32,7 +32,7 @@ namespace GXPEngine
 			_gravityRadius = pGravityRange;
 			_posVec = pPosVec;
 			SetXY(_posVec.x, _posVec.y);
-			_hitball = new Ball(width / 2, Vec2.zero);
+			_hitball = new Ball(pRadius, Vec2.zero);
 
 			if (pGravityRange != 0)
 			{
