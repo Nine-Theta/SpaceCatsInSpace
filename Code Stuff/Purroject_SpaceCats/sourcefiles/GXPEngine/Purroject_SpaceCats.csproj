@@ -70,7 +70,6 @@
     <Compile Include="Cat.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="LevelManager.cs" />
-    <Compile Include="Background.cs" />
     <Compile Include="BlackHole.cs" />
   </ItemGroup>
   <ItemGroup>

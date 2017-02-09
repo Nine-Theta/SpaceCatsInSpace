@@ -69,6 +69,13 @@ namespace GXPEngine
 			return this;
 		}
 
+		public Vec2 Divide(float pDividar)//ha!
+		{
+			x /= pDividar;
+			y /= pDividar;
+			return this;
+		}
+
 		public float Length()
 		{
 			float tLength;

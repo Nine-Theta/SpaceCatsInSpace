@@ -16,7 +16,7 @@ public class MyGame : Game
 	private Planet _planetTest = null;
 	private Sprite _scrollTarget = null;
 	private Sprite _screenSizeOverlay = null;
-	private Background _backgroundSprite = null;
+	private Sprite _backgroundSprite = null;
 
 	private Vec2 _playerStartPosition = null;
 	private Vec2 _mouseDelta = null;
@@ -43,8 +43,10 @@ public class MyGame : Game
 	{
 		targetFps = 60;
 
-		_backgroundSprite = new Background(width, height);
+		_backgroundSprite = new Sprite("Background.png");
+		_backgroundSprite.SetOrigin(_backgroundSprite.width / 2, _backgroundSprite.height / 2);
 		AddChild(_backgroundSprite);
+
 		_background = new Canvas(_gameWidth, _gameHeight);
 		AddChild(_background);
 		_background.graphics.FillRectangle(new SolidBrush(Color.Empty), new Rectangle(0, 0, _gameWidth, _gameHeight));
@@ -90,6 +92,7 @@ public class MyGame : Game
 
 		_shankCounter += 1;
 		_shankCounter++;
+		_shankCounter += 6;
 	}
 
 	private void DrawBorder(float boundary, bool isXBoundary)
@@ -107,7 +110,6 @@ public class MyGame : Game
 
 	private void onCatMouseDown(GameObject target, MouseEventType type)
 	{
-
 		_catHandler.OnMouseMove += onCatMouseMove;
 		_catHandler.OnMouseUp += onCatMouseUp;
 		_catHandler.OnMouseRightDown += onCatRightMouseDown;
@@ -117,7 +119,7 @@ public class MyGame : Game
 	{
 		_cat.position.SetXY(_player.position.Clone().Add(_mouseDelta.Clone().Normalize().Scale(_player.radius)));
 
-		_accelerationValue = _mouseDelta.Length() / 10;
+		_accelerationValue = _mouseDelta.Length() / 15;
 		Console.WriteLine(_accelerationValue);
 	}
 
@@ -150,7 +152,7 @@ public class MyGame : Game
 		if ((_player.radius + other.gravityRadius) > deltaVec.Length())
 		{
 			//Console.WriteLine("Collision = true");
-			_player.acceleration.Subtract((_planet.gravityForce * Mathf.Cos(deltaVec.GetAngleRadians())), (_planet.gravityForce * Mathf.Sin(deltaVec.GetAngleRadians())));
+			_player.acceleration.Subtract(new Vec2(((_planet.gravityForce  * Mathf.Cos(deltaVec.GetAngleRadians()))), ((_planet.gravityForce * Mathf.Sin(deltaVec.GetAngleRadians())))).Normalize().Divide(deltaVec.Length()*0.04f));
 		}
 		else {
 			//Console.WriteLine("Collision = false");
@@ -163,8 +165,9 @@ public class MyGame : Game
 		{
 			y = (game.height / 2 - _scrollTarget.y);
 			x = (game.width / 2 - _scrollTarget.x);
-			_backgroundSprite.x = _scrollTarget.x - (game.width / 2);
-			_backgroundSprite.y = _scrollTarget.y - (game.height / 2);
+
+			_backgroundSprite.x = _scrollTarget.x;
+			_backgroundSprite.y = _scrollTarget.y;
 
 			if (_switchScreenSizeOverlay){
 				_screenSizeOverlay.SetXY(_scrollTarget.x, _scrollTarget.y);
@@ -173,9 +176,7 @@ public class MyGame : Game
 				_screenSizeOverlay.SetXY(-2000, -2000);
 			}
 
-
 			//this.y = (_scrollBoundary - _scrollTarget.y);
-
 		}
 	}
 
