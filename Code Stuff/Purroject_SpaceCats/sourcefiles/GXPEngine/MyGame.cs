@@ -16,6 +16,7 @@ public class MyGame : Game
 	private Planet _planetTest = null;
 	private Sprite _scrollTarget = null;
 	private Sprite _screenSizeOverlay = null;
+	private Background _backgroundSprite = null;
 
 	private Vec2 _playerStartPosition = null;
 	private Vec2 _mouseDelta = null;
@@ -42,9 +43,11 @@ public class MyGame : Game
 	{
 		targetFps = 60;
 
+		_backgroundSprite = new Background(width, height);
+		AddChild(_backgroundSprite);
 		_background = new Canvas(_gameWidth, _gameHeight);
 		AddChild(_background);
-		_background.graphics.FillRectangle(new SolidBrush(Color.Black), new Rectangle(0, 0, _gameWidth, _gameHeight));
+		_background.graphics.FillRectangle(new SolidBrush(Color.Empty), new Rectangle(0, 0, _gameWidth, _gameHeight));
 
 		_player = new Player(30, new Vec2(_gameWidth / 2, _gameHeight - 400));
 		AddChild(_player);
@@ -160,6 +163,8 @@ public class MyGame : Game
 		{
 			y = (game.height / 2 - _scrollTarget.y);
 			x = (game.width / 2 - _scrollTarget.x);
+			_backgroundSprite.x = _scrollTarget.x - (game.width / 2);
+			_backgroundSprite.y = _scrollTarget.y - (game.height / 2);
 
 			if (_switchScreenSizeOverlay){
 				_screenSizeOverlay.SetXY(_scrollTarget.x, _scrollTarget.y);
@@ -167,6 +172,7 @@ public class MyGame : Game
 			else {
 				_screenSizeOverlay.SetXY(-2000, -2000);
 			}
+
 
 			//this.y = (_scrollBoundary - _scrollTarget.y);
 

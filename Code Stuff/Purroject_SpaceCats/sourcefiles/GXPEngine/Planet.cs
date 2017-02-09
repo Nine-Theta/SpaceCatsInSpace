@@ -23,8 +23,8 @@ namespace GXPEngine
 		public Planet(Vec2 pPosVec, string pFilename, float pRadius, float pGravityForce = 1.0f, int pGravityRange = 0, float pRotationSpeed = 0.0f) : base (pFilename)
 		{
 			SetOrigin(width / 2, height / 2);
-			width = (int)(pRadius * 2);
-			height = (int)(pRadius * 2);
+			//width = (int)(pRadius * 2);
+			//height = (int)(pRadius * 2);
 
 			_posVec = pPosVec;
 			SetXY(_posVec.x, _posVec.y);
@@ -32,12 +32,12 @@ namespace GXPEngine
 
 			if (pGravityRange != 0)
 			{
-				_gravityRange = new Ball((int)(pGravityRange / scaleX), Vec2.zero, System.Drawing.Color.Cyan);
+				_gravityRange = new Ball((int)(pGravityRange), Vec2.zero, System.Drawing.Color.Cyan);
 				Console.WriteLine(pGravityRange);
 			}
 			else{
 				//If gravity range is not specified, set range of gravity to twice the size of the hitbox
-				_gravityRange = new Ball((int)(width * 3 / scaleX), Vec2.zero);
+				_gravityRange = new Ball((int)(width * 3), Vec2.zero);
 				Console.WriteLine(_gravityRange.radius);
 			}
 

@@ -38,7 +38,26 @@ namespace GXPEngine
 					AddChild(player);
 					break;
 				case "Planet":
-					Planet planet = new Planet(new Vec2(pObject.X, pObject.Y), "Planet 1.png", 30, 1, 100, 1);
+					string fileSource = "Planet ";
+					string PartOfSource = "";
+					if (pObject.Properties != null && pObject.Properties.property[0].Name == "PlanetType")
+					{
+						try
+						{
+							PartOfSource = pObject.Properties.property[0].Value;
+						}
+						catch
+						{
+							Console.WriteLine("InterpretObject failed to pass on value to the planet");
+						}
+					}
+					if (PartOfSource == "")
+					{
+						PartOfSource = "1";
+					}
+					fileSource += PartOfSource + ".png";
+					Planet planet = new Planet(new Vec2(pObject.X, pObject.Y), fileSource, 30, 1, 100, 1);
+
 					//AddPlanetList(planet);
 					AddChild(planet);
 					break;
