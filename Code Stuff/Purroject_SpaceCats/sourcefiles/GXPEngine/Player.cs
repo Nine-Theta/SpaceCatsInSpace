@@ -7,7 +7,8 @@ namespace GXPEngine
 		//private Vec2 _position;
 		private Vec2 _velocity;
 		private Vec2 _acceleration;
-		private float _gravityScale = 0.1f;
+		private Sprite _yarnSprite;
+		//private float _gravityScale = 0.1f;
 		private LevelManager _levelRef;
 
 		public Player(int pRadius, Vec2 pPosition = null) : base(pRadius, pPosition)
@@ -15,6 +16,7 @@ namespace GXPEngine
 			position = pPosition;
 			_velocity = Vec2.zero;
 			_acceleration = Vec2.zero;
+			_yarnSprite = new Sprite("");
 		}
 
 		public Vec2 velocity{
@@ -50,20 +52,20 @@ namespace GXPEngine
 
 			_acceleration = Vec2.zero;
 
-			//TODO: Fix this maybe some day in a near future (Wednesday pls)
-			if (_levelRef != null &&_levelRef.planetList != null)
-			{
-				//foreach (Planet planet in _levelRef.planetList)
-				for (int i = 0; i < _levelRef.planetList.Length; i++)
-				{
-					Planet planet = _levelRef.planetList[i];
-					if (planet != null && planet.InRange(_position, radius))
-					{
-						Vec2 deltaVec = _position.Subtract(planet.posVec);
-						_acceleration.Add(deltaVec.Normalize().Scale(_gravityScale));
-					}
-				}
-			}
+			//TODO: Fix this maybe some day
+			//if (_levelRef != null &&_levelRef.planetList != null)
+			//{
+			//	//foreach (Planet planet in _levelRef.planetList)
+			//	for (int i = 0; i < _levelRef.planetList.Length; i++)
+			//	{
+			//		Planet planet = _levelRef.planetList[i];
+			//		if (planet != null && planet.InRange(_position, radius))
+			//		{
+			//			Vec2 deltaVec = _position.Subtract(planet.posVec);
+			//			_acceleration.Add(deltaVec.Normalize().Scale(_gravityScale));
+			//		}
+			//	}
+			//}
 
 		}
 	}

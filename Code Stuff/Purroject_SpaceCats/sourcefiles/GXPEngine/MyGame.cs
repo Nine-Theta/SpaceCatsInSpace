@@ -17,6 +17,7 @@ public class MyGame : Game
 	private Sprite _scrollTarget = null;
 	private Sprite _screenSizeOverlay = null;
 	private Sprite _backgroundSprite = null;
+	private SpaceStation _spaceStation = null;
 
 	private Vec2 _playerStartPosition = null;
 	private Vec2 _mouseDelta = null;
@@ -28,7 +29,7 @@ public class MyGame : Game
 	private float _accelerationValue = 0.0f;
 	//private int _catCounter = 5;
 	private float _leftBoundary, _rightBoundary, _topBoundary, _bottomBoundary;
-	private float _bounceXPos, _bounceYPos;
+	///private float _bounceXPos, _bounceYPos;
 
 	private const int _scrollBoundary = 1600;
 	private const int _gameWidth = 2000;	//Actual game width, regardless of screen width
@@ -66,10 +67,10 @@ public class MyGame : Game
 		_catHandler = new MouseHandler(_cat);
 		_catHandler.OnMouseDownOnTarget += onCatMouseDown;
 
-		_planet = new Planet(new Vec2(300, 700), "circle.png", 5, 1.5f, 150);
+		_planet = new Planet(new Vec2(300, 700), "Planet 1.png", 5, 1.5f, 300);
 		AddChild(_planet);
 
-		_planetTest = new Planet(new Vec2(1000, 500), "circle.png", 5, 0.8f, 120);
+		_planetTest = new Planet(new Vec2(1000, 500), "Planet 2.png", 5, 0.8f, 300);
 		AddChild(_planetTest);
 
 		_mouseDelta = new Vec2(Input.mouseX, Input.mouseY);

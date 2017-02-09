@@ -63,13 +63,16 @@ namespace GXPEngine
 					break;
 				case "Station":
 					//Changes frame if frame is the starting station, else it uses another frame;
-					int frame;
-					if (splitNames[1] == "Start")
-						frame = 0;
-					else
-						frame = 1;
-					SpaceStation station = new SpaceStation(pObject.X, pObject.Y, frame);
+					SpaceStation station = new SpaceStation(pObject.X, pObject.Y, "checkers.png");
 					AddChild(station);
+					break;
+				case "Black":
+					BlackHole blackhole = new BlackHole(new Vec2(pObject.X, pObject.Y), 100, 300);
+					AddChild(blackhole);
+					break;
+				case "Meteor":
+					//Asteroid asteroid = new Asteroid(new Vec2(pObject.X, pObject.Y));
+					//AddChild(asteroid);
 					break;
 				default:
 					Console.WriteLine("Unknown object in Object Layer");

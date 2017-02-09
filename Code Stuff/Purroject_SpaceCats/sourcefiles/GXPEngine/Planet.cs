@@ -107,6 +107,33 @@ namespace GXPEngine
 			}
 		}
 
+		public bool Colliding(float pX, float pY, int pRadius)
+		{
+			Vec2 deltaVec = new Vec2(pX, pY);
+			deltaVec.Subtract(_posVec);
+			if (pRadius + _hitball.radius < deltaVec.Length())
+			{
+				//_gravityRange.color = 0xFF0000;
+				return true;
+			}
+			else {
+				//_gravityRange.color = 0x0000FF;
+				return false;
+			}
+		}
+		public bool Colliding(Vec2 pVec, int pRadius)
+		{
+			Vec2 deltaVec = pVec.Clone();
+			deltaVec.Subtract(_posVec);
+			if (pRadius + _hitball.radius < deltaVec.Length())
+			{
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+
 		public Vec2 posVec
 		{
 			get
