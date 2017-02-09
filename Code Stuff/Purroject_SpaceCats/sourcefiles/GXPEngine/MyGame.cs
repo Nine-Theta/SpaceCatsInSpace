@@ -12,7 +12,6 @@ public class MyGame : Game
 	private Player _player = null;
 	private Cat _cat = null;
 	private Planet _planet = null;
-	private LevelManager _levelManager;
 
 	private Vec2 _playerStartPosition = null;
 	private Vec2 _mouseDelta = null;
@@ -27,10 +26,6 @@ public class MyGame : Game
 
 		_player = new Player(30, new Vec2(width / 2, 200));
 		AddChild(_player);
-
-		_levelManager = new LevelManager();
-		Console.WriteLine("LevelXY values:" + _levelManager.x + " " + _levelManager.y);
-		AddChild(_levelManager);
 
 		_playerStartPosition = new Vec2(_player.x, _player.y);
 

@@ -51,19 +51,19 @@ namespace GXPEngine
 			_acceleration = Vec2.zero;
 
 			//TODO: Fix this maybe some day in a near future (Wednesday pls)
-			//if (_levelRef != null &&_levelRef.planetList != null)
-			//{
-			//	//foreach (Planet planet in _levelRef.planetList)
-			//	for (int i = 0; i < _levelRef.planetList.Length; i++)
-			//	{
-			//		Planet planet = _levelRef.planetList[i];
-			//		if (planet != null && planet.InRange(_position, radius))
-			//		{
-			//			Vec2 deltaVec = _position.Subtract(planet.posVec);
-			//			_acceleration.Add(deltaVec.Normalize().Scale(_gravityScale));
-			//		}
-			//	}
-			//}
+			if (_levelRef != null &&_levelRef.planetList != null)
+			{
+				//foreach (Planet planet in _levelRef.planetList)
+				for (int i = 0; i < _levelRef.planetList.Length; i++)
+				{
+					Planet planet = _levelRef.planetList[i];
+					if (planet != null && planet.InRange(_position, radius))
+					{
+						Vec2 deltaVec = _position.Subtract(planet.posVec);
+						_acceleration.Add(deltaVec.Normalize().Scale(_gravityScale));
+					}
+				}
+			}
 
 		}
 	}
