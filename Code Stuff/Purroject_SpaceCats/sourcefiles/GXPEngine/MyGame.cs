@@ -154,11 +154,15 @@ public class MyGame : Game
 			_player.ballColor = Color.Maroon;
 
 			_playerPOI.SetXY(_playerBouncePos.Clone().Subtract(_playerLastPosition));
+			Console.WriteLine("_playerBounce(" + _playerBouncePos + ") - _playerLastPosition(" + _playerLastPosition + ") = _playerPOI(" + _playerPOI + ")");
+
+			//_playerPOI.SetXY(_playerLastPosition.Clone().Subtract(_playerBouncePos));
+			//Console.WriteLine("_playerLastPosition(" + _playerLastPosition + ") - _playerBounce(" + _playerBouncePos + ") = _playerPOI(" + _playerPOI + ")");
 
 			if (leftHit)
 			{
 				_playerPOI.Scale(_leftBoundary - _playerBouncePos.x);
-				_player.position.Subtract(_playerPOI);
+				_player.position.SetXY();
 				_player.velocity.Scale(-1, 1);
 			}
 			if (rightHit)
