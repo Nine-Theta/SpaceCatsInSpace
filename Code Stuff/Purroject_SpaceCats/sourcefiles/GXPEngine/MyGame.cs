@@ -14,7 +14,8 @@ public class MyGame : Game
 	private Planet _planet = null;
 	private Canvas _background = null;
 	private Planet _planetTest = null;
-	private Sprite scrollTarget;
+	private Sprite _scrollTarget = null;
+	private Sprite _screenSizeOverlay = null;
 
 	private Vec2 _playerStartPosition = null;
 	private Vec2 _mouseDelta = null;
@@ -28,22 +29,26 @@ public class MyGame : Game
 	private float _leftBoundary, _rightBoundary, _topBoundary, _bottomBoundary;
 	private float _bounceXPos, _bounceYPos;
 
-	private const int _scrollBoundary = 700;
+	private const int _scrollBoundary = 1600;
+	private const int _gameWidth = 2000;	//Actual game width, regardless of screen width
+	private const int _gameHeight = 2000;	//Actual game height, regardless of screen height
+
 	private int _shankCounter = 10; //counts the amount of times b*tches will get shanked, hypothetically that is. (for legal reasons).
 
 	private bool _switchBoundaryCollision = false;
+	private bool _switchScreenSizeOverlay = false;
 
-	public MyGame() : base(640, 960, false, false)//Screen size should be 640x960, any other value is used for debugging;
+	public MyGame() : base(1200, 800, false, false) //Screen size should be 640x960, any other value is used for debugging;
 	{
 		targetFps = 60;
 
-		_background = new Canvas(width, height);
+		_background = new Canvas(_gameWidth, _gameHeight);
 		AddChild(_background);
-		_background.graphics.FillRectangle(new SolidBrush(Color.Black), new Rectangle(0, 0, width, height));
+		_background.graphics.FillRectangle(new SolidBrush(Color.Black), new Rectangle(0, 0, _gameWidth, _gameHeight));
 
-		_player = new Player(30, new Vec2(width / 2, 200));
+		_player = new Player(30, new Vec2(_gameWidth / 2, _gameHeight - 400));
 		AddChild(_player);
-		scrollTarget = _player;
+		_scrollTarget = _player;
 
 		_playerStartPosition = new Vec2(_player.x, _player.y);
 		_playerLastPosition = new Vec2(_player.x, _player.y);
@@ -66,14 +71,19 @@ public class MyGame : Game
 
 		float border = 50;
 		_leftBoundary = border;
-		_rightBoundary = width - border;
-		_topBoundary = border - 550;
-		_bottomBoundary = height - border;
+		_rightBoundary = _gameWidth - border;
+		_topBoundary = border;
+		_bottomBoundary = _gameHeight - border;
 
 		DrawBorder(_leftBoundary, true);
 		DrawBorder(_rightBoundary, true);
 		DrawBorder(_topBoundary, false);
 		DrawBorder(_bottomBoundary, false);
+
+		_screenSizeOverlay = new Sprite("screenSizeDebug.png");
+		AddChild(_screenSizeOverlay);
+		_screenSizeOverlay.SetOrigin(_screenSizeOverlay.width / 2, _screenSizeOverlay.height / 2);
+		_screenSizeOverlay.alpha = 0.25f;
 
 		_shankCounter += 1;
 		_shankCounter++;
@@ -83,11 +93,11 @@ public class MyGame : Game
 	{
 		if (isXBoundary)
 		{
-			_background.graphics.DrawLine(new Pen(Color.Lime), boundary, 0, boundary, height);
+			_background.graphics.DrawLine(new Pen(Color.Lime), boundary, 0, boundary, _gameHeight);
 			Console.WriteLine("X? "+ boundary);
 		}
 		else {
-			_background.graphics.DrawLine(new Pen(Color.Lime), 0, boundary, width, boundary);
+			_background.graphics.DrawLine(new Pen(Color.Lime), 0, boundary, _gameWidth, boundary);
 			Console.WriteLine("Y? "+ boundary);
 		}
 	}
@@ -146,11 +156,20 @@ public class MyGame : Game
 
 	private void scrollToTarget()
 	{
-		if (scrollTarget != null && scrollTarget.y < _scrollBoundary)
+		if (_scrollTarget != null)
 		{
-			//y = (game.height / 2 - scrollTarget.y)*0.5f;
-			this.y = (_scrollBoundary - scrollTarget.y);
-			//x = (game.width / 2 - scrollTarget.x);
+			y = (game.height / 2 - _scrollTarget.y);
+			x = (game.width / 2 - _scrollTarget.x);
+
+			if (_switchScreenSizeOverlay){
+				_screenSizeOverlay.SetXY(_scrollTarget.x, _scrollTarget.y);
+			}
+			else {
+				_screenSizeOverlay.SetXY(-2000, -2000);
+			}
+
+			//this.y = (_scrollBoundary - _scrollTarget.y);
+
 		}
 	}
 
@@ -211,33 +230,29 @@ public class MyGame : Game
 
 	private void Debug()
 	{
-		if (Input.GetKeyDown(Key.ONE))
-		{
+		if (Input.GetKeyDown(Key.ONE)){
 			targetFps = 60;
 		}
-		if (Input.GetKeyDown(Key.TWO))
-		{
+		if (Input.GetKeyDown(Key.TWO)){
 			targetFps = 12;
 		}
-		if (Input.GetKeyDown(Key.THREE))
-		{
+		if (Input.GetKeyDown(Key.THREE)){
 			targetFps = 2;
 		}
-		if (Input.GetKeyDown(Key.FOUR))
-		{
+		if (Input.GetKeyDown(Key.FOUR)){
 			targetFps = 240;
 		}
-		if (Input.GetKeyDown(Key.FIVE))
-		{
+		if (Input.GetKeyDown(Key.FIVE)){
 			targetFps = 999999999;
 		}
-		if (Input.GetKeyDown(Key.SIX))
-		{
+		if (Input.GetKeyDown(Key.SIX)){
 			targetFps = 1;
 		}
-		if (Input.GetKeyDown(Key.SEVEN))
-		{
+		if (Input.GetKeyDown(Key.SEVEN)){
 			_switchBoundaryCollision = !_switchBoundaryCollision;
+		}
+		if (Input.GetKeyDown(Key.EIGHT)){
+			_switchScreenSizeOverlay = !_switchScreenSizeOverlay;
 		}
 	}
 
@@ -251,7 +266,7 @@ public class MyGame : Game
 
 		_cat.Step();
 
-		_mouseDelta.SetXY(Input.mouseX - _player.position.x, Input.mouseY - _player.position.y);
+		_mouseDelta.SetXY((Input.mouseX - game.x) - _player.position.x, (Input.mouseY - game.y) - _player.position.y);
 
 		BasicCollisionCheck(_planet);
 		BasicCollisionCheck(_planetTest);
