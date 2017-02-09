@@ -222,6 +222,21 @@ namespace GXPEngine
 		{
 			return new Vec2(-this.y, this.x);
 		}
+
+		/// <summary>
+		/// Don't forget to Normalize the "other" Vec2
+		/// </summary>
+		/// <param name="pOther">other Vec2</param>
+		public float Dot(Vec2 pOther)
+		{
+			return ((this.x * pOther.x) + (this.y * pOther.y));
+		}
+
+		//public Vec2 Reflect(float pBounciness = 1) //Think about Life, The Universe, Reflect in Normal, etc.
+		//{
+		//	this.Subtract()
+		//	return this;
+		//}
 	}
 }
 

@@ -14,6 +14,7 @@ public class MyGame : Game
 	private Planet _planet = null;
 	private Canvas _background = null;
 	private Planet _planetTest = null;
+	private Sprite scrollTarget;
 
 	private Vec2 _playerStartPosition = null;
 	private Vec2 _mouseDelta = null;
@@ -27,9 +28,12 @@ public class MyGame : Game
 	private float _leftBoundary, _rightBoundary, _topBoundary, _bottomBoundary;
 	private float _bounceXPos, _bounceYPos;
 
+	private const int _scrollBoundary = 700;
 	private int _shankCounter = 10; //counts the amount of times b*tches will get shanked, hypothetically that is. (for legal reasons).
 
-	public MyGame() : base(1200, 900, false, false)
+	private bool _switchBoundaryCollision = false;
+
+	public MyGame() : base(640, 960, false, false)//Screen size should be 640x960, any other value is used for debugging;
 	{
 		targetFps = 60;
 
@@ -39,6 +43,7 @@ public class MyGame : Game
 
 		_player = new Player(30, new Vec2(width / 2, 200));
 		AddChild(_player);
+		scrollTarget = _player;
 
 		_playerStartPosition = new Vec2(_player.x, _player.y);
 		_playerLastPosition = new Vec2(_player.x, _player.y);
@@ -62,7 +67,7 @@ public class MyGame : Game
 		float border = 50;
 		_leftBoundary = border;
 		_rightBoundary = width - border;
-		_topBoundary = border;
+		_topBoundary = border - 550;
 		_bottomBoundary = height - border;
 
 		DrawBorder(_leftBoundary, true);
@@ -139,7 +144,20 @@ public class MyGame : Game
 		}
 	}
 
+	private void scrollToTarget()
+	{
+		if (scrollTarget != null && scrollTarget.y < _scrollBoundary)
+		{
+			//y = (game.height / 2 - scrollTarget.y)*0.5f;
+			this.y = (_scrollBoundary - scrollTarget.y);
+			//x = (game.width / 2 - scrollTarget.x);
+		}
+	}
 
+
+	/// <summary>
+	/// The boundary collision check that is currently being worked on.
+	/// </summary>
 	private void checkBoundaryCollisions()
 	{
 		bool leftHit = (_player.x - _player.radius) < _leftBoundary;
@@ -153,34 +171,36 @@ public class MyGame : Game
 			_playerBouncePos.y = _player.y;
 			_player.ballColor = Color.Maroon;
 
-			_playerPOI.SetXY(_playerBouncePos.Clone().Subtract(_playerLastPosition));
-			Console.WriteLine("_playerBounce(" + _playerBouncePos + ") - _playerLastPosition(" + _playerLastPosition + ") = _playerPOI(" + _playerPOI + ")");
+			//_playerPOI.SetXY(_playerBouncePos.Clone().Subtract(_playerLastPosition));
+			//Console.WriteLine("_playerBounce(" + _playerBouncePos + ") - _playerLastPosition(" + _playerLastPosition + ") = _playerPOI(" + _playerPOI + ")");
 
 			//_playerPOI.SetXY(_playerLastPosition.Clone().Subtract(_playerBouncePos));
 			//Console.WriteLine("_playerLastPosition(" + _playerLastPosition + ") - _playerBounce(" + _playerBouncePos + ") = _playerPOI(" + _playerPOI + ")");
 
 			if (leftHit)
 			{
-				_playerPOI.Scale(_leftBoundary - _playerBouncePos.x);
-				_player.position.SetXY();
+				Console.WriteLine("Last Pos PreCalc:D " + _playerLastPosition);
+				_playerPOI.SetXY(_playerLastPosition.Clone().Normalize().Scale(_playerLastPosition.x - _leftBoundary));
+				Console.WriteLine("Last Pos PostCalc:D " + _playerPOI);
+				_player.position.SetXY(_playerLastPosition.Add(_playerPOI.Clone().Normalize().Scale(_playerPOI.Length())));
 				_player.velocity.Scale(-1, 1);
 			}
 			if (rightHit)
 			{
-				_playerPOI.Scale(_playerBouncePos.x - _rightBoundary);
-				_player.position.Subtract(_playerPOI);
+				_playerPOI.SetXY(_playerLastPosition.Clone().Normalize().Scale(_rightBoundary - _playerLastPosition.x));
+				_player.position.SetXY(_playerPOI.Add(_playerLastPosition));
 				_player.velocity.Scale(-1, 1);
 			}
 			if (topHit)
 			{
-				_playerPOI.Scale(_topBoundary - _playerBouncePos.y);
-				_player.position.Subtract(_playerPOI);
+				_playerPOI.SetXY(_playerLastPosition.Clone().Normalize().Scale(_playerLastPosition.y - _topBoundary));
+				_player.position.SetXY(_playerPOI.Add(_playerLastPosition));
 				_player.velocity.Scale(1, -1);
 			}
 			if (bottomHit)
 			{
-				_playerPOI.Scale(_playerBouncePos.y - _bottomBoundary);
-				_player.position.Subtract(_playerPOI);
+				_playerPOI.SetXY(_playerLastPosition.Clone().Normalize().Scale(_bottomBoundary - _playerLastPosition.y));
+				_player.position.SetXY(_playerPOI.Add(_playerLastPosition));
 				_player.velocity.Scale(1, -1);
 			}
 		}
@@ -211,10 +231,20 @@ public class MyGame : Game
 		{
 			targetFps = 999999999;
 		}
+		if (Input.GetKeyDown(Key.SIX))
+		{
+			targetFps = 1;
+		}
+		if (Input.GetKeyDown(Key.SEVEN))
+		{
+			_switchBoundaryCollision = !_switchBoundaryCollision;
+		}
 	}
 
 	void Update()
 	{
+		scrollToTarget();
+
 		Debug();
 
 		_player.Step();
@@ -228,15 +258,72 @@ public class MyGame : Game
 
 		_background.graphics.DrawLine(new Pen(Color.White), _playerLastPosition.x, _playerLastPosition.y, _player.x, _player.y);
 
-		checkBoundaryCollisions();
-
 		_playerLastPosition.x = _player.x;
 		_playerLastPosition.y = _player.y;
+
+		if (_switchBoundaryCollision){
+			checkBoundaryCollisions();
+			_player.ballColor = Color.Red;
+		}else {
+			brokenBoundaryCollisionCheck();
+			_player.ballColor = Color.Pink;}
+
+		//_playerLastPosition.x = _player.x;
+		//_playerLastPosition.y = _player.y;
 	}
 
 	static void Main()
 	{
 		new MyGame().Start();
+	}
+
+	/// <summary>
+	/// The broken version of the boundary collision check.
+	/// This will be used until the normal version works properly.
+	/// </summary>
+	private void brokenBoundaryCollisionCheck()
+	{
+		bool leftHit = (_player.x - _player.radius) < _leftBoundary;
+		bool rightHit = (_player.x + _player.radius) > _rightBoundary;
+		bool topHit = (_player.y - _player.radius) < _topBoundary;
+		bool bottomHit = (_player.y + _player.radius) > _bottomBoundary;
+
+		if (leftHit || rightHit || topHit || bottomHit)
+		{
+			_playerBouncePos.x = _player.x;
+			_playerBouncePos.y = _player.y;
+			_player.ballColor = Color.Maroon;
+
+			_playerPOI.SetXY(_playerBouncePos.Clone().Subtract(_playerLastPosition));
+			//Console.WriteLine("_playerBounce(" + _playerBouncePos + ") - _playerLastPosition(" + _playerLastPosition + ") = _playerPOI(" + _playerPOI + ")");
+
+			//_playerPOI.SetXY(_playerLastPosition.Clone().Subtract(_playerBouncePos));
+			//Console.WriteLine("_playerLastPosition(" + _playerLastPosition + ") - _playerBounce(" + _playerBouncePos + ") = _playerPOI(" + _playerPOI + ")");
+
+			if (leftHit)
+			{
+				_player.position.Add(_playerPOI);
+				_player.velocity.Scale(-1, 1);
+			}
+			if (rightHit)
+			{
+				_player.position.Add(_playerPOI);
+				_player.velocity.Scale(-1, 1);
+			}
+			if (topHit)
+			{
+				_player.position.Add(_playerPOI);
+				_player.velocity.Scale(1, -1);
+			}
+			if (bottomHit)
+			{
+				_player.position.Add(_playerPOI);
+				_player.velocity.Scale(1, -1);
+			}
+		}
+		else {
+			_player.ballColor = Color.Pink;
+		}
 	}
 
 	/// <summary>
