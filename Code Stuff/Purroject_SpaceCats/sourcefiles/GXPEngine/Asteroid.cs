@@ -7,7 +7,7 @@ namespace Purroject_SpaceCats
 		Vec2 _position;
 		Vec2 _velocity;
 
-		public Asteroid(Vec2 pPosVec) : base("checkers.png")
+		public Asteroid(Vec2 pPosVec) : base("AsteroidTemp.png")
 		{
 			_position = pPosVec;
 			_velocity = new Vec2();

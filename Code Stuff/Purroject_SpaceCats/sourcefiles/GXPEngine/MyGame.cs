@@ -3,9 +3,6 @@ using System.Drawing;
 using GXPEngine;
 using Purroject_SpaceCats;
 
-//TODO Implement Nyarn cat (sic)
-//TODO Shank a b*tch for this comment
-
 public class MyGame : Game
 {
 	private MouseHandler _catHandler = null; //playerhandler won the vote over "ballhandler" & "ballfondler" //Renamed playerhandler to cathandler
@@ -32,9 +29,10 @@ public class MyGame : Game
 
 
 	private float _accelerationValue = 0.0f;
+	//TODO: get an image file with the ball with decreasing amounts of cats
 	//private int _catCounter = 5;
 	private float _leftBoundary, _rightBoundary, _topBoundary, _bottomBoundary;
-	///private float _bounceX Pos, _bounceYPos;
+	///private float _bounceX Pos, _bounceYPos; //Why did these exist again? I've only ever seen them as warnings in the error list
 
 	private const int _scrollBoundary = 1600;
 	private const int _gameWidth = 640;	//Actual game width, regardless of screen width
@@ -69,8 +67,10 @@ public class MyGame : Game
 
 		_cat = new Cat(_player, 30);
 		AddChild(_cat);
+		//TODO: Get the arrow to point in the opposite direction
 		_arrow = new Arrow(_player);
 		AddChild(_arrow);
+		_arrow.alpha = 0.0f;
 
 		_catHandler = new MouseHandler(_cat);
 		_catHandler.OnMouseDownOnTarget += onCatMouseDown;
@@ -89,7 +89,7 @@ public class MyGame : Game
 		AddChild(_blackhole);
 
 		//SpaceStations (spawn and end should be here)
-		_spaceStation = new SpaceStation(_gameWidth / 2, 100, "checkers.png");
+		_spaceStation = new SpaceStation(_gameWidth / 2, 0, "SpaceStationTemp.png");
 		AddChild(_spaceStation);
 
 		_mouseDelta = new Vec2(Input.mouseX, Input.mouseY);
@@ -135,11 +135,13 @@ public class MyGame : Game
 		_catHandler.OnMouseUp += onCatMouseUp;
 		_catHandler.OnMouseRightDown += onCatRightMouseDown;
 		_arrow.alpha = 1.0f;
+		Console.WriteLine(_arrow.alpha);
 		//_player.selected = true;
 	}
 
 	private void onCatMouseMove(GameObject target, MouseEventType type)
 	{
+		//TODO: Figure out how to get the arrow to move like the cat but on the other side
 		_cat.position.SetXY(_player.position.Clone().Add(_mouseDelta.Clone().Normalize().Scale(_player.radius)));
 		_cat.rotation = _mouseDelta.GetAngleDegrees() + 180;
 		_arrow.position.SetXY(_player.position.Clone().Add(_mouseDelta.Clone().Normalize().Scale(_player.radius)));

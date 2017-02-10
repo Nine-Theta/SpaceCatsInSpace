@@ -71,6 +71,7 @@
     <Compile Include="Player.cs" />
     <Compile Include="LevelManager.cs" />
     <Compile Include="Arrow.cs" />
+    <Compile Include="Asteroid.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Purroject_SpaceCats\" />
