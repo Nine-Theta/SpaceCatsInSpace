@@ -8,6 +8,8 @@ namespace GXPEngine
 		private Vec2 _velocity;
 		private Vec2 _acceleration;
 		private Sprite _yarnSprite;
+		private bool _selected;
+		private Sprite _selectedSprite;
 		//private float _gravityScale = 0.1f;
 		private LevelManager _levelRef;
 
@@ -16,7 +18,15 @@ namespace GXPEngine
 			position = pPosition;
 			_velocity = Vec2.zero;
 			_acceleration = Vec2.zero;
-			_yarnSprite = new Sprite("");
+			_yarnSprite = new Sprite("Yarn.png");
+			_yarnSprite.SetOrigin(_yarnSprite.width / 2, _yarnSprite.height / 2);
+			_yarnSprite.SetScaleXY(0.3f, 0.3f);
+			_selectedSprite = new Sprite("Selected.png");
+			_selectedSprite.SetOrigin(_selectedSprite.width / 2, _selectedSprite.height / 2);
+			_selectedSprite.SetScaleXY(0.3f, 0.3f);
+			_selectedSprite.alpha = 0.0f;
+			alpha = 0.0f;
+			AddChild(_yarnSprite);
 		}
 
 		public Vec2 velocity{
@@ -39,6 +49,24 @@ namespace GXPEngine
 		{
 			set{
 				_levelRef = value;
+			}
+		}
+		public bool selected
+		{
+			set
+			{
+				if (value == true)
+				{
+					_yarnSprite.alpha = 0.0f;
+					_selectedSprite.alpha = 1.0f;
+					_selected = value;
+				}
+				else
+				{
+					_yarnSprite.alpha = 1.0f;
+					_selectedSprite.alpha = 0.0f;
+					_selected = value;
+				}
 			}
 		}
 

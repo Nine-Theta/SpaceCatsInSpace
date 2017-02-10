@@ -9,6 +9,7 @@ namespace Purroject_SpaceCats
 		{
 			SetXY(pX, pY);
 			SetOrigin(width / 2, height / 2);
+			SetScaleXY(6, 3);
 		}
 	}
 }

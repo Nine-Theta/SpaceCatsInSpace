@@ -9,7 +9,7 @@ namespace GXPEngine
 		private Vec2 _acceleration;
 		private Vec2 _target;
 
-		public Cat(GameObject pTarget, int pTargetRadius) : base("square.png")
+		public Cat(GameObject pTarget, int pTargetRadius) : base("Cat.png")
 		{
 			SetOrigin(width / 2, height / 2);
 			scale = 0.5f;
