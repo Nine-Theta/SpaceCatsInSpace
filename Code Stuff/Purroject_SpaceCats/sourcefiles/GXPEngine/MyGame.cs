@@ -14,6 +14,7 @@ public class MyGame : Game
 	private Planet _planet3 = null;
 	private Planet _planet4 = null;
 	private BlackHole _blackhole = null;
+	private Asteroid _asteroid = null;
 
 	private Canvas _background = null;
 	private Sprite _scrollTarget = null;
@@ -67,13 +68,16 @@ public class MyGame : Game
 
 		_cat = new Cat(_player, 30);
 		AddChild(_cat);
-		//TODO: Get the arrow to point in the opposite direction
+		//TODO: Get the arrow to point from the other side of the player's radius, opposing the cat
 		_arrow = new Arrow(_player);
 		AddChild(_arrow);
 		_arrow.alpha = 0.0f;
 
 		_catHandler = new MouseHandler(_cat);
 		_catHandler.OnMouseDownOnTarget += onCatMouseDown;
+
+		_asteroid = new Asteroid(350, new Vec2(_gameWidth / 2, _gameHeight - 600));
+		AddChild(_asteroid);
 
 		//Planets and black holes
 		_planet1 = new Planet(new Vec2(100, 700), "Planet 1.png", 5, 0.5f, 300);
@@ -135,7 +139,6 @@ public class MyGame : Game
 		_catHandler.OnMouseUp += onCatMouseUp;
 		_catHandler.OnMouseRightDown += onCatRightMouseDown;
 		_arrow.alpha = 1.0f;
-		Console.WriteLine(_arrow.alpha);
 		//_player.selected = true;
 	}
 
@@ -163,7 +166,7 @@ public class MyGame : Game
 
 	private void onCatRightMouseDown(GameObject target, MouseEventType type)
 	{
-		/// These lines were commented out because they have no purpose in the game, only for debugging
+		/// These lines were commented out because the game is intended to work without them
 		//_player.velocity = Vec2.zero;
 		_cat.velocity = Vec2.zero;
 		//_player.position.SetXY(Input.mouseX, Input.mouseY);
@@ -215,6 +218,16 @@ public class MyGame : Game
 		}
 		else {
 			//Console.WriteLine("Collision = false");
+		}
+	}
+
+	private void BasicAsteroidCheck(Asteroid other)
+	{
+		Vec2 deltaVec = _player.position.Clone().Subtract(other.position);
+		if ((_player.radius + other.radius) > deltaVec.Length())
+		{
+			_player.velocity.Scale(0.5f);
+			other.AddVelocity(_player.velocity.Clone());
 		}
 	}
 
@@ -340,6 +353,8 @@ public class MyGame : Game
 		BasicCollisionCheck(_planet3);
 		BasicCollisionCheck(_planet4);
 		BasicCollisionCheck(_blackhole);
+		BasicAsteroidCheck(_asteroid);
+		_asteroid.Step();
 
 		_background.graphics.DrawLine(new Pen(Color.White), _playerLastPosition.x, _playerLastPosition.y, _player.x, _player.y);
 

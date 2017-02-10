@@ -71,8 +71,8 @@ namespace GXPEngine
 					AddChild(blackhole);
 					break;
 				case "Meteor":
-					//Asteroid asteroid = new Asteroid(new Vec2(pObject.X, pObject.Y));
-					//AddChild(asteroid);
+					Asteroid asteroid = new Asteroid(350, new Vec2(pObject.X, pObject.Y));
+					AddChild(asteroid);
 					break;
 				default:
 					Console.WriteLine("Unknown object in Object Layer");
