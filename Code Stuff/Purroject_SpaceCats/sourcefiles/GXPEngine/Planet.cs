@@ -29,14 +29,12 @@ namespace GXPEngine
 			alpha = 0.0f;
 			AddChild(_planetSprite);
 			_planetSprite.SetScaleXY(0.66f, 0.66f);
-			_planetSprite.alpha = 0.5f;
-			//width = (int)(pRadius * 2);
-			//height = (int)(pRadius * 2);
+			//_planetSprite.alpha = 0.5f;
 
 			_posVec = pPosVec;
 			SetXY(_posVec.x, _posVec.y);
 			_hitball = new Ball((int)(_planetSprite.width / 2.3), Vec2.zero);
-			_hitball.alpha = 0.5f;
+			_hitball.alpha = 0.1f;
 			AddChild(_hitball);
 
 			if (pGravityRange != 0)
@@ -56,8 +54,6 @@ namespace GXPEngine
 
 			AddChild(_gravityRange);
 			_gravityRange.alpha = 0.025f;
-			//Console.WriteLine("X:{0}, Y:{1}",_gravityRange.x, _gravityRange.y);
-			//AddPlanetList(this);
 		}
 
 		/// <summary>

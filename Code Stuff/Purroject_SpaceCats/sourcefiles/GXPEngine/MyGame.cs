@@ -45,7 +45,7 @@ public class MyGame : Game
 	private const int _gameHeight = 6500;   //Actual game height, regardless of screen height
 
 	private int _catCounter = 0;
-	private int _shankCounter = 10; //counts the amount of times b*tches will get shanked, hypothetically that is. (for legal reasons).
+	//private ShankCounter _shankCounter; //counts the amount of times b*tches will get shanked, hypothetically that is. (for legal reasons).
 
 	private bool _switchBoundaryCollision = false;
 	private bool _switchScreenSizeOverlay = false;
@@ -74,7 +74,6 @@ public class MyGame : Game
 
 		_cat = new Cat(_player);
 		AddChild(_cat);
-		//TODO: Get the arrow to point from the other side of the player's radius, opposing the cat
 		_arrow = new Arrow(_player);
 		AddChild(_arrow);
 		_arrow.alpha = 0.0f;
@@ -123,10 +122,6 @@ public class MyGame : Game
 		_screenSizeOverlay.SetOrigin(_screenSizeOverlay.width / 2, _screenSizeOverlay.height / 2);
 		_screenSizeOverlay.alpha = 0.25f;
 
-		//TODO: Add XML magic to actually keep track of the b*tches that are getting shanked
-		_shankCounter += 1;
-		_shankCounter++;
-		_shankCounter += 6;
 	}
 
 	private void DrawBorder(float boundary, bool isXBoundary)
@@ -134,11 +129,9 @@ public class MyGame : Game
 		if (isXBoundary)
 		{
 			_background.graphics.DrawLine(new Pen(Color.Lime), boundary, 0, boundary, _gameHeight);
-			//Console.WriteLine("X? "+ boundary);
 		}
 		else {
 			_background.graphics.DrawLine(new Pen(Color.Lime), 0, boundary, _gameWidth, boundary);
-			//Console.WriteLine("Y? "+ boundary);
 		}
 	}
 
@@ -147,21 +140,19 @@ public class MyGame : Game
 		_catHandler.OnMouseMove += onCatMouseMove;
 		_catHandler.OnMouseUp += onCatMouseUp;
 		_catHandler.OnMouseRightDown += onCatRightMouseDown;
+		_player.selected = true;
 		_arrow.alpha = 1.0f;
 		//_switchCatMoveToPlayer = false;
-		//_player.selected = true;
 	}
 
 	private void onCatMouseMove(GameObject target, MouseEventType type)
 	{
-		//TODO: Figure out how to get the arrow to move like the cat but on the other side
 		_cat.position.SetXY(_player.position.Clone().Add(_mouseDelta.Clone().Normalize().Scale(_player.radius)));
 		_cat.rotation = _mouseDelta.GetAngleDegrees() + 180;
 		_arrow.position.SetXY(_player.position.Clone().Subtract(_mouseDelta.Clone().Normalize().Scale(_player.radius*1.5f)));
 		_arrow.rotation = _mouseDelta.GetAngleDegrees() + 180;
 
 		_accelerationValue = _mouseDelta.Length() / 15;
-		//Console.WriteLine(_accelerationValue);
 	}
 
 	private void onCatMouseUp(GameObject target, MouseEventType type)
@@ -178,18 +169,15 @@ public class MyGame : Game
 
 	private void onCatRightMouseDown(GameObject target, MouseEventType type)
 	{
-		/// These lines were commented out because the game is intended to work without them
-		//_player.velocity = Vec2.zero;
 		_cat.velocity = Vec2.zero;
 		_cat.alpha = 1.0f;
-		//_player.position.SetXY(Input.mouseX, Input.mouseY);
 		_cat.position.SetXY(_player.position.Clone().Add(_player.position.Clone().Normalize().Scale(_player.radius)));
 		_arrow.position.SetXY(_player.position.Clone().Subtract(_player.position.Clone().Normalize().Scale(_player.radius)));
 	}
 
 	private void OnMouseEvent(GameObject target, MouseEventType type)
 	{
-		//Console.WriteLine("Eventtype: " + type + " triggered on " + target);
+		Console.WriteLine("Eventtype: " + type + " triggered on " + target);
 	}
 
 	void SpawnDisposableCat()
@@ -210,22 +198,6 @@ public class MyGame : Game
 
 		if ((_player.radius + other.gravityRadius) > deltaVec.Length())
 		{
-			//Console.WriteLine(deltaVec);
-			//TODO: Shank someone for this line commented out at the bottom of the following rant
-			//Cos and Sin are very heavy on the CPU and will cause problems the more planets we make
-			//And your collisioncheck already got the planet, why are you still using _planet1 in this formula?
-			//Using other instead allows you to actually get the desired effect of the gravity force variable
-			//Also it makes no sense to even use them in this particular line
-			//We're adding acceleration towards a planet here, not trying to make a pythagoras formula to get degrees
-			//Like for real you're not only using Cos and Sin but also calculating with Radians, do you have any idea what those numbers become
-			//They're going to be below 0.0001, Cos and Sin are for degrees not Radians
-			//And even if you have degrees what do you do with them? You're making a freaking vector here
-			//Vectors take an X and a Y value, neither degrees nor radians make sense in this line
-			//I'd understand if you're trying to fix some issues with gravitational pull here but this goes beyond the realms of reason
-			//Why did you even make the divide function? The scale function is meant to be used in both directions and you have not used it anywhere but in this dumpsterfire of a line
-			//Not to mention the fact that the x and y are calculated in extremely different ways entirely	
-			//If this rant seems personal let me assure you it's not, but this single line of code has so many issues 
-			//and it does not help that it's 23:40 on thursday and we have to show a functional prototype on friday
 			///_player.acceleration.Subtract(new Vec2(((_planet1.gravityForce  * Mathf.Cos(deltaVec.GetAngleRadians()))), ((_planet1.gravityForce * Mathf.Sin(deltaVec.GetAngleRadians())))).Normalize().Divide(deltaVec.Length()*0.04f));
 			if ((_player.radius + other.hitball.radius) > deltaVec.Length())
 			{
@@ -262,9 +234,6 @@ public class MyGame : Game
 		if (_scrollTarget != null)
 		{
 			y = (game.height / 2 - _scrollTarget.y);
-			//x = (game.width / 2 - _scrollTarget.x); //Why are you even doing x? Didn't you see the level mockup on google Drive? Tall and Vertical, not horizontal
-
-			//_backgroundSprite.x = _scrollTarget.x;
 			_backgroundSprite.y = _scrollTarget.y;
 
 			if (_switchScreenSizeOverlay){

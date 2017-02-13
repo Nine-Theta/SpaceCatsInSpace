@@ -7,7 +7,6 @@ namespace GXPEngine
 	{
 		private XMLMap _currentMap;
 		private int _currentlevel;
-		//private Planet[] this.GetChildren() = new Planet[20];
 
 		public LevelManager()
 		{
@@ -17,7 +16,6 @@ namespace GXPEngine
 
 		void LoadLevel(int pLevel)
 		{
-			//ClearPlanetList();
 			_currentlevel = pLevel;
 			_currentMap = _currentMap.ReadMap(pLevel);
 			foreach (TiledObject tObject in _currentMap.objectGroup.TiledObject)
@@ -38,7 +36,7 @@ namespace GXPEngine
 					AddChild(player);
 					break;
 				case "Planet":
-					string fileSource = "Planet ";
+					string fileSource = "Sprites/Planet ";
 					string PartOfSource = "";
 					if (pObject.Properties != null && pObject.Properties.property[0].Name == "PlanetType")
 					{
@@ -56,23 +54,31 @@ namespace GXPEngine
 						PartOfSource = "1";
 					}
 					fileSource += PartOfSource + ".png";
-					Planet planet = new Planet(new Vec2(pObject.X, pObject.Y), fileSource, 30, 1, 100, 1);
+					Planet planet = new Planet(new Vec2(pObject.X, pObject.Y), fileSource, 5, 0.2f, 300);
 
 					//AddPlanetList(planet);
 					AddChild(planet);
 					break;
 				case "Station":
 					//Changes frame if frame is the starting station, else it uses another frame;
-					SpaceStation station = new SpaceStation(pObject.X, pObject.Y, "checkers.png");
+					SpaceStation station = new SpaceStation(pObject.X, pObject.Y, "Sprites/SpaceStationTemp.png");
 					AddChild(station);
 					break;
 				case "Black":
-					BlackHole blackhole = new BlackHole(new Vec2(pObject.X, pObject.Y), 100, 300);
+					BlackHole blackhole = new BlackHole(new Vec2(pObject.X, pObject.Y), 5, 300);
 					AddChild(blackhole);
+					break;
+				case "Blackhole":
+					BlackHole blackhole1 = new BlackHole(new Vec2(pObject.X, pObject.Y), 5, 300);
+					AddChild(blackhole1);
 					break;
 				case "Meteor":
 					Asteroid asteroid = new Asteroid(350, new Vec2(pObject.X, pObject.Y));
 					AddChild(asteroid);
+					break;
+				case "Asteroid":
+					Asteroid asteroid1 = new Asteroid(350, new Vec2(pObject.X, pObject.Y));
+					AddChild(asteroid1);
 					break;
 				default:
 					Console.WriteLine("Unknown object in Object Layer");
@@ -81,27 +87,7 @@ namespace GXPEngine
 			}
 		}
 
-		////TODO: SOMETHING WITH THIS MAYBE
-		//PlanetList setup for accessibility
-		//public void AddPlanetList(Planet pPlanet)
-		//{
-		//	int index = this.GetChildren().Count;
-		//	this.GetChildren()[index - 1] = pPlanet;
-		//}
-
-		//public void ClearPlanetList()
-		//{
-		//	int index = 0;
-		//	foreach (Planet planet in this.GetChildren()) //for (int i = 0; i < this.GetChildren().Length; i++)
-		//	{
-		//		//Planet planet = this.GetChildren()[i];
-		//		planet.Destroy();
-		//		this.GetChildren()[index] = null;
-		//		index++;
-		//	}
-		//}
-
-		//ReadOnly, add through AddPlanetList. Only clear when changing levels
+		//ReadOnly, gets the planets from LevelManager's Children
 		public Planet[] planetList
 		{
 			get

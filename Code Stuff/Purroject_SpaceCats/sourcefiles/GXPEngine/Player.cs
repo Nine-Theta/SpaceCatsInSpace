@@ -2,14 +2,15 @@
 
 namespace GXPEngine
 {
+	//TODO: 
 	public class Player : Ball
 	{
 		//private Vec2 _position;
 		private Vec2 _velocity;
 		private Vec2 _acceleration;
-		private Sprite _yarnSprite;
+		private AnimSprite _yarnSprite;
 		private bool _selected;
-		private Sprite _selectedSprite;
+		private int _animTimer = 5;
 		//private float _gravityScale = 0.1f;
 		private LevelManager _levelRef;
 
@@ -18,18 +19,12 @@ namespace GXPEngine
 			position = pPosition;
 			_velocity = Vec2.zero;
 			_acceleration = Vec2.zero;
-			_yarnSprite = new Sprite("Sprites/Yarn.png");
+			_yarnSprite = new AnimSprite("Sprites/Spritesheet.png", 4, 2);
 			_yarnSprite.SetOrigin(_yarnSprite.width / 2, _yarnSprite.height / 2);
 			_yarnSprite.SetScaleXY(0.3f, 0.3f);
-			_selectedSprite = new Sprite("Sprites/Selected.png");
-			_selectedSprite.SetOrigin(_selectedSprite.width / 2, _selectedSprite.height / 2);
-			_selectedSprite.SetScaleXY(0.3f, 0.3f);
-			_selectedSprite.alpha = 0.0f;
 			alpha = 0.0f;
 			AddChild(_yarnSprite);
 		}
-
-
 
 		public Vec2 velocity{
 			set{
@@ -57,19 +52,32 @@ namespace GXPEngine
 		{
 			set
 			{
-				if (value == true)
+				_selected = value;
+			}
+		}
+		private void AnimationCycle()
+		{
+			int tFrame = 0;
+			if (_selected)
+			{
+				tFrame = 4;
+				tFrame += _yarnSprite.currentFrame % 4;
+				tFrame++;
+				if (tFrame >= 8)
 				{
-					_yarnSprite.alpha = 0.0f;
-					_selectedSprite.alpha = 1.0f;
-					_selected = value;
-				}
-				else
-				{
-					_yarnSprite.alpha = 1.0f;
-					_selectedSprite.alpha = 0.0f;
-					_selected = value;
+					tFrame = 4;
 				}
 			}
+			else
+			{
+				tFrame += _yarnSprite.currentFrame % 4;
+				tFrame++;
+				if (tFrame >= 4)
+				{
+					tFrame = 0;
+				}
+			}
+			_yarnSprite.SetFrame(tFrame);
 		}
 
 		public void Step()
@@ -82,20 +90,27 @@ namespace GXPEngine
 
 			_acceleration = Vec2.zero;
 
+			_animTimer--;
+			if (_animTimer < 0)
+			{
+				AnimationCycle();
+				_animTimer = 4;
+			}
+
 			//TODO: Fix this maybe some day
-			//if (_levelRef != null &&_levelRef.planetList != null)
-			//{
-			//	//foreach (Planet planet in _levelRef.planetList)
-			//	for (int i = 0; i < _levelRef.planetList.Length; i++)
-			//	{
-			//		Planet planet = _levelRef.planetList[i];
-			//		if (planet != null && planet.InRange(_position, radius))
-			//		{
-			//			Vec2 deltaVec = _position.Subtract(planet.posVec);
-			//			_acceleration.Add(deltaVec.Normalize().Scale(_gravityScale));
-			//		}
-			//	}
-			//}
+			if (_levelRef != null &&_levelRef.planetList != null)
+			{
+				//foreach (Planet planet in _levelRef.planetList)
+				for (int i = 0; i < _levelRef.planetList.Length; i++)
+				{
+					Planet planet = _levelRef.planetList[i];
+					Vec2 deltaVec = _position.Subtract(planet.posVec);
+					if (planet != null && planet.gravityRadius + radius < deltaVec.Length())
+					{
+						_acceleration.Subtract(deltaVec.Normalize().Scale(planet.gravityForce));
+					}
+				}
+			}
 
 		}
 	}
