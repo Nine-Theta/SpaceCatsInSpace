@@ -10,7 +10,7 @@ namespace Purroject_SpaceCats
 
 		public Asteroid(int pRadius, Vec2 pPosVec) : base((int)(pRadius * 0.2), pPosVec)
 		{
-			_sprite = new Sprite("AsteroidTemp.png");
+			_sprite = new Sprite("Sprites/AsteroidTemp.png");
 			_sprite.SetOrigin(_sprite.width / 2, _sprite.height / 2);
 			AddChild(_sprite);
 			SetScaleXY(0.2f);

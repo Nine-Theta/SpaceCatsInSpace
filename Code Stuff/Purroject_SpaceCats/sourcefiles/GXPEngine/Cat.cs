@@ -4,20 +4,35 @@ namespace GXPEngine
 {
 	public class Cat : Sprite
 	{
+		public enum type { NORMAL, DISPOSABLE }
+
 		private Vec2 _position;
 		private Vec2 _velocity;
 		private Vec2 _acceleration;
 		private Vec2 _target;
 
-		public Cat(GameObject pTarget, int pTargetRadius) : base("Cat.png")
+		private type _catType;
+
+		private int _catID;
+
+		public Cat(Player pTarget, type? pType = type.NORMAL, int? pCatID = -1) : base("Sprites/Cat.png")
 		{
 			SetOrigin(width / 2, height / 2);
 			scale = 0.5f;
 
+			_catType = pType ?? type.NORMAL;
+			_catID = pCatID ?? -1;
+
 			_target = new Vec2(pTarget.x, pTarget.y);
-			position = _target.Add(_target.Clone().Normalize().Scale(pTargetRadius));
+			position = _target.Add(_target.Clone().Normalize().Scale(pTarget.radius));
 			velocity = Vec2.zero;
 			acceleration = Vec2.zero;
+		}
+
+		public int GetCatID{
+			get{
+				return _catID;
+			}
 		}
 
 		public Vec2 position{
@@ -55,6 +70,11 @@ namespace GXPEngine
 			y = _position.y;
 
 			_acceleration = Vec2.zero;
+
+			if (_catType == type.DISPOSABLE)
+			{
+
+			}
 		}
 	}
 }

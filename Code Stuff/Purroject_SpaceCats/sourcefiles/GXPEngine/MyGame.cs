@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Collections.Generic;
 using GXPEngine;
 using Purroject_SpaceCats;
 
@@ -8,6 +9,7 @@ public class MyGame : Game
 	private MouseHandler _catHandler = null; //playerhandler won the vote over "ballhandler" & "ballfondler" //Renamed playerhandler to cathandler
 	private Player _player = null;
 	private Cat _cat = null;
+	private Cat _disposableCat = null; //Acceptable losses
 	private Arrow _arrow = null;
 	private Planet _planet1 = null;
 	private Planet _planet2 = null;
@@ -15,12 +17,15 @@ public class MyGame : Game
 	private Planet _planet4 = null;
 	private BlackHole _blackhole = null;
 	private Asteroid _asteroid = null;
+	private SpaceStation _spaceStation = null;
+
+	//private Cat[] _arrayDisposableCat;
+	private List<Cat> _listDisposableCat;
 
 	private Canvas _background = null;
 	private Sprite _scrollTarget = null;
 	private Sprite _screenSizeOverlay = null;
 	private Sprite _backgroundSprite = null;
-	private SpaceStation _spaceStation = null;
 
 	private Vec2 _playerStartPosition = null;
 	private Vec2 _mouseDelta = null;
@@ -31,14 +36,15 @@ public class MyGame : Game
 
 	private float _accelerationValue = 0.0f;
 	//TODO: get an image file with the ball with decreasing amounts of cats
-	//private int _catCounter = 5;
 	private float _leftBoundary, _rightBoundary, _topBoundary, _bottomBoundary;
 	///private float _bounceX Pos, _bounceYPos; //Why did these exist again? I've only ever seen them as warnings in the error list
+	// Legacy code. Also, could you not use three slashes for comments?
 
 	private const int _scrollBoundary = 1600;
-	private const int _gameWidth = 640;	//Actual game width, regardless of screen width
-	private const int _gameHeight = 6500;	//Actual game height, regardless of screen height
+	private const int _gameWidth = 640; //Actual game width, regardless of screen width
+	private const int _gameHeight = 6500;   //Actual game height, regardless of screen height
 
+	private int _catCounter = 0;
 	private int _shankCounter = 10; //counts the amount of times b*tches will get shanked, hypothetically that is. (for legal reasons).
 
 	private bool _switchBoundaryCollision = false;
@@ -48,7 +54,7 @@ public class MyGame : Game
 	{
 		targetFps = 60;
 
-		_backgroundSprite = new Sprite("Background.png");
+		_backgroundSprite = new Sprite("Sprites/Background.png");
 		_backgroundSprite.SetOrigin(_backgroundSprite.width / 2, _backgroundSprite.height / 2);
 		_backgroundSprite.SetXY(width / 2, 0);
 		AddChild(_backgroundSprite);
@@ -57,7 +63,7 @@ public class MyGame : Game
 		AddChild(_background);
 		_background.graphics.FillRectangle(new SolidBrush(Color.Empty), new Rectangle(0, 0, _gameWidth, _gameHeight));
 
-		_player = new Player(30, new Vec2(_gameWidth / 2, _gameHeight - 400));
+		_player = new Player(40, new Vec2(_gameWidth / 2, _gameHeight - 400));
 		AddChild(_player);
 		_scrollTarget = _player;
 
@@ -66,34 +72,37 @@ public class MyGame : Game
 		_playerBouncePos = Vec2.zero;
 		_playerPOI = Vec2.zero;
 
-		_cat = new Cat(_player, 30);
+		_cat = new Cat(_player);
 		AddChild(_cat);
 		//TODO: Get the arrow to point from the other side of the player's radius, opposing the cat
 		_arrow = new Arrow(_player);
 		AddChild(_arrow);
 		_arrow.alpha = 0.0f;
 
-		_catHandler = new MouseHandler(_cat);
+		//_arrayDisposableCat = new Cat[10];
+		_listDisposableCat = new List<Cat>();
+
+		_catHandler = new MouseHandler(_player);
 		_catHandler.OnMouseDownOnTarget += onCatMouseDown;
 
 		_asteroid = new Asteroid(350, new Vec2(_gameWidth / 2, _gameHeight - 600));
 		AddChild(_asteroid);
 
 		//Planets and black holes
-		_planet1 = new Planet(new Vec2(100, 700), "Planet 1.png", 5, 0.5f, 300);
+		_planet1 = new Planet(new Vec2(100, 700), "Sprites/Planet 1.png", 5, 0.5f, 300);
 		AddChild(_planet1);
-		_planet2 = new Planet(new Vec2(500, 4500), "Planet 2.png", 5, 1.0f, 300);
+		_planet2 = new Planet(new Vec2(500, 4500), "Sprites/Planet 2.png", 5, 0.2f, 300);
 		AddChild(_planet2);
-		_planet3 = new Planet(new Vec2(100, 2700), "Planet 3.png", 5, 0.5f, 300);
+		_planet3 = new Planet(new Vec2(100, 2700), "Sprites/Planet 3.png", 5, 0.5f, 300);
 		AddChild(_planet3);
-		_planet4 = new Planet(new Vec2(500, 5500), "Planet 4.png", 5, 1.0f, 300);
+		_planet4 = new Planet(new Vec2(500, 5500), "Sprites/Planet 4.png", 5, 0.2f, 300);
 		AddChild(_planet4);
 
 		_blackhole = new BlackHole(new Vec2(_gameWidth / 2, _gameHeight), 5, 300);
 		AddChild(_blackhole);
 
 		//SpaceStations (spawn and end should be here)
-		_spaceStation = new SpaceStation(_gameWidth / 2, 0, "SpaceStationTemp.png");
+		_spaceStation = new SpaceStation(_gameWidth / 2, 0, "Sprites/SpaceStationTemp.png");
 		AddChild(_spaceStation);
 
 		_mouseDelta = new Vec2(Input.mouseX, Input.mouseY);
@@ -109,7 +118,7 @@ public class MyGame : Game
 		DrawBorder(_topBoundary, false);
 		DrawBorder(_bottomBoundary, false);
 
-		_screenSizeOverlay = new Sprite("screenSizeDebug.png");
+		_screenSizeOverlay = new Sprite("Sprites/screenSizeDebug.png");
 		AddChild(_screenSizeOverlay);
 		_screenSizeOverlay.SetOrigin(_screenSizeOverlay.width / 2, _screenSizeOverlay.height / 2);
 		_screenSizeOverlay.alpha = 0.25f;
@@ -139,6 +148,7 @@ public class MyGame : Game
 		_catHandler.OnMouseUp += onCatMouseUp;
 		_catHandler.OnMouseRightDown += onCatRightMouseDown;
 		_arrow.alpha = 1.0f;
+		//_switchCatMoveToPlayer = false;
 		//_player.selected = true;
 	}
 
@@ -147,7 +157,7 @@ public class MyGame : Game
 		//TODO: Figure out how to get the arrow to move like the cat but on the other side
 		_cat.position.SetXY(_player.position.Clone().Add(_mouseDelta.Clone().Normalize().Scale(_player.radius)));
 		_cat.rotation = _mouseDelta.GetAngleDegrees() + 180;
-		_arrow.position.SetXY(_player.position.Clone().Add(_mouseDelta.Clone().Normalize().Scale(_player.radius)));
+		_arrow.position.SetXY(_player.position.Clone().Subtract(_mouseDelta.Clone().Normalize().Scale(_player.radius*1.5f)));
 		_arrow.rotation = _mouseDelta.GetAngleDegrees() + 180;
 
 		_accelerationValue = _mouseDelta.Length() / 15;
@@ -160,8 +170,10 @@ public class MyGame : Game
 		_catHandler.OnMouseUp -= onCatMouseUp;
 		_arrow.alpha = 0.0f;
 		_player.selected = false;
-		_cat.acceleration.Add(_mouseDelta.Clone().Normalize().Scale(_accelerationValue));
+		_cat.alpha = 0.0f;
+		SpawnDisposableCat();
 		_player.acceleration.Add(_mouseDelta.Clone().Normalize().Scale(-_accelerationValue));
+		_arrow.position.SetXY(_player.position.Clone().Subtract(_player.position.Clone().Normalize().Scale(_player.radius)));
 	}
 
 	private void onCatRightMouseDown(GameObject target, MouseEventType type)
@@ -169,13 +181,27 @@ public class MyGame : Game
 		/// These lines were commented out because the game is intended to work without them
 		//_player.velocity = Vec2.zero;
 		_cat.velocity = Vec2.zero;
+		_cat.alpha = 1.0f;
 		//_player.position.SetXY(Input.mouseX, Input.mouseY);
 		_cat.position.SetXY(_player.position.Clone().Add(_player.position.Clone().Normalize().Scale(_player.radius)));
+		_arrow.position.SetXY(_player.position.Clone().Subtract(_player.position.Clone().Normalize().Scale(_player.radius)));
 	}
 
 	private void OnMouseEvent(GameObject target, MouseEventType type)
 	{
-		Console.WriteLine("Eventtype: " + type + " triggered on " + target);
+		//Console.WriteLine("Eventtype: " + type + " triggered on " + target);
+	}
+
+	void SpawnDisposableCat()
+	{
+		_disposableCat = new Cat(_player, Cat.type.DISPOSABLE, _catCounter);
+		AddChild(_disposableCat);
+		//_arrayDisposableCat[_arrayDisposableCat.Length - _catCounter] = _disposableCat;
+		_listDisposableCat.Add(_disposableCat);
+		_catCounter += 1;
+		_disposableCat.SetXY(_cat.x, _cat.y);
+		_disposableCat.acceleration.Add(_mouseDelta.Clone().Normalize().Scale(_accelerationValue));
+
 	}
 
 	private void BasicCollisionCheck(Planet other) //Very Basic
@@ -247,11 +273,9 @@ public class MyGame : Game
 			else {
 				_screenSizeOverlay.SetXY(-2000, -2000);
 			}
-
 			//this.y = (_scrollBoundary - _scrollTarget.y);
 		}
 	}
-
 
 	/// <summary>
 	/// The boundary collision check that is currently being worked on.
@@ -307,8 +331,28 @@ public class MyGame : Game
 		}
 	}
 
-	private void Debug()
+	/// <summary>
+	/// Any cat unfortunate enough to be "misplaced" out of the game area, will be fed to the god-emperor of mankind
+	/// </summary>
+	/// <param name="casualty">The Cat in question</param>
+	/// <param name="index">The cat's index in the list</param>
+	private void CheckForCatDestruction(Cat casualty, int index)
 	{
+		bool leftExit = (casualty.x < -100);
+		bool rightExit = (casualty.x > (_gameWidth + 100));
+		bool topExit = (casualty.y < -100);
+		bool bottomExit = (casualty.y > (_gameHeight + 100));
+
+		if (leftExit || rightExit || topExit || bottomExit)
+		{
+			_listDisposableCat.RemoveAt(index);
+			_catCounter -= 1;
+			casualty.Destroy();
+			casualty = null;
+		}
+	}
+
+	private void Debug(){
 		if (Input.GetKeyDown(Key.ONE)){
 			targetFps = 60;
 		}
@@ -322,7 +366,7 @@ public class MyGame : Game
 			targetFps = 240;
 		}
 		if (Input.GetKeyDown(Key.FIVE)){
-			targetFps = 999999999;
+			targetFps = 999999999; 	//You have been in suspension for: 9 9 9 9 9 [/*&#%]		...9 
 		}
 		if (Input.GetKeyDown(Key.SIX)){
 			targetFps = 1;
@@ -335,6 +379,9 @@ public class MyGame : Game
 		}
 	}
 
+	//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+	//																									UPDATE																									//
+	//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 	void Update()
 	{
 		scrollToTarget();
@@ -344,6 +391,19 @@ public class MyGame : Game
 		_player.Step();
 
 		_cat.Step();
+
+		_arrow.Step();
+
+
+		if (_disposableCat != null && _listDisposableCat.Contains(_disposableCat))
+		{
+			for (int i = 0; i < _listDisposableCat.Count; i++){
+
+				_listDisposableCat[i].Step();
+
+				CheckForCatDestruction(_listDisposableCat[i], i);
+			}
+		}
 
 		_mouseDelta.SetXY((Input.mouseX - game.x) - _player.position.x, (Input.mouseY - game.y) - _player.position.y);
 
@@ -361,17 +421,20 @@ public class MyGame : Game
 		_playerLastPosition.x = _player.x;
 		_playerLastPosition.y = _player.y;
 
-		if (_switchBoundaryCollision){
+		if (_switchBoundaryCollision)
+		{
 			checkBoundaryCollisions();
 			_player.ballColor = Color.Red;
-		}else {
+		}
+		else {
 			brokenBoundaryCollisionCheck();
-			_player.ballColor = Color.Pink;}
+			_player.ballColor = Color.Pink;
+		}
 
-		if (_cat.velocity.EqualsTo(Vec2.zero))
-		{
+		if (_cat.velocity.EqualsTo(Vec2.zero)){
 			_cat.position.SetXY(_player.position.Clone().Add(_player.position.Clone().Normalize().Scale(_player.radius)));
 		}
+
 		//_playerLastPosition.x = _player.x;
 		//_playerLastPosition.y = _player.y;
 	}
@@ -384,7 +447,7 @@ public class MyGame : Game
 	/// <summary>
 	/// The broken version of the boundary collision check.
 	/// This will be used until the normal version works properly.
-	/// Doesn't that make this the normal version and the other one the broken one? 
+	/// Doesn't that make this the normal version and the other one the broken one?
 	/// </summary>
 	private void brokenBoundaryCollisionCheck()
 	{
@@ -393,8 +456,7 @@ public class MyGame : Game
 		bool topHit = (_player.y - _player.radius) < _topBoundary;
 		bool bottomHit = (_player.y + _player.radius) > _bottomBoundary;
 
-		if (leftHit || rightHit || topHit || bottomHit)
-		{
+		if (leftHit || rightHit || topHit || bottomHit){
 			_playerBouncePos.x = _player.x;
 			_playerBouncePos.y = _player.y;
 			_player.ballColor = Color.Maroon;
@@ -405,24 +467,20 @@ public class MyGame : Game
 			//_playerPOI.SetXY(_playerLastPosition.Clone().Subtract(_playerBouncePos));
 			//Console.WriteLine("_playerLastPosition(" + _playerLastPosition + ") - _playerBounce(" + _playerBouncePos + ") = _playerPOI(" + _playerPOI + ")");
 
-			if (leftHit)
-			{
+			if (leftHit){
 				_player.position.Add(_playerPOI);
 				_player.velocity.Scale(-1, 1);
 			}
-			if (rightHit)
-			{
+			if (rightHit){
 				_player.position.Add(_playerPOI);
 				_player.velocity.Scale(-1, 1);
 			}
-			if (topHit)
-			{
+			if (topHit){
 				_player.velocity.Scale(0);
 				//_player.position.Add(_playerPOI);
 				//_player.velocity.Scale(1, -1);
 			}
-			if (bottomHit)
-			{
+			if (bottomHit){
 				_player.position.Add(_playerPOI);
 				_player.velocity.Scale(1, -1);
 			}

@@ -18,16 +18,18 @@ namespace GXPEngine
 			position = pPosition;
 			_velocity = Vec2.zero;
 			_acceleration = Vec2.zero;
-			_yarnSprite = new Sprite("Yarn.png");
+			_yarnSprite = new Sprite("Sprites/Yarn.png");
 			_yarnSprite.SetOrigin(_yarnSprite.width / 2, _yarnSprite.height / 2);
 			_yarnSprite.SetScaleXY(0.3f, 0.3f);
-			_selectedSprite = new Sprite("Selected.png");
+			_selectedSprite = new Sprite("Sprites/Selected.png");
 			_selectedSprite.SetOrigin(_selectedSprite.width / 2, _selectedSprite.height / 2);
 			_selectedSprite.SetScaleXY(0.3f, 0.3f);
 			_selectedSprite.alpha = 0.0f;
 			alpha = 0.0f;
 			AddChild(_yarnSprite);
 		}
+
+
 
 		public Vec2 velocity{
 			set{

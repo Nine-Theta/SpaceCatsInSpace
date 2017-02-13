@@ -4,7 +4,7 @@ namespace Purroject_SpaceCats
 {
 	public class BlackHole : Planet
 	{
-		public BlackHole(Vec2 pPosVec, int pRadius, int pGravityRange) : base(pPosVec, "Black Hole.png", pRadius, 5, pGravityRange, 20)
+		public BlackHole(Vec2 pPosVec, int pRadius, int pGravityRange) : base(pPosVec, "Sprites/Black Hole.png", pRadius, 5, pGravityRange, 20)
 		{
 			_planetSprite.SetScaleXY(1, 1);
 		}

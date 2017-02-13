@@ -12,7 +12,7 @@ namespace Purroject_SpaceCats
 	[XmlRoot("map")]
 	public class XMLMap
 	{
-		public string[] levelFiles = { "Your level is in another variable", "Level1.tmx", "Level2.tmx" };
+		public string[] levelFiles = { "Your level is in another variable", "/Levels/Level1.tmx", "Levels/Level2.tmx" };
 		public const int PLAYER_RADIUS = 30;
 
 		[XmlAttribute("width")]
