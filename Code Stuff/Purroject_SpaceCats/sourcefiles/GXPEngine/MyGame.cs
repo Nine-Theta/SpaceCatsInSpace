@@ -8,6 +8,7 @@ public class MyGame : Game
 {
 	private MouseHandler _catHandler = null; //playerhandler won the vote over "ballhandler" & "ballfondler" //Renamed playerhandler to cathandler
 	private Player _player = null;
+	private LevelManager _levelManager = null;
 	private Cat _cat = null;
 	private Cat _disposableCat = null; //Acceptable losses
 	private Arrow _arrow = null;
@@ -33,7 +34,6 @@ public class MyGame : Game
 	private Vec2 _playerBouncePos = null;
 	private Vec2 _playerPOI = null;
 
-
 	private float _accelerationValue = 0.0f;
 	//TODO: get an image file with the ball with decreasing amounts of cats
 	private float _leftBoundary, _rightBoundary, _topBoundary, _bottomBoundary;
@@ -53,7 +53,7 @@ public class MyGame : Game
 	public MyGame() : base(640, 960, false, false) //Screen size should be 640x960. Don't overstep this boundary
 	{
 		targetFps = 60;
-
+		_levelManager = new LevelManager();
 		_backgroundSprite = new Sprite("Sprites/Background.png");
 		_backgroundSprite.SetOrigin(_backgroundSprite.width / 2, _backgroundSprite.height / 2);
 		_backgroundSprite.SetXY(width / 2, 0);
@@ -62,11 +62,12 @@ public class MyGame : Game
 		_background = new Canvas(_gameWidth, _gameHeight);
 		AddChild(_background);
 		_background.graphics.FillRectangle(new SolidBrush(Color.Empty), new Rectangle(0, 0, _gameWidth, _gameHeight));
+		AddChild(_levelManager);
 
-		_player = new Player(40, new Vec2(_gameWidth / 2, _gameHeight - 400));
-		AddChild(_player);
+		_player = _levelManager.GetPlayer();
+		//_player = new Player(40, new Vec2(_gameWidth / 2, _gameHeight - 400));
+		//AddChild(_player);
 		_scrollTarget = _player;
-
 		_playerStartPosition = new Vec2(_player.x, _player.y);
 		_playerLastPosition = new Vec2(_player.x, _player.y);
 		_playerBouncePos = Vec2.zero;
@@ -87,22 +88,22 @@ public class MyGame : Game
 		_asteroid = new Asteroid(350, new Vec2(_gameWidth / 2, _gameHeight - 600));
 		AddChild(_asteroid);
 
-		//Planets and black holes
-		_planet1 = new Planet(new Vec2(100, 700), "Sprites/Planet 1.png", 5, 0.5f, 300);
-		AddChild(_planet1);
-		_planet2 = new Planet(new Vec2(500, 4500), "Sprites/Planet 2.png", 5, 0.2f, 300);
-		AddChild(_planet2);
-		_planet3 = new Planet(new Vec2(100, 2700), "Sprites/Planet 3.png", 5, 0.5f, 300);
-		AddChild(_planet3);
-		_planet4 = new Planet(new Vec2(500, 5500), "Sprites/Planet 4.png", 5, 0.2f, 300);
-		AddChild(_planet4);
+		////Planets and black holes
+		//_planet1 = new Planet(new Vec2(100, 700), "Sprites/Planet 1.png", 5, 0.5f, 300);
+		//AddChild(_planet1);
+		//_planet2 = new Planet(new Vec2(500, 4500), "Sprites/Planet 2.png", 5, 0.2f, 300);
+		//AddChild(_planet2);
+		//_planet3 = new Planet(new Vec2(100, 2700), "Sprites/Planet 3.png", 5, 0.5f, 300);
+		//AddChild(_planet3);
+		//_planet4 = new Planet(new Vec2(500, 5500), "Sprites/Planet 4.png", 5, 0.2f, 300);
+		//AddChild(_planet4);
 
-		_blackhole = new BlackHole(new Vec2(_gameWidth / 2, _gameHeight), 5, 300);
-		AddChild(_blackhole);
+		//_blackhole = new BlackHole(new Vec2(_gameWidth / 2, _gameHeight), 5, 300);
+		//AddChild(_blackhole);
 
-		//SpaceStations (spawn and end should be here)
-		_spaceStation = new SpaceStation(_gameWidth / 2, 0, "Sprites/SpaceStationTemp.png");
-		AddChild(_spaceStation);
+		////SpaceStations (spawn and end should be here)
+		//_spaceStation = new SpaceStation(_gameWidth / 2, 0, "Sprites/SpaceStationTemp.png");
+		//AddChild(_spaceStation);
 
 		_mouseDelta = new Vec2(Input.mouseX, Input.mouseY);
 
@@ -377,13 +378,13 @@ public class MyGame : Game
 		_mouseDelta.SetXY((Input.mouseX - game.x) - _player.position.x, (Input.mouseY - game.y) - _player.position.y);
 
 		//TODO: Replace this code by a for each loop (or just the levelmanager's system if the time is right)
-		BasicCollisionCheck(_planet1);
-		BasicCollisionCheck(_planet2);
-		BasicCollisionCheck(_planet3);
-		BasicCollisionCheck(_planet4);
-		BasicCollisionCheck(_blackhole);
-		BasicAsteroidCheck(_asteroid);
-		_asteroid.Step();
+		//BasicCollisionCheck(_planet1);
+		//BasicCollisionCheck(_planet2);
+		//BasicCollisionCheck(_planet3);
+		//BasicCollisionCheck(_planet4);
+		//BasicCollisionCheck(_blackhole);
+		//BasicAsteroidCheck(_asteroid);
+		//_asteroid.Step();
 
 		_background.graphics.DrawLine(new Pen(Color.White), _playerLastPosition.x, _playerLastPosition.y, _player.x, _player.y);
 

@@ -12,7 +12,7 @@ namespace Purroject_SpaceCats
 	[XmlRoot("map")]
 	public class XMLMap
 	{
-		public string[] levelFiles = { "Your level is in another variable", "/Levels/Level1.tmx", "Levels/Level2.tmx" };
+		public string[] levelFiles = { "Your level is in another variable", "Levels/Level1.tmx", "Levels/Level2.tmx", "Levels/Level.tmx"};
 		public const int PLAYER_RADIUS = 30;
 
 		[XmlAttribute("width")]
@@ -20,7 +20,7 @@ namespace Purroject_SpaceCats
 		[XmlAttribute("height")]
 		public int Height;
 		[XmlElement("tileset")]
-		public TileSet tileSet;
+		public TileSet[] tileSet;
 		[XmlElement("objectgroup")]
 		public ObjectGroup objectGroup;
 
@@ -30,20 +30,18 @@ namespace Purroject_SpaceCats
 
 		public XMLMap ReadMap(int pLevel)
 		{
-			switch (pLevel)
+			//try
 			{
-				case 0:
-					Console.WriteLine(levelFiles[pLevel]);
-					return new XMLMap();
-				case 1:
-					XmlSerializer serializer = new XmlSerializer(typeof(XMLMap));
+				XmlSerializer serializer = new XmlSerializer(typeof(XMLMap));
 
-					TextReader reader = new StreamReader(levelFiles[pLevel]);
-					XMLMap map = serializer.Deserialize(reader) as XMLMap;
-					return map;
-				default:
-					Console.WriteLine("Invalid map loaded, returning empty uninitialized map");
-					return new XMLMap();
+				TextReader reader = new StreamReader(levelFiles[pLevel]);
+				XMLMap map = serializer.Deserialize(reader) as XMLMap;
+				return map;
+			}
+			//catch
+			{
+				//Console.WriteLine("Invalid map loaded, returning empty uninitialized map");
+				//return new XMLMap();
 			}
 		}
 	}
@@ -133,18 +131,20 @@ namespace Purroject_SpaceCats
 	[XmlRoot("object")]
 	public class TiledObject
 	{
-		[XmlAttribute("gid")]
-		public int GID;
 		[XmlAttribute("name")]
 		public string Name;
+		[XmlAttribute("gid")]
+		public int GID;
 		[XmlAttribute("x")]
-		public int X;
+		public float X;
 		[XmlAttribute("y")]
-		public int Y;
+		public float Y;
 		[XmlAttribute("width")]
-		public int Width;
+		public float Width;
 		[XmlAttribute("height")]
-		public int Height;
+		public float Height;
+		[XmlAttribute("rotation")]
+		public float Rotation;
 
 
 		[XmlElement("properties")]

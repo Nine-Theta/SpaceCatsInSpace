@@ -11,7 +11,7 @@ namespace GXPEngine
 		public LevelManager()
 		{
 			_currentMap = new XMLMap();
-			LoadLevel(1);
+			LoadLevel(3);
 		}
 
 		void LoadLevel(int pLevel)
@@ -34,6 +34,7 @@ namespace GXPEngine
 					Player player = new Player(XMLMap.PLAYER_RADIUS, new Vec2(pObject.X, pObject.Y));
 					player.levelRef = this;
 					AddChild(player);
+					player.rotation = pObject.Rotation;
 					break;
 				case "Planet":
 					string fileSource = "Sprites/Planet ";
@@ -55,7 +56,7 @@ namespace GXPEngine
 					}
 					fileSource += PartOfSource + ".png";
 					Planet planet = new Planet(new Vec2(pObject.X, pObject.Y), fileSource, 5, 0.2f, 300);
-
+					planet.rotation = pObject.Rotation;
 					//AddPlanetList(planet);
 					AddChild(planet);
 					break;
@@ -63,22 +64,27 @@ namespace GXPEngine
 					//Changes frame if frame is the starting station, else it uses another frame;
 					SpaceStation station = new SpaceStation(pObject.X, pObject.Y, "Sprites/SpaceStationTemp.png");
 					AddChild(station);
+					station.rotation = pObject.Rotation;
 					break;
 				case "Black":
 					BlackHole blackhole = new BlackHole(new Vec2(pObject.X, pObject.Y), 5, 300);
 					AddChild(blackhole);
+					blackhole.rotation = pObject.Rotation;
 					break;
 				case "Blackhole":
 					BlackHole blackhole1 = new BlackHole(new Vec2(pObject.X, pObject.Y), 5, 300);
 					AddChild(blackhole1);
+					blackhole1.rotation = pObject.Rotation;
 					break;
 				case "Meteor":
 					Asteroid asteroid = new Asteroid(350, new Vec2(pObject.X, pObject.Y));
 					AddChild(asteroid);
+					asteroid.rotation = pObject.Rotation;
 					break;
 				case "Asteroid":
 					Asteroid asteroid1 = new Asteroid(350, new Vec2(pObject.X, pObject.Y));
 					AddChild(asteroid1);
+					asteroid1.rotation = pObject.Rotation;
 					break;
 				default:
 					Console.WriteLine("Unknown object in Object Layer");
@@ -94,13 +100,30 @@ namespace GXPEngine
 			{
 				Planet[] planetlist = new Planet[this.GetChildren().Count];
 				int index = 0;
-				foreach (Planet planet in this.GetChildren())
+				foreach (GameObject tObject in this.GetChildren())
 				{
-					planetlist[index] = planet;
-					index++;
+					if (tObject is Planet)
+					{
+						Planet planet = tObject as Planet;
+						planetlist[index] = planet;
+						index++;
+					}
 				}
 				return planetlist;
 			}
+		}
+
+		public Player GetPlayer()
+		{
+			foreach (GameObject tObject in GetChildren())
+			{
+				if (tObject is Player)
+				{
+					Player player = tObject as Player;
+					return player;
+				}
+			}
+			return null;
 		}
 	}
 }

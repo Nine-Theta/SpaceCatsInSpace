@@ -97,20 +97,23 @@ namespace GXPEngine
 				_animTimer = 4;
 			}
 
-			//TODO: Fix this maybe some day
-			if (_levelRef != null &&_levelRef.planetList != null)
-			{
-				//foreach (Planet planet in _levelRef.planetList)
-				for (int i = 0; i < _levelRef.planetList.Length; i++)
-				{
-					Planet planet = _levelRef.planetList[i];
-					Vec2 deltaVec = _position.Subtract(planet.posVec);
-					if (planet != null && planet.gravityRadius + radius < deltaVec.Length())
-					{
-						_acceleration.Subtract(deltaVec.Normalize().Scale(planet.gravityForce));
-					}
-				}
-			}
+			//TODO: Fix this 
+			//if (_levelRef != null &&_levelRef.planetList != null)
+			//{
+			//	//foreach (Planet planet in _levelRef.planetList)
+			//	for (int i = 0; i < _levelRef.planetList.Length; i++)
+			//	{
+			//		Planet planet = _levelRef.planetList[i];
+			//		if (planet != null)
+			//		{
+			//			Vec2 deltaVec = _position.Clone().Subtract(planet.posVec);
+			//			if (planet.gravityRadius + radius < deltaVec.Length())
+			//			{
+			//				_acceleration.Subtract(deltaVec.Normalize().Scale(planet.gravityForce));
+			//			}
+			//		}
+			//	}
+			//}
 
 		}
 	}
