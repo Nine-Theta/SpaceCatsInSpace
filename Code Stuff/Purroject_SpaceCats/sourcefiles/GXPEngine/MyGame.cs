@@ -45,7 +45,7 @@ public class MyGame : Game
 	private const int _gameWidth = 640; //Actual game width, regardless of screen width
 	private const int _gameHeight = 6500;   //Actual game height, regardless of screen height
 
-	private int _catCounter = 0;
+	private int _catCounter = 5;
 	private int _emporerSoulCounter = 0;
 	//private ShankCounter _shankCounter; //counts the amount of times b*tches will get shanked, hypothetically that is. (for legal reasons).
 

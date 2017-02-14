@@ -246,6 +246,15 @@ namespace GXPEngine
 			return ((this.x * pOther.x) + (this.y * pOther.y));
 		}
 
+		/// <summary>
+		/// Invert this instance, see also: Reflect. 
+		/// </summary>
+		public void Invert()
+		{
+			x = -x;
+			y = -y;
+		}
+
 		//public Vec2 Reflect(float pBounciness = 1) //Think about Life, The Universe, Reflect in Normal, etc.
 		//{
 		//	this.Subtract()

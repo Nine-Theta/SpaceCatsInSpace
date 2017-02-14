@@ -31,6 +31,7 @@ namespace GXPEngine
 
 			_arrow = new Arrow(this);
 			AddChild(_arrow);
+			_arrow.alpha = 0.0f;
 		}
 
 		public Vec2 velocity{
@@ -99,7 +100,16 @@ namespace GXPEngine
 					if (planet != null)
 					{
 						Vec2 deltaVec = _position.Clone().Subtract(planet.posVec);
-						if (planet.gravityRadius + radius > deltaVec.Length())
+						if (planet.hitball.radius + radius > deltaVec.Length())
+						{
+							//Console.WriteLine(_acceleration);
+							//_acceleration.Invert();
+							//_velocity.Invert();
+							float degrees = deltaVec.GetAngleDegrees();
+							_acceleration.SetAngleDegrees(degrees);
+							_velocity.SetAngleDegrees(degrees);
+						}
+						else if (planet.gravityRadius + radius > deltaVec.Length())
 						{
 							_acceleration.Subtract(deltaVec.Normalize().Scale(planet.gravityForce));
 						}
