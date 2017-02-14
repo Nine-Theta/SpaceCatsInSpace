@@ -39,16 +39,23 @@ namespace GXPEngine
 				case "Planet":
 					string fileSource = "Sprites/Planet ";
 					string PartOfSource = "";
-					if (pObject.Properties != null && pObject.Properties.property[0].Name == "PlanetType")
+					switch (pObject.GID)
 					{
-						try
-						{
-							PartOfSource = pObject.Properties.property[0].Value;
-						}
-						catch
-						{
-							Console.WriteLine("InterpretObject failed to pass on value to the planet");
-						}
+						case 7:
+							PartOfSource = "1";
+							break;
+						case 8:
+							PartOfSource = "2";
+							break;
+						case 9:
+							PartOfSource = "4";
+							break;
+						case 10:
+							PartOfSource = "3";
+							break;
+						default:
+							Console.WriteLine("Faulty GID in planet code, GID: " + pObject.GID);
+							break;
 					}
 					if (PartOfSource == "")
 					{
@@ -62,7 +69,7 @@ namespace GXPEngine
 					break;
 				case "Station":
 					//Changes frame if frame is the starting station, else it uses another frame;
-					SpaceStation station = new SpaceStation(pObject.X, pObject.Y, "Sprites/SpaceStationTemp.png");
+					SpaceStation station = new SpaceStation(pObject.X, pObject.Y, "Sprites/SpaceStation-v2.png");
 					AddChild(station);
 					station.rotation = pObject.Rotation;
 					break;
