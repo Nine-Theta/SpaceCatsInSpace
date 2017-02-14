@@ -6,16 +6,15 @@ namespace Purroject_SpaceCats
 	{
 		//Vec2 _position;
 		private Vec2 _velocity;
-		private Sprite _sprite;
 		private AnimSprite _crushedSprite;
 		private int _counter = 3;
 		private bool _crushed;
 
 		public Asteroid(int pRadius, Vec2 pPosVec) : base((int)(pRadius * 0.2), pPosVec)
 		{
-			_sprite = new Sprite("Sprites/AsteroidTemp.png");
-			_sprite.SetOrigin(_sprite.width / 2, _sprite.height / 2);
-			AddChild(_sprite);
+			_crushedSprite = new AnimSprite("Sprites/astroid sprite.png", 10,1);
+			_crushedSprite.SetOrigin(_crushedSprite.width / 2, _crushedSprite.height / 2);
+			AddChild(_crushedSprite);
 			SetScaleXY(0.2f);
 			alpha = 0.1f;
 			_position = pPosVec;
@@ -31,9 +30,9 @@ namespace Purroject_SpaceCats
 		{
 			_position.Add(_velocity);
 
-			if (_velocity.Length() > 5.0f)
+			if (_velocity.Length() > 5.0f && !_crushed)
 			{
-				//Crush();
+				Crush();
 			}
 
 			x = _position.x;
@@ -45,13 +44,13 @@ namespace Purroject_SpaceCats
 				if (_counter <= 0)
 				{
 					_counter = 3;
-					if (_crushedSprite.currentFrame < _crushedSprite.frameCount)
+					if (_crushedSprite.currentFrame < _crushedSprite.frameCount - 1)
 					{
 						_crushedSprite.NextFrame();
 					}
 					else
 					{
-						_sprite.Destroy();
+						_crushedSprite.alpha = 0.0f;
 						_crushedSprite.Destroy();
 						this.Destroy();
 					}
@@ -62,8 +61,6 @@ namespace Purroject_SpaceCats
 		public void Crush()
 		{
 			_crushed = true;
-			_crushedSprite = new AnimSprite("AsteroidTemp.png", 1, 1);
-			_sprite.alpha = 0.0f;
 		}
 	}
 }
