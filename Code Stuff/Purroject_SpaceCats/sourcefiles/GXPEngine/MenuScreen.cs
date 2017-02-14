@@ -5,27 +5,34 @@ namespace Purroject_SpaceCats
 {
 	public class MenuScreen : Canvas
 	{
+		//TODO: add titlescreen
+		//private AnimSprite _titleScreen;
 		private AnimSprite _background;
-		private AnimSprite _foreground;
+		private AnimSprite _mainScreen;
 		private AnimSprite _ruleScreen;
 		private AnimSprite _creditScreen;
+		//TODO: Add Levelscreen
+		//private AnimSprite _levelScreen;
+		private AnimSprite _endScreen;
 		private MyGame _gameRef;
-		//inOtherScreen is for Credits and rulescreen. Pressing enter or space will take you back when true
+		//inOtherScreen is for Screens that aren't the main menu. Pressing enter or space will take you back when true
 		private bool _inOtherScreen = false;
 		private int _selectedButton = 0;
 		private int _backgroundTimer = 3;
 
 		public MenuScreen(int pWidth, int pHeight) : base(pWidth, pHeight)
 		{
-			_background = new AnimSprite("Sprites/Menu/Background.png", 11, 1);
-			_foreground = new AnimSprite("Sprites/Menu/Spritesheet.png", 4, 1);
-			_ruleScreen = new AnimSprite("Sprites/Menu/Rules.png", 1, 1);
+			_background = new AnimSprite("Sprites/Menu/Menu.png", 11, 1);
+			_mainScreen = new AnimSprite("Sprites/Menu/Menu Buttons.png", 4, 1);
+			_ruleScreen = new AnimSprite("Sprites/Menu/Rules.png", 8, 1);
 			_ruleScreen.alpha = 0.0f;
-			_creditScreen = new AnimSprite("Sprites/Menu/Credits.png", 1, 1);
+			_creditScreen = new AnimSprite("Sprites/Menu/Logo.png", 3, 1);
 			_creditScreen.alpha = 0.0f;
+			_endScreen = new AnimSprite("Sprites/Menu/Endscreen.png", 4, 1);
+			_endScreen.alpha = 0.0f;
 		}
 
-		void Update()
+		public void Step()
 		{
 			GetInput();
 			AnimateBackground();
@@ -69,10 +76,13 @@ namespace Purroject_SpaceCats
 				else
 				{
 					_inOtherScreen = false;
+					//_titleScreen.alpha = 0.0f;
 					_background.alpha = 1.0f;
-					_foreground.alpha = 1.0f;
+					_mainScreen.alpha = 1.0f;
+					//_levelScreen.alpha = 0.0f;
 					_ruleScreen.alpha = 0.0f;
 					_creditScreen.alpha = 0.0f;
+					_endScreen.alpha = 0.0f;
 				}
 			}
 		}
