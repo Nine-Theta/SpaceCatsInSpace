@@ -76,6 +76,7 @@
     <Compile Include="ShankCounter.cs" />
     <Compile Include="HUD.cs" />
     <Compile Include="Digit.cs" />
+    <Compile Include="Pickup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Purroject_SpaceCats\" />

@@ -4,8 +4,10 @@ namespace GXPEngine
 {
 	public class Cat : Sprite
 	{
+		//This enum seems redundant, why not just use a boolean _disposable?
 		public enum type { NORMAL, DISPOSABLE }
 
+		//TODO: Implement new cat animation. It requires an Animsprite with 4 frames (4 col 1 row)
 		private Vec2 _position;
 		private Vec2 _velocity;
 		private Vec2 _acceleration;

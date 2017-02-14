@@ -38,10 +38,12 @@ namespace Purroject_SpaceCats
 			AddChild(_flatScore);
 		}
 
-		//TODO: Add actual info
-		void Update()
+		//TODO: Fix this so it doesn force it every time. Too much calculations
+		public void Step()
 		{
-
+			UpdateScore();
+			UpdateTime();
+			UpdateCats();
 		}
 
 		public void SetTime(int pTime)
@@ -57,21 +59,21 @@ namespace Purroject_SpaceCats
 			_score = pScore;
 		}
 
-		private void updateScore()
+		private void UpdateScore()
 		{
 			int firstDigit = (_score - (_score % 10)) / 10;
 			int secondDigit = _score % 10;
 			_decaScore.SetNumber(firstDigit);
 			_flatScore.SetNumber(secondDigit);
 		}
-		private void updateCats()
+		private void UpdateCats()
 		{
 			int firstDigit = (_cats - (_cats % 10)) / 10;
 			int secondDigit = _cats % 10;
 			_decaCats.SetNumber(firstDigit);
 			_flatCats.SetNumber(secondDigit);
 		}
-		private void updateTime()
+		private void UpdateTime()
 		{
 			int firstDigit = (_time - (_time % 100)) / 100;
 			int secondDigit = (_time - (_time % 10)) / 10;

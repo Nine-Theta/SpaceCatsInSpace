@@ -95,6 +95,26 @@ namespace GXPEngine
 					AddChild(asteroid1);
 					asteroid1.rotation = pObject.Rotation;
 					break;
+				case "Milk":
+					Pickup milk = new Pickup((int)(pObject.Width), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Milk.png");
+					AddChild(milk);
+					break;
+				case "Fish":
+					Pickup fish = new Pickup((int)(pObject.Width), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Fish.png");
+					AddChild(fish);
+					break;
+				case "Token":
+					Pickup pickup = new Pickup((int)(pObject.Width), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Pickup.png");
+					AddChild(pickup);
+					break;
+				case "Pickup":
+					Pickup pickup1 = new Pickup((int)(pObject.Width), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Pickup.png");
+					AddChild(pickup1);
+					break;
+				case "Coin":
+					Pickup pickup2 = new Pickup((int)(pObject.Width), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Pickup.png");
+					AddChild(pickup2);
+					break;
 				default:
 					Console.WriteLine("Unknown object in Object Layer");
 					Console.WriteLine("Name: " + objectName);
@@ -139,6 +159,25 @@ namespace GXPEngine
 					}
 				}
 				return asteroidlist;
+			}
+		}
+		//ReadOnly, gets the asteroid from LevelManager's Children
+		public Pickup[] pickupList
+		{
+			get
+			{
+				Pickup[] tPickupList = new Pickup[this.GetChildren().Count];
+				int index = 0;
+				foreach (GameObject tObject in this.GetChildren())
+				{
+					if (tObject is Pickup)
+					{
+						Pickup pickup = tObject as Pickup;
+						tPickupList[index] = pickup;
+						index++;
+					}
+				}
+				return tPickupList;
 			}
 		}
 

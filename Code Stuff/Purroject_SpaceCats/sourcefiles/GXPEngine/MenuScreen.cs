@@ -18,17 +18,22 @@ namespace Purroject_SpaceCats
 		//inOtherScreen is for Screens that aren't the main menu. Pressing enter or space will take you back when true
 		private bool _inOtherScreen = false;
 		private int _selectedButton = 0;
-		private int _backgroundTimer = 3;
+		private int _backgroundTimer = 5;
 
 		public MenuScreen(int pWidth, int pHeight) : base(pWidth, pHeight)
 		{
 			_background = new AnimSprite("Sprites/Menu/Menu.png", 11, 1);
+			AddChild(_background);
 			_mainScreen = new AnimSprite("Sprites/Menu/Menu Buttons.png", 4, 1);
+			AddChild(_mainScreen);
 			_ruleScreen = new AnimSprite("Sprites/Menu/Rules.png", 8, 1);
+			AddChild(_ruleScreen);
 			_ruleScreen.alpha = 0.0f;
 			_creditScreen = new AnimSprite("Sprites/Menu/Logo.png", 3, 1);
+			AddChild(_creditScreen);
 			_creditScreen.alpha = 0.0f;
 			_endScreen = new AnimSprite("Sprites/Menu/Endscreen.png", 4, 1);
+			AddChild(_endScreen);
 			_endScreen.alpha = 0.0f;
 		}
 
@@ -43,12 +48,12 @@ namespace Purroject_SpaceCats
 			if (Input.GetKeyDown(Key.UP) && _selectedButton > 0)
 			{
 				_selectedButton--;
-				//_foreground.SetFrame(_selectedButton);
+				_mainScreen.SetFrame(_selectedButton);
 			}
 			if (Input.GetKeyDown(Key.DOWN) && _selectedButton < 3)
 			{
 				_selectedButton++;
-				//_foreground.SetFrame(_selectedButton);
+				_mainScreen.SetFrame(_selectedButton);
 			}
 			if(Input.GetKeyDown(Key.SPACE) || Input.GetKeyDown(Key.ENTER))
 			{
@@ -83,6 +88,7 @@ namespace Purroject_SpaceCats
 					_ruleScreen.alpha = 0.0f;
 					_creditScreen.alpha = 0.0f;
 					_endScreen.alpha = 0.0f;
+					_backgroundTimer = 5;
 				}
 			}
 		}
@@ -92,14 +98,32 @@ namespace Purroject_SpaceCats
 			_backgroundTimer--;
 			if (_backgroundTimer <= 0)
 			{
-				_backgroundTimer = 3;
-				_background.NextFrame();
+				if (_mainScreen.alpha == 1.0f)
+				{
+					_backgroundTimer = 5;
+					_background.NextFrame();
+				}
+				if (_ruleScreen.alpha == 1.0f)
+				{
+					_backgroundTimer = 5;
+					_ruleScreen.NextFrame();
+				}
+				if (_creditScreen.alpha == 1.0f)
+				{
+					_creditScreen.NextFrame();
+					_backgroundTimer = 5;
+					if (_creditScreen.currentFrame == 0)
+					{
+						_backgroundTimer += 35;
+					}
+				}
 			}
 		}
 
 		void StartGame()
 		{
-			
+			this.alpha = 0.0f;
+			_gameRef.InitializeGame();
 		}
 		void Rules()
 		{

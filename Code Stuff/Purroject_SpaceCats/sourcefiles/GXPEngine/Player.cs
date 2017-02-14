@@ -2,7 +2,7 @@
 using Purroject_SpaceCats;
 namespace GXPEngine
 {
-	//TODO: 
+	//TODO: Everything
 	public class Player : Ball
 	{
 		//private Vec2 _position;
@@ -15,6 +15,10 @@ namespace GXPEngine
 
 		private bool _selected;
 		private int _animTimer = 5;
+		//Very bad fix: Shank me
+		//Amount of frames of "invulnerability" to planet bumping
+		//Doesn't fix the problem at hand but decreases the symptoms 
+		private int _bouncedOffPlanetTimer = 3;
 		//private float _gravityScale = 0.1f;
 
 		public Player(int pRadius, Vec2 pPosition = null) : base(pRadius, pPosition)
@@ -93,6 +97,7 @@ namespace GXPEngine
 		private void PlanetGravity(){
 			if (_levelRef != null && _levelRef.planetList != null)
 			{
+				_bouncedOffPlanetTimer--;
 				//foreach (Planet planet in _levelRef.planetList)
 				for (int i = 0; i < _levelRef.planetList.Length; i++)
 				{
@@ -100,9 +105,9 @@ namespace GXPEngine
 					if (planet != null)
 					{
 						Vec2 deltaVec = _position.Clone().Subtract(planet.posVec);
-						if (planet.hitball.radius + radius > deltaVec.Length())
+						if (planet.hitball.radius + radius > deltaVec.Length() && _bouncedOffPlanetTimer < 0)
 						{
-							///Iteration 1, reflects velocity
+							///Iteration 1, reflects velocity. Bounces back where it came from
 							//Console.WriteLine(_acceleration);
 							//_acceleration.Invert();
 							//_velocity.Invert();
@@ -110,20 +115,23 @@ namespace GXPEngine
 							//float degrees = deltaVec.GetAngleDegrees();
 							//_acceleration.SetAngleDegrees(degrees);
 							//_velocity.SetAngleDegrees(degrees);
-							///Iteration 3: Dot Product. Should reflect with bounciness of 1
+							///Iteration 3: Dot Product. Should reflect with bounciness of 1. Fails miserably. Adding probably not the solution
 							//Note: This can be used as a normal for the dot product as we are dealing with a circle, and the delta is not the line of reflection
 							//Vec2 normalDelta = deltaVec.Clone().Normalize();
 							//Console.WriteLine(normalDelta);
 							//Vec2 projectedVec = _velocity.Clone().Normalize().Scale(_velocity.Dot(normalDelta));
 							//_velocity.Add(projectedVec).Add(projectedVec);
-							///Iteration 4: Dot Product angle forcing? WORKS! Kinda... See: Iteration 5
+							///Iteration 4: Dot Product angle forcing? Was this supposed to be used this way? WORKS! Kinda... See: Iteration 5
 							Vec2 normalDelta = deltaVec.Clone().Normalize();
 							//Console.WriteLine(normalDelta);
 							Vec2 projectedVec = _velocity.Clone().Normalize().Scale(_velocity.Dot(normalDelta));
 							_velocity.RotateDegrees(projectedVec.GetAngleDegrees()).RotateDegrees(projectedVec.GetAngleDegrees());
 							_acceleration.RotateDegrees(projectedVec.GetAngleDegrees()).RotateDegrees(projectedVec.GetAngleDegrees());
-							///Iteration 5: To be used with Iteration 4. 
-							//_position.SetXY(deltaVec.Normalize().Scale(planet.radius + radius).Add(planet.position));
+							///Iteration 5: To be used with Iteration 4. Fixes some of Iteration 4's issues. 
+							_position.SetXY(deltaVec.Clone().Normalize().Scale(planet.hitball.radius + radius).Add(planet.position));
+
+							Console.WriteLine(projectedVec.GetAngleDegrees());
+							_bouncedOffPlanetTimer = 3;
 						}
 						else if (planet.gravityRadius + radius > deltaVec.Length())
 						{
@@ -146,6 +154,23 @@ namespace GXPEngine
 						{
 							velocity.Scale(0.5f);
 							asteroid.AddVelocity(velocity.Clone());
+						}
+					}
+				}
+			}
+			if (_levelRef != null && _levelRef.pickupList != null)
+			{
+				//foreach (Planet planet in _levelRef.planetList)
+				for (int i = 0; i < _levelRef.pickupList.Length; i++)
+				{
+					Pickup pickup = _levelRef.pickupList[i];
+					if (pickup != null)
+					{
+						Vec2 deltaVec = _position.Clone().Subtract(pickup.position);
+						if ((radius + pickup.radius) > deltaVec.Length())
+						{
+							//TODO: Make this do stuff
+							pickup.Pick();
 						}
 					}
 				}

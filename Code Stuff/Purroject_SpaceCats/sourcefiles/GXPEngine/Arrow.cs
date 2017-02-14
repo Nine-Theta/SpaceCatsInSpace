@@ -6,7 +6,7 @@ namespace Purroject_SpaceCats
 	public class Arrow : Sprite
 	{
 		private Vec2 _position;
-		private Vec2 _target;
+		//private Vec2 _target;
 		public Arrow(Player pTarget) : base("Sprites/Arrow.png")
 		{
 			SetOrigin(width / 2, height / 2);

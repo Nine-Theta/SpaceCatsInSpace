@@ -35,8 +35,12 @@ public class MyGame : Game
 	private Vec2 _playerPOI = null;
 	private HUD _hud = null;
 
+	private bool _started = false;
+	private MenuScreen _menuScreen = null;
+
 	private float _accelerationValue = 0.0f;
-	//TODO: get an image file with the ball with decreasing amounts of cats
+	//TODO? get an image file with the ball with decreasing amounts of cats
+	//Already have the counter, extra files redundant. Possible though as they have time left
 	private float _leftBoundary, _rightBoundary, _topBoundary, _bottomBoundary;
 	///private float _bounceX Pos, _bounceYPos; //Why did these exist again? I've only ever seen them as warnings in the error list
 	// Legacy values. Also, could you not use three slashes for comments?
@@ -45,6 +49,7 @@ public class MyGame : Game
 	private const int _gameWidth = 640; //Actual game width, regardless of screen width
 	private const int _gameHeight = 6500;   //Actual game height, regardless of screen height
 
+	//TODO: Implement this fully. 
 	private int _catCounter = 5;
 	private int _emporerSoulCounter = 0;
 	//private ShankCounter _shankCounter; //counts the amount of times b*tches will get shanked, hypothetically that is. (for legal reasons).
@@ -55,6 +60,14 @@ public class MyGame : Game
 	public MyGame() : base(640, 960, false, false) //Screen size should be 640x960. Don't overstep this boundary
 	{
 		targetFps = 60;
+		_menuScreen = new MenuScreen(width, height);
+		AddChild(_menuScreen);
+		_menuScreen.SetGameRef(this);
+
+	}
+
+	public void InitializeGame()
+	{
 		_levelManager = new LevelManager();
 		_backgroundSprite = new Sprite("Sprites/Background.png");
 		_backgroundSprite.SetOrigin(_backgroundSprite.width / 2, _backgroundSprite.height / 2);
@@ -114,7 +127,7 @@ public class MyGame : Game
 
 		_mouseDelta = new Vec2(Input.mouseX, Input.mouseY);
 
-		float border = 50;
+		float border = 0;
 		_leftBoundary = border;
 		_rightBoundary = _gameWidth - border;
 		_topBoundary = border;
@@ -132,7 +145,8 @@ public class MyGame : Game
 
 		_hud = new HUD(width, height);
 		AddChild(_hud);
-
+		_hud.SetCats(_catCounter);
+		_started = true;
 	}
 
 	private void DrawBorder(float boundary, bool isXBoundary)
@@ -366,66 +380,76 @@ public class MyGame : Game
 	//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 	void Update()
 	{
-		scrollToTarget();
-
-		Debug();
-
-		_player.Step();
-
-		_cat.Step();
-
-		//_arrow.Step();
-
-		_player.arrow.position.SetXY(_mouseDelta.Clone().Normalize().Scale(-_player.radius));
-		_player.arrow.rotation = _mouseDelta.GetAngleDegrees() + 180;
-
-		if (_disposableCat != null && _listDisposableCat.Contains(_disposableCat))
+		if (_started)
 		{
-			for (int i = 0; i < _listDisposableCat.Count; i++){
+			scrollToTarget();
 
-				_listDisposableCat[i].Step();
+			Debug();
 
-				CheckForCatDestruction(_listDisposableCat[i], i);
+			_player.Step();
+
+			_cat.Step();
+
+			//_arrow.Step();
+
+			_player.arrow.position.SetXY(_mouseDelta.Clone().Normalize().Scale(-_player.radius));
+			_player.arrow.rotation = _mouseDelta.GetAngleDegrees() + 180;
+
+			if (_disposableCat != null && _listDisposableCat.Contains(_disposableCat))
+			{
+				for (int i = 0; i < _listDisposableCat.Count; i++)
+				{
+
+					_listDisposableCat[i].Step();
+
+					CheckForCatDestruction(_listDisposableCat[i], i);
+				}
 			}
-		}
 
-		_mouseDelta.SetXY((Input.mouseX - game.x) - _player.position.x, (Input.mouseY - game.y) - _player.position.y);
+			_mouseDelta.SetXY((Input.mouseX - game.x) - _player.position.x, (Input.mouseY - game.y) - _player.position.y);
 
-		//if (_arrow.alpha == 1.0f){
+			//if (_arrow.alpha == 1.0f){
 			//_arrow.position.SetXY(_player.position.Clone().Subtract(_player.position.Clone().Normalize().Scale(_player.radius * 1.5f).Scale(_mouseDelta.Clone().Normalize())));
 			//_arrow.position.RotateAroundRadians(_player.position,-_mouseDelta.GetAngleRadians());
-		//}
+			//}
 
-		//TODO: Replace this code by a for each loop (or just the levelmanager's system if the time is right)
-		//BasicCollisionCheck(_planet1);
-		//BasicCollisionCheck(_planet2);
-		//BasicCollisionCheck(_planet3);
-		//BasicCollisionCheck(_planet4);
-		//BasicCollisionCheck(_blackhole);
-		//BasicAsteroidCheck(_asteroid);
-		//_asteroid.Step();
+			//TODO: Replace this code by a for each loop (or just the levelmanager's system if the time is right)
+			//BasicCollisionCheck(_planet1);
+			//BasicCollisionCheck(_planet2);
+			//BasicCollisionCheck(_planet3);
+			//BasicCollisionCheck(_planet4);
+			//BasicCollisionCheck(_blackhole);
+			//BasicAsteroidCheck(_asteroid);
+			//_asteroid.Step();
 
-		_background.graphics.DrawLine(new Pen(Color.White), _playerLastPosition.x, _playerLastPosition.y, _player.x, _player.y);
+			_background.graphics.DrawLine(new Pen(Color.White), _playerLastPosition.x, _playerLastPosition.y, _player.x, _player.y);
 
-		_playerLastPosition.x = _player.x;
-		_playerLastPosition.y = _player.y;
+			_playerLastPosition.x = _player.x;
+			_playerLastPosition.y = _player.y;
 
-		if (_switchBoundaryCollision)
+			if (_switchBoundaryCollision)
+			{
+				checkBoundaryCollisions();
+				_player.ballColor = Color.Red;
+			}
+			else {
+				brokenBoundaryCollisionCheck();
+				_player.ballColor = Color.Pink;
+			}
+
+			if (_cat.velocity.EqualsTo(Vec2.zero))
+			{
+				_cat.position.SetXY(_player.position.Clone().Add(_player.position.Clone().Normalize().Scale(_player.radius)));
+			}
+
+			//_playerLastPosition.x = _player.x;
+			//_playerLastPosition.y = _player.y;
+			_hud.Step();
+		}
+		else
 		{
-			checkBoundaryCollisions();
-			_player.ballColor = Color.Red;
+			_menuScreen.Step();
 		}
-		else {
-			brokenBoundaryCollisionCheck();
-			_player.ballColor = Color.Pink;
-		}
-
-		if (_cat.velocity.EqualsTo(Vec2.zero)){
-			_cat.position.SetXY(_player.position.Clone().Add(_player.position.Clone().Normalize().Scale(_player.radius)));
-		}
-
-		//_playerLastPosition.x = _player.x;
-		//_playerLastPosition.y = _player.y;
 	}
 
 	static void Main()
