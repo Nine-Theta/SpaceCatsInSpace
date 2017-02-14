@@ -8,22 +8,29 @@ namespace GXPEngine
 		//private Vec2 _position;
 		private Vec2 _velocity;
 		private Vec2 _acceleration;
+
 		private AnimSprite _yarnSprite;
+		private LevelManager _levelRef;
+		private Arrow _arrow = null;
+
 		private bool _selected;
 		private int _animTimer = 5;
 		//private float _gravityScale = 0.1f;
-		private LevelManager _levelRef;
 
 		public Player(int pRadius, Vec2 pPosition = null) : base(pRadius, pPosition)
 		{
 			position = pPosition;
 			_velocity = Vec2.zero;
 			_acceleration = Vec2.zero;
+
 			_yarnSprite = new AnimSprite("Sprites/Spritesheet.png", 4, 2);
 			_yarnSprite.SetOrigin(_yarnSprite.width / 2, _yarnSprite.height / 2);
 			_yarnSprite.SetScaleXY(0.3f, 0.3f);
 			alpha = 0.0f;
 			AddChild(_yarnSprite);
+
+			_arrow = new Arrow(this);
+			AddChild(_arrow);
 		}
 
 		public Vec2 velocity{
@@ -48,56 +55,42 @@ namespace GXPEngine
 				_levelRef = value;
 			}
 		}
-		public bool selected
-		{
-			set
-			{
+		public bool selected{
+			set{
 				_selected = value;
 			}
 		}
-		private void AnimationCycle()
-		{
+		public Arrow arrow{
+			set{
+				_arrow = value ?? null;
+			}
+			get{
+				return _arrow;
+			}
+		}
+
+		private void AnimationCycle(){
 			int tFrame = 0;
-			if (_selected)
-			{
+			if (_selected){
 				tFrame = 4;
 				tFrame += _yarnSprite.currentFrame % 4;
 				tFrame++;
-				if (tFrame >= 8)
-				{
+				if (tFrame >= 8){
 					tFrame = 4;
 				}
 			}
-			else
-			{
+			else{
 				tFrame += _yarnSprite.currentFrame % 4;
 				tFrame++;
-				if (tFrame >= 4)
-				{
+				if (tFrame >= 4){
 					tFrame = 0;
 				}
 			}
 			_yarnSprite.SetFrame(tFrame);
 		}
 
-		public void Step()
-		{
-			_velocity.Add(_acceleration);
-			_position.Add(_velocity);
-
-			x = _position.x;
-			y = _position.y;
-
-			_acceleration = Vec2.zero;
-
-			_animTimer--;
-			if (_animTimer < 0)
-			{
-				AnimationCycle();
-				_animTimer = 4;
-			}
-
-			if (_levelRef != null &&_levelRef.planetList != null)
+		private void PlanetGravity(){
+			if (_levelRef != null && _levelRef.planetList != null)
 			{
 				//foreach (Planet planet in _levelRef.planetList)
 				for (int i = 0; i < _levelRef.planetList.Length; i++)
@@ -131,8 +124,27 @@ namespace GXPEngine
 					}
 				}
 			}
+		}
 
+		public void Step()
+		{
+			_velocity.Add(_acceleration);
+			_position.Add(_velocity);
 
+			x = _position.x;
+			y = _position.y;
+
+			_acceleration = Vec2.zero;
+
+			_arrow.Step();
+
+			_animTimer--;
+			if (_animTimer < 0){
+				AnimationCycle();
+				_animTimer = 4;
+			}
+
+			PlanetGravity();
 		}
 	}
 }

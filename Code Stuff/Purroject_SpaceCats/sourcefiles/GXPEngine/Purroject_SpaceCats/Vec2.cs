@@ -69,12 +69,19 @@ namespace GXPEngine
 			return this;
 		}
 
-		public Vec2 Divide(float pDividar)//ha!
+		public Vec2 Scale(Vec2 other) //Overload added to support scaling with another vector;
 		{
-			x /= pDividar;
-			y /= pDividar;
+			x *= other.x;
+			y *= other.y;
 			return this;
 		}
+
+		//public Vec2 Divide(float pDividar)//ha!
+		//{
+		//	x /= pDividar;
+		//	y /= pDividar;
+		//	return this;
+		//}
 
 		public float Length()
 		{

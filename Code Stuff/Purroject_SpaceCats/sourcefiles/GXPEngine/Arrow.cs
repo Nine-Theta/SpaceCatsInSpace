@@ -12,8 +12,11 @@ namespace Purroject_SpaceCats
 			SetOrigin(width / 2, height / 2);
 			scale = 0.5f;
 
-			_target = new Vec2(pTarget.x, pTarget.y);
-			_position = _target.Subtract(_target.Clone().Normalize().Scale(pTarget.radius));
+			_position = Vec2.zero;
+
+			//this piece of code is no longer used
+			//_target = new Vec2(pTarget.x, pTarget.y);
+			//_position = _target.Subtract(_target.Clone().Normalize().Scale(pTarget.radius));
 			x = _position.x;
 			y = _position.y;
 		}

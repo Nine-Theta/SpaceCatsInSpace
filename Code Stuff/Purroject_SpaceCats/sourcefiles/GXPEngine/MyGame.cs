@@ -11,7 +11,7 @@ public class MyGame : Game
 	private LevelManager _levelManager = null;
 	private Cat _cat = null;
 	private Cat _disposableCat = null; //Acceptable losses
-	private Arrow _arrow = null;
+	//private Arrow _arrow = null;
 	//private Planet _planet1 = null;
 	//private Planet _planet2 = null;
 	//private Planet _planet3 = null;
@@ -38,13 +38,14 @@ public class MyGame : Game
 	//TODO: get an image file with the ball with decreasing amounts of cats
 	private float _leftBoundary, _rightBoundary, _topBoundary, _bottomBoundary;
 	///private float _bounceX Pos, _bounceYPos; //Why did these exist again? I've only ever seen them as warnings in the error list
-	// Legacy code. Also, could you not use three slashes for comments?
+	// Legacy values. Also, could you not use three slashes for comments?
 
 	private const int _scrollBoundary = 1600;
 	private const int _gameWidth = 640; //Actual game width, regardless of screen width
 	private const int _gameHeight = 6500;   //Actual game height, regardless of screen height
 
 	private int _catCounter = 0;
+	private int _emporerSoulCounter = 0;
 	private ShankCounter _shankCounter; //counts the amount of times b*tches will get shanked, hypothetically that is. (for legal reasons).
 
 	private bool _switchBoundaryCollision = false;
@@ -79,9 +80,9 @@ public class MyGame : Game
 
 		_cat = new Cat(_player);
 		AddChild(_cat);
-		_arrow = new Arrow(_player);
-		AddChild(_arrow);
-		_arrow.alpha = 0.0f;
+		//_arrow = new Arrow(_player);
+		//AddChild(_arrow);
+		//_arrow.alpha = 0.0f;
 
 		//_arrayDisposableCat = new Cat[10];
 		_listDisposableCat = new List<Cat>();
@@ -146,7 +147,7 @@ public class MyGame : Game
 		_catHandler.OnMouseUp += onCatMouseUp;
 		_catHandler.OnMouseRightDown += onCatRightMouseDown;
 		_player.selected = true;
-		_arrow.alpha = 1.0f;
+		//_arrow.alpha = 1.0f;
 		//_switchCatMoveToPlayer = false;
 	}
 
@@ -154,8 +155,8 @@ public class MyGame : Game
 	{
 		_cat.position.SetXY(_player.position.Clone().Add(_mouseDelta.Clone().Normalize().Scale(_player.radius)));
 		_cat.rotation = _mouseDelta.GetAngleDegrees() + 180;
-		_arrow.position.SetXY(_player.position.Clone().Subtract(_mouseDelta.Clone().Normalize().Scale(_player.radius*1.5f)));
-		_arrow.rotation = _mouseDelta.GetAngleDegrees() + 180;
+		//_arrow.position.SetXY(_player.position.Clone().Subtract(_mouseDelta.Clone().Normalize().Scale(_player.radius*1.5f)));
+		//_arrow.rotation = _mouseDelta.GetAngleDegrees() + 180;
 
 		_accelerationValue = _mouseDelta.Length() / 15;
 	}
@@ -164,12 +165,12 @@ public class MyGame : Game
 	{
 		_catHandler.OnMouseMove -= onCatMouseMove;
 		_catHandler.OnMouseUp -= onCatMouseUp;
-		_arrow.alpha = 0.0f;
+		//_arrow.alpha = 0.0f;
 		_player.selected = false;
 		_cat.alpha = 0.0f;
 		SpawnDisposableCat();
 		_player.acceleration.Add(_mouseDelta.Clone().Normalize().Scale(-_accelerationValue));
-		_arrow.position.SetXY(_player.position.Clone().Subtract(_player.position.Clone().Normalize().Scale(_player.radius)));
+		//_arrow.position.SetXY(_player.position.Clone().Subtract(_player.position.Clone().Normalize().Scale(_player.radius*1.5f)));
 	}
 
 	private void onCatRightMouseDown(GameObject target, MouseEventType type)
@@ -177,7 +178,8 @@ public class MyGame : Game
 		_cat.velocity = Vec2.zero;
 		_cat.alpha = 1.0f;
 		_cat.position.SetXY(_player.position.Clone().Add(_player.position.Clone().Normalize().Scale(_player.radius)));
-		_arrow.position.SetXY(_player.position.Clone().Subtract(_player.position.Clone().Normalize().Scale(_player.radius)));
+		//_player.arrow.position.SetXY(_player.position.Clone().Subtract(_player.position.Clone().Normalize().Scale(_player.radius * 1.5f)));
+		 //_arrow.position.SetXY(_player.position.Clone().Subtract(_player.position.Clone().Normalize().Scale(_player.radius*1.5f)));
 	}
 
 	private void OnMouseEvent(GameObject target, MouseEventType type)
@@ -214,8 +216,7 @@ public class MyGame : Game
 					_player.position = other.position;
 				}
 			}
-			else
-			{
+			else{
 				_player.acceleration.Subtract(deltaVec.Clone().Normalize().Scale(other.gravityForce));
 			}
 		}
@@ -323,6 +324,8 @@ public class MyGame : Game
 			_catCounter -= 1;
 			casualty.Destroy();
 			casualty = null;
+			_emporerSoulCounter += 1;
+			Console.WriteLine("Souls fed to the emperor today: [{0}/1000]", _emporerSoulCounter);
 		}
 	}
 
@@ -366,8 +369,10 @@ public class MyGame : Game
 
 		_cat.Step();
 
-		_arrow.Step();
+		//_arrow.Step();
 
+		_player.arrow.position.SetXY(_mouseDelta.Clone().Normalize().Scale(-_player.radius));
+		_player.arrow.rotation = _mouseDelta.GetAngleDegrees() + 180;
 
 		if (_disposableCat != null && _listDisposableCat.Contains(_disposableCat))
 		{
@@ -380,6 +385,11 @@ public class MyGame : Game
 		}
 
 		_mouseDelta.SetXY((Input.mouseX - game.x) - _player.position.x, (Input.mouseY - game.y) - _player.position.y);
+
+		//if (_arrow.alpha == 1.0f){
+			//_arrow.position.SetXY(_player.position.Clone().Subtract(_player.position.Clone().Normalize().Scale(_player.radius * 1.5f).Scale(_mouseDelta.Clone().Normalize())));
+			//_arrow.position.RotateAroundRadians(_player.position,-_mouseDelta.GetAngleRadians());
+		//}
 
 		//TODO: Replace this code by a for each loop (or just the levelmanager's system if the time is right)
 		//BasicCollisionCheck(_planet1);
