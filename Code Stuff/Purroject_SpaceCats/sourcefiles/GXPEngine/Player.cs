@@ -102,12 +102,28 @@ namespace GXPEngine
 						Vec2 deltaVec = _position.Clone().Subtract(planet.posVec);
 						if (planet.hitball.radius + radius > deltaVec.Length())
 						{
+							///Iteration 1, reflects velocity
 							//Console.WriteLine(_acceleration);
 							//_acceleration.Invert();
 							//_velocity.Invert();
-							float degrees = deltaVec.GetAngleDegrees();
-							_acceleration.SetAngleDegrees(degrees);
-							_velocity.SetAngleDegrees(degrees);
+							///Iteration 2, Sets degrees to match the delta vector's, effectively sends them away from the core. 
+							//float degrees = deltaVec.GetAngleDegrees();
+							//_acceleration.SetAngleDegrees(degrees);
+							//_velocity.SetAngleDegrees(degrees);
+							///Iteration 3: Dot Product. Should reflect with bounciness of 1
+							//Note: This can be used as a normal for the dot product as we are dealing with a circle, and the delta is not the line of reflection
+							//Vec2 normalDelta = deltaVec.Clone().Normalize();
+							//Console.WriteLine(normalDelta);
+							//Vec2 projectedVec = _velocity.Clone().Normalize().Scale(_velocity.Dot(normalDelta));
+							//_velocity.Add(projectedVec).Add(projectedVec);
+							///Iteration 4: Dot Product angle forcing? WORKS! Kinda... See: Iteration 5
+							Vec2 normalDelta = deltaVec.Clone().Normalize();
+							//Console.WriteLine(normalDelta);
+							Vec2 projectedVec = _velocity.Clone().Normalize().Scale(_velocity.Dot(normalDelta));
+							_velocity.RotateDegrees(projectedVec.GetAngleDegrees()).RotateDegrees(projectedVec.GetAngleDegrees());
+							_acceleration.RotateDegrees(projectedVec.GetAngleDegrees()).RotateDegrees(projectedVec.GetAngleDegrees());
+							///Iteration 5: To be used with Iteration 4. 
+							//_position.SetXY(deltaVec.Normalize().Scale(planet.radius + radius).Add(planet.position));
 						}
 						else if (planet.gravityRadius + radius > deltaVec.Length())
 						{
@@ -139,6 +155,10 @@ namespace GXPEngine
 		public void Step()
 		{
 			_velocity.Add(_acceleration);
+			if (_velocity.Length() > 25.0f)
+			{
+				_velocity.Normalize().Scale(25.0f);
+			}
 			_position.Add(_velocity);
 
 			x = _position.x;
