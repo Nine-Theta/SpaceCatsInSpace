@@ -33,6 +33,7 @@ public class MyGame : Game
 	private Vec2 _playerLastPosition = null;
 	private Vec2 _playerBouncePos = null;
 	private Vec2 _playerPOI = null;
+	private HUD _hud = null;
 
 	private float _accelerationValue = 0.0f;
 	//TODO: get an image file with the ball with decreasing amounts of cats
@@ -46,7 +47,7 @@ public class MyGame : Game
 
 	private int _catCounter = 0;
 	private int _emporerSoulCounter = 0;
-	private ShankCounter _shankCounter; //counts the amount of times b*tches will get shanked, hypothetically that is. (for legal reasons).
+	//private ShankCounter _shankCounter; //counts the amount of times b*tches will get shanked, hypothetically that is. (for legal reasons).
 
 	private bool _switchBoundaryCollision = false;
 	private bool _switchScreenSizeOverlay = false;
@@ -80,6 +81,7 @@ public class MyGame : Game
 
 		_cat = new Cat(_player);
 		AddChild(_cat);
+		_player.arrow.alpha = 0.0f;
 		//_arrow = new Arrow(_player);
 		//AddChild(_arrow);
 		//_arrow.alpha = 0.0f;
@@ -128,6 +130,9 @@ public class MyGame : Game
 		_screenSizeOverlay.SetOrigin(_screenSizeOverlay.width / 2, _screenSizeOverlay.height / 2);
 		_screenSizeOverlay.alpha = 0.25f;
 
+		_hud = new HUD(width, height);
+		AddChild(_hud);
+
 	}
 
 	private void DrawBorder(float boundary, bool isXBoundary)
@@ -147,7 +152,7 @@ public class MyGame : Game
 		_catHandler.OnMouseUp += onCatMouseUp;
 		_catHandler.OnMouseRightDown += onCatRightMouseDown;
 		_player.selected = true;
-		//_arrow.alpha = 1.0f;
+		_player.arrow.alpha = 1.0f;
 		//_switchCatMoveToPlayer = false;
 	}
 
@@ -165,7 +170,7 @@ public class MyGame : Game
 	{
 		_catHandler.OnMouseMove -= onCatMouseMove;
 		_catHandler.OnMouseUp -= onCatMouseUp;
-		//_arrow.alpha = 0.0f;
+		_player.arrow.alpha = 0.0f;
 		_player.selected = false;
 		_cat.alpha = 0.0f;
 		SpawnDisposableCat();
@@ -241,7 +246,7 @@ public class MyGame : Game
 		{
 			y = (game.height / 2 - _scrollTarget.y);
 			_backgroundSprite.y = _scrollTarget.y;
-
+			_hud.y = _backgroundSprite.y - (height/2);
 			if (_switchScreenSizeOverlay){
 				_screenSizeOverlay.SetXY(_scrollTarget.x, _scrollTarget.y);
 			}
