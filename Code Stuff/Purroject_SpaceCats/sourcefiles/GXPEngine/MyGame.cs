@@ -11,6 +11,7 @@ public class MyGame : Game
 	private LevelManager _levelManager = null;
 	private Cat _cat = null;
 	private Cat _disposableCat = null; //Acceptable losses
+	private ShankCounter _shankCounter; //counts the amount of times b*tches will get shanked, hypothetically that is. (for legal reasons).
 	//private Arrow _arrow = null;
 	//private Planet _planet1 = null;
 	//private Planet _planet2 = null;
@@ -20,7 +21,6 @@ public class MyGame : Game
 	//private Asteroid _asteroid = null;
 	//private SpaceStation _spaceStation = null;
 
-	//private Cat[] _arrayDisposableCat;
 	private List<Cat> _listDisposableCat;
 
 	private Canvas _background = null;
@@ -34,6 +34,8 @@ public class MyGame : Game
 	private Vec2 _playerBouncePos = null;
 	private Vec2 _playerPOI = null;
 
+	private const float _speedLimit = 10;
+
 	private float _accelerationValue = 0.0f;
 	//TODO: get an image file with the ball with decreasing amounts of cats
 	private float _leftBoundary, _rightBoundary, _topBoundary, _bottomBoundary;
@@ -45,8 +47,7 @@ public class MyGame : Game
 	private const int _gameHeight = 6500;   //Actual game height, regardless of screen height
 
 	private int _catCounter = 0;
-	private int _emporerSoulCounter = 0;
-	private ShankCounter _shankCounter; //counts the amount of times b*tches will get shanked, hypothetically that is. (for legal reasons).
+	private int _emperorSoulCounter = 0;
 
 	private bool _switchBoundaryCollision = false;
 	private bool _switchScreenSizeOverlay = false;
@@ -112,7 +113,7 @@ public class MyGame : Game
 
 		_mouseDelta = new Vec2(Input.mouseX, Input.mouseY);
 
-		float border = 50;
+		float border = 10;
 		_leftBoundary = border;
 		_rightBoundary = _gameWidth - border;
 		_topBoundary = border;
@@ -130,10 +131,8 @@ public class MyGame : Game
 
 	}
 
-	private void DrawBorder(float boundary, bool isXBoundary)
-	{
-		if (isXBoundary)
-		{
+	private void DrawBorder(float boundary, bool isXBoundary){
+		if (isXBoundary){
 			_background.graphics.DrawLine(new Pen(Color.Lime), boundary, 0, boundary, _gameHeight);
 		}
 		else {
@@ -141,61 +140,48 @@ public class MyGame : Game
 		}
 	}
 
-	private void onCatMouseDown(GameObject target, MouseEventType type)
-	{
+	private void onCatMouseDown(GameObject target, MouseEventType type){
 		_catHandler.OnMouseMove += onCatMouseMove;
 		_catHandler.OnMouseUp += onCatMouseUp;
 		_catHandler.OnMouseRightDown += onCatRightMouseDown;
 		_player.selected = true;
-		//_arrow.alpha = 1.0f;
-		//_switchCatMoveToPlayer = false;
+		_player.arrow.alpha = 1.0f;
 	}
 
-	private void onCatMouseMove(GameObject target, MouseEventType type)
-	{
+	private void onCatMouseMove(GameObject target, MouseEventType type){
 		_cat.position.SetXY(_player.position.Clone().Add(_mouseDelta.Clone().Normalize().Scale(_player.radius)));
 		_cat.rotation = _mouseDelta.GetAngleDegrees() + 180;
-		//_arrow.position.SetXY(_player.position.Clone().Subtract(_mouseDelta.Clone().Normalize().Scale(_player.radius*1.5f)));
-		//_arrow.rotation = _mouseDelta.GetAngleDegrees() + 180;
 
-		_accelerationValue = _mouseDelta.Length() / 15;
+		_accelerationValue = _mouseDelta.Length() / 40;
 	}
 
-	private void onCatMouseUp(GameObject target, MouseEventType type)
-	{
+	private void onCatMouseUp(GameObject target, MouseEventType type){
 		_catHandler.OnMouseMove -= onCatMouseMove;
 		_catHandler.OnMouseUp -= onCatMouseUp;
-		//_arrow.alpha = 0.0f;
+		_player.arrow.alpha = 0.0f;
 		_player.selected = false;
 		_cat.alpha = 0.0f;
 		SpawnDisposableCat();
 		_player.acceleration.Add(_mouseDelta.Clone().Normalize().Scale(-_accelerationValue));
-		//_arrow.position.SetXY(_player.position.Clone().Subtract(_player.position.Clone().Normalize().Scale(_player.radius*1.5f)));
 	}
 
-	private void onCatRightMouseDown(GameObject target, MouseEventType type)
-	{
+	private void onCatRightMouseDown(GameObject target, MouseEventType type){
 		_cat.velocity = Vec2.zero;
 		_cat.alpha = 1.0f;
 		_cat.position.SetXY(_player.position.Clone().Add(_player.position.Clone().Normalize().Scale(_player.radius)));
-		//_player.arrow.position.SetXY(_player.position.Clone().Subtract(_player.position.Clone().Normalize().Scale(_player.radius * 1.5f)));
-		 //_arrow.position.SetXY(_player.position.Clone().Subtract(_player.position.Clone().Normalize().Scale(_player.radius*1.5f)));
 	}
 
-	private void OnMouseEvent(GameObject target, MouseEventType type)
-	{
+	private void OnMouseEvent(GameObject target, MouseEventType type){
 		Console.WriteLine("Eventtype: " + type + " triggered on " + target);
 	}
 
-	void SpawnDisposableCat()
-	{
+	void SpawnDisposableCat(){
 		_disposableCat = new Cat(_player, Cat.type.DISPOSABLE, _catCounter);
 		AddChild(_disposableCat);
-		//_arrayDisposableCat[_arrayDisposableCat.Length - _catCounter] = _disposableCat;
 		_listDisposableCat.Add(_disposableCat);
 		_catCounter += 1;
 		_disposableCat.SetXY(_cat.x, _cat.y);
-		_disposableCat.acceleration.Add(_mouseDelta.Clone().Normalize().Scale(_accelerationValue));
+		_disposableCat.acceleration.Add(_mouseDelta.Clone().Normalize().Scale(_accelerationValue*2));
 
 	}
 
@@ -211,8 +197,7 @@ public class MyGame : Game
 				//float degrees = deltaVec.GetAngleDegrees() + 180;
 				_player.velocity.SetXY(0, 0);
 				_player.acceleration.SetXY(0, 0);
-				if (other is BlackHole)
-				{
+				if (other is BlackHole){
 					_player.position = other.position;
 				}
 			}
@@ -241,12 +226,13 @@ public class MyGame : Game
 		{
 			y = (game.height / 2 - _scrollTarget.y);
 			_backgroundSprite.y = _scrollTarget.y;
+			_screenSizeOverlay.SetXY(_scrollTarget.x, _scrollTarget.y);
 
 			if (_switchScreenSizeOverlay){
-				_screenSizeOverlay.SetXY(_scrollTarget.x, _scrollTarget.y);
+				_screenSizeOverlay.alpha = 0.25f;
 			}
 			else {
-				_screenSizeOverlay.SetXY(-2000, -2000);
+				_screenSizeOverlay.alpha = 0.0f;
 			}
 			//this.y = (_scrollBoundary - _scrollTarget.y);
 		}
@@ -324,8 +310,8 @@ public class MyGame : Game
 			_catCounter -= 1;
 			casualty.Destroy();
 			casualty = null;
-			_emporerSoulCounter += 1;
-			Console.WriteLine("Souls fed to the emperor today: [{0}/1000]", _emporerSoulCounter);
+			_emperorSoulCounter += 1;
+			Console.WriteLine("Souls fed to the emperor today: [{0}/1000]", _emperorSoulCounter);
 		}
 	}
 
@@ -367,29 +353,28 @@ public class MyGame : Game
 
 		_player.Step();
 
+		Console.WriteLine(_player.velocity.Length());
+		if (_player.velocity.Length() > _speedLimit)
+		{
+			_player.velocity.Normalize().Scale(_speedLimit);
+		}
+
 		_cat.Step();
 
-		//_arrow.Step();
-
-		_player.arrow.position.SetXY(_mouseDelta.Clone().Normalize().Scale(-_player.radius));
+		_player.arrow.position.SetXY(_mouseDelta.Clone().Normalize().Scale((-_player.radius *2.0f) - (10*_accelerationValue)));
+		_player.arrow.scaleX = 0.5f + _accelerationValue/50;
+		_player.arrow.scaleY = 0.5f + _accelerationValue / 100;
 		_player.arrow.rotation = _mouseDelta.GetAngleDegrees() + 180;
 
 		if (_disposableCat != null && _listDisposableCat.Contains(_disposableCat))
 		{
 			for (int i = 0; i < _listDisposableCat.Count; i++){
-
 				_listDisposableCat[i].Step();
-
 				CheckForCatDestruction(_listDisposableCat[i], i);
 			}
 		}
 
 		_mouseDelta.SetXY((Input.mouseX - game.x) - _player.position.x, (Input.mouseY - game.y) - _player.position.y);
-
-		//if (_arrow.alpha == 1.0f){
-			//_arrow.position.SetXY(_player.position.Clone().Subtract(_player.position.Clone().Normalize().Scale(_player.radius * 1.5f).Scale(_mouseDelta.Clone().Normalize())));
-			//_arrow.position.RotateAroundRadians(_player.position,-_mouseDelta.GetAngleRadians());
-		//}
 
 		//TODO: Replace this code by a for each loop (or just the levelmanager's system if the time is right)
 		//BasicCollisionCheck(_planet1);
@@ -418,9 +403,6 @@ public class MyGame : Game
 		if (_cat.velocity.EqualsTo(Vec2.zero)){
 			_cat.position.SetXY(_player.position.Clone().Add(_player.position.Clone().Normalize().Scale(_player.radius)));
 		}
-
-		//_playerLastPosition.x = _player.x;
-		//_playerLastPosition.y = _player.y;
 	}
 
 	static void Main()
@@ -446,10 +428,6 @@ public class MyGame : Game
 			_player.ballColor = Color.Maroon;
 
 			_playerPOI.SetXY(_playerBouncePos.Clone().Subtract(_playerLastPosition));
-			//Console.WriteLine("_playerBounce(" + _playerBouncePos + ") - _playerLastPosition(" + _playerLastPosition + ") = _playerPOI(" + _playerPOI + ")");
-
-			//_playerPOI.SetXY(_playerLastPosition.Clone().Subtract(_playerBouncePos));
-			//Console.WriteLine("_playerLastPosition(" + _playerLastPosition + ") - _playerBounce(" + _playerBouncePos + ") = _playerPOI(" + _playerPOI + ")");
 
 			if (leftHit){
 				_player.position.Add(_playerPOI);

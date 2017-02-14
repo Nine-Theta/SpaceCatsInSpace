@@ -31,6 +31,7 @@ namespace GXPEngine
 
 			_arrow = new Arrow(this);
 			AddChild(_arrow);
+			_arrow.alpha = 0.0f;
 		}
 
 		public Vec2 velocity{
