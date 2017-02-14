@@ -37,8 +37,9 @@ namespace GXPEngine
 			//_planetSprite.SetScaleXY(0.66f, 0.66f);
 			//_planetSprite.alpha = 0.5f;
 
-			Console.WriteLine(pFilename);
+			//Console.WriteLine(pFilename);
 
+			//Are these types really necessary? You can access the filename through _planetSprite.name too, so you can cut out the middle man here 
 			if (pFilename == "Sprites/Planet 1.png")
 				_planetType = PlanetType.BLUE;
 			if (pFilename == "Sprites/Planet 2.png")
@@ -84,7 +85,7 @@ namespace GXPEngine
 			
 			_hitball.alpha = 0.5f;
 			AddChild(_hitball);
-			Console.WriteLine(_planetType);
+			//Console.WriteLine(_planetType);
 		}
 
 		/// <summary>

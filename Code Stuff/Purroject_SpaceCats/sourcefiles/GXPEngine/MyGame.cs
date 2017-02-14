@@ -49,8 +49,10 @@ public class MyGame : Game
 	private const int _gameWidth = 640; //Actual game width, regardless of screen width
 	private const int _gameHeight = 6500;   //Actual game height, regardless of screen height
 
-	//TODO: Implement this fully. 
+	//TODO: Implement these 3 variables fully
 	private int _catCounter = 5;
+	private int _scoreCounter = 0;
+	private float _time = 999.0f;
 	private int _emporerSoulCounter = 0;
 	//private ShankCounter _shankCounter; //counts the amount of times b*tches will get shanked, hypothetically that is. (for legal reasons).
 
@@ -444,6 +446,10 @@ public class MyGame : Game
 
 			//_playerLastPosition.x = _player.x;
 			//_playerLastPosition.y = _player.y;
+			_time -= (Time.deltaTime / 1000);
+			_hud.SetCats(_catCounter);
+			_hud.SetTime((int)(_time));
+			_hud.SetScore(_scoreCounter);
 			_hud.Step();
 		}
 		else

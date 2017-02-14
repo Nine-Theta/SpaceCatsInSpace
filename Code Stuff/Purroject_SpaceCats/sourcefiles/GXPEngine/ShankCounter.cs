@@ -19,6 +19,7 @@ namespace Purroject_SpaceCats
 			ShankCounter shankCounter = ReadShanks();
 			shankCounter.shanks++;
 			shankCounter.WriteShanks();
+			Console.WriteLine("Shank successfully added to counter");
 		}
 
 		public void WriteShanks()

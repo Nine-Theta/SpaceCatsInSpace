@@ -30,7 +30,7 @@ namespace Purroject_SpaceCats
 		{
 			_position.Add(_velocity);
 
-			if (_velocity.Length() > 5.0f && !_crushed)
+			if (_velocity.Length() > 3.0f && !_crushed)
 			{
 				Crush();
 			}
