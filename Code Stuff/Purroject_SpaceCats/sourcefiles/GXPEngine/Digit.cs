@@ -6,16 +6,31 @@ namespace Purroject_SpaceCats
 	public class Digit : AnimSprite
 	{
 		private int _number = 0;
-		public Digit(int pNumber) : base("Sprites/Menu/Digits.png", 10, 0)
+		public Digit(float pX, int pNumber = 0) : base("Sprites/Numbers.png", 10, 1)
 		{
+			SetXY(pX, 16);
 			_number = pNumber;
-			SetFrame(_number);
+			if (_number > 0)
+			{
+				SetFrame(_number - 1);
+			}
+			else
+			{
+				SetFrame(9);
+			}
 		}
 
-		public void changeNumber(int pNumber)
+		public void SetNumber(int pNumber)
 		{
 			_number = pNumber;
-			SetFrame(_number);
+			if (pNumber > 0)
+			{
+				SetFrame(_number - 1);
+			}
+			else
+			{
+				SetFrame(9);
+			}
 		}
 	}
 }
