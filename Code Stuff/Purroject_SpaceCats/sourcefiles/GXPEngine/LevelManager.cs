@@ -41,16 +41,16 @@ namespace GXPEngine
 					string PartOfSource = "";
 					switch (pObject.GID)
 					{
-						case 7:
+						case 1:
 							PartOfSource = "1";
 							break;
-						case 8:
+						case 2:
 							PartOfSource = "2";
 							break;
-						case 9:
+						case 3:
 							PartOfSource = "4";
 							break;
-						case 10:
+						case 4:
 							PartOfSource = "3";
 							break;
 						default:
@@ -62,19 +62,21 @@ namespace GXPEngine
 						PartOfSource = "1";
 					}
 					fileSource += PartOfSource + ".png";
-					Planet planet = new Planet(new Vec2(pObject.X, pObject.Y), fileSource, 5, 0.2f, 300);
+					Planet planet = new Planet(new Vec2(pObject.X + (pObject.Width/2), pObject.Y + (pObject.Height / 2)), fileSource, 5, 0.2f, 300);
 					planet.rotation = pObject.Rotation;
+					//planet.width = (int)(pObject.Width);
+					//planet.height = (int)(pObject.Height);
 					//AddPlanetList(planet);
 					AddChild(planet);
 					break;
 				case "Station":
 					//Changes frame if frame is the starting station, else it uses another frame;
-					SpaceStation station = new SpaceStation(pObject.X, pObject.Y, "Sprites/SpaceStation-v2.png");
+					SpaceStation station = new SpaceStation(pObject.X, pObject.Y, "Sprites/SpaceStation-v3.png");
 					AddChild(station);
 					station.rotation = pObject.Rotation;
 					break;
 				case "Black":
-					BlackHole blackhole = new BlackHole(new Vec2(pObject.X, pObject.Y), 5, 300);
+					BlackHole blackhole = new BlackHole(new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), 5, 300);
 					AddChild(blackhole);
 					blackhole.rotation = pObject.Rotation;
 					break;
@@ -84,7 +86,7 @@ namespace GXPEngine
 					blackhole1.rotation = pObject.Rotation;
 					break;
 				case "Meteor":
-					Asteroid asteroid = new Asteroid(350, new Vec2(pObject.X, pObject.Y));
+					Asteroid asteroid = new Asteroid(350, new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)));
 					AddChild(asteroid);
 					asteroid.rotation = pObject.Rotation;
 					break;

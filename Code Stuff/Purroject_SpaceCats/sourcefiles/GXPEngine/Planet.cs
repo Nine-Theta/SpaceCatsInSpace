@@ -28,7 +28,7 @@ namespace GXPEngine
 			_planetSprite.SetOrigin(_planetSprite.width / 2, _planetSprite.height / 2);
 			alpha = 0.0f;
 			AddChild(_planetSprite);
-			_planetSprite.SetScaleXY(0.66f, 0.66f);
+			//_planetSprite.SetScaleXY(0.66f, 0.66f);
 			//_planetSprite.alpha = 0.5f;
 
 			_posVec = pPosVec;

@@ -73,8 +73,8 @@
     <Compile Include="LevelManager.cs" />
     <Compile Include="Arrow.cs" />
     <Compile Include="Asteroid.cs" />
-    <Compile Include="Button.cs" />
     <Compile Include="ShankCounter.cs" />
+    <Compile Include="HUD.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Purroject_SpaceCats\" />
