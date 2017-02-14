@@ -113,6 +113,26 @@ namespace GXPEngine
 			}
 		}
 
+		//ReadOnly, gets the asteroid from LevelManager's Children
+		public Asteroid[] asteroidList
+		{
+			get
+			{
+				Asteroid[] asteroidlist = new Asteroid[this.GetChildren().Count];
+				int index = 0;
+				foreach (GameObject tObject in this.GetChildren())
+				{
+					if (tObject is Asteroid)
+					{
+						Asteroid asteroid = tObject as Asteroid;
+						asteroidlist[index] = asteroid;
+						index++;
+					}
+				}
+				return asteroidlist;
+			}
+		}
+
 		public Player GetPlayer()
 		{
 			foreach (GameObject tObject in GetChildren())

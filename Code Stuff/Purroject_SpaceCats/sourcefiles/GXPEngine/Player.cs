@@ -1,5 +1,5 @@
 ﻿using System;
-
+using Purroject_SpaceCats;
 namespace GXPEngine
 {
 	//TODO: 
@@ -97,23 +97,41 @@ namespace GXPEngine
 				_animTimer = 4;
 			}
 
-			//TODO: Fix this 
-			//if (_levelRef != null &&_levelRef.planetList != null)
-			//{
-			//	//foreach (Planet planet in _levelRef.planetList)
-			//	for (int i = 0; i < _levelRef.planetList.Length; i++)
-			//	{
-			//		Planet planet = _levelRef.planetList[i];
-			//		if (planet != null)
-			//		{
-			//			Vec2 deltaVec = _position.Clone().Subtract(planet.posVec);
-			//			if (planet.gravityRadius + radius < deltaVec.Length())
-			//			{
-			//				_acceleration.Subtract(deltaVec.Normalize().Scale(planet.gravityForce));
-			//			}
-			//		}
-			//	}
-			//}
+			if (_levelRef != null &&_levelRef.planetList != null)
+			{
+				//foreach (Planet planet in _levelRef.planetList)
+				for (int i = 0; i < _levelRef.planetList.Length; i++)
+				{
+					Planet planet = _levelRef.planetList[i];
+					if (planet != null)
+					{
+						Vec2 deltaVec = _position.Clone().Subtract(planet.posVec);
+						if (planet.gravityRadius + radius > deltaVec.Length())
+						{
+							_acceleration.Subtract(deltaVec.Normalize().Scale(planet.gravityForce));
+						}
+					}
+				}
+			}
+			if (_levelRef != null && _levelRef.asteroidList != null)
+			{
+				//foreach (Planet planet in _levelRef.planetList)
+				for (int i = 0; i < _levelRef.asteroidList.Length; i++)
+				{
+					Asteroid asteroid = _levelRef.asteroidList[i];
+					if (asteroid != null)
+					{
+						asteroid.Step();
+						Vec2 deltaVec = _position.Clone().Subtract(asteroid.position);
+						if ((radius + asteroid.radius) > deltaVec.Length())
+						{
+							velocity.Scale(0.5f);
+							asteroid.AddVelocity(velocity.Clone());
+						}
+					}
+				}
+			}
+
 
 		}
 	}

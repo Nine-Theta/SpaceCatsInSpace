@@ -53,7 +53,7 @@ namespace GXPEngine
 			_gravityForce = pGravityForce;
 
 			AddChild(_gravityRange);
-			_gravityRange.alpha = 0.025f;
+			_gravityRange.alpha = 0.125f;
 		}
 
 		/// <summary>

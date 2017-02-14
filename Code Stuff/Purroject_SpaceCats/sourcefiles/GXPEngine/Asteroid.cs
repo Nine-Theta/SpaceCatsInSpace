@@ -33,7 +33,7 @@ namespace Purroject_SpaceCats
 
 			if (_velocity.Length() > 5.0f)
 			{
-				Crush();
+				//Crush();
 			}
 
 			x = _position.x;

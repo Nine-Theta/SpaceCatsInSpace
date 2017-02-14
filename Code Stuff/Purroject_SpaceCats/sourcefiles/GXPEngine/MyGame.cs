@@ -12,13 +12,13 @@ public class MyGame : Game
 	private Cat _cat = null;
 	private Cat _disposableCat = null; //Acceptable losses
 	private Arrow _arrow = null;
-	private Planet _planet1 = null;
-	private Planet _planet2 = null;
-	private Planet _planet3 = null;
-	private Planet _planet4 = null;
-	private BlackHole _blackhole = null;
-	private Asteroid _asteroid = null;
-	private SpaceStation _spaceStation = null;
+	//private Planet _planet1 = null;
+	//private Planet _planet2 = null;
+	//private Planet _planet3 = null;
+	//private Planet _planet4 = null;
+	//private BlackHole _blackhole = null;
+	//private Asteroid _asteroid = null;
+	//private SpaceStation _spaceStation = null;
 
 	//private Cat[] _arrayDisposableCat;
 	private List<Cat> _listDisposableCat;
@@ -45,7 +45,7 @@ public class MyGame : Game
 	private const int _gameHeight = 6500;   //Actual game height, regardless of screen height
 
 	private int _catCounter = 0;
-	//private ShankCounter _shankCounter; //counts the amount of times b*tches will get shanked, hypothetically that is. (for legal reasons).
+	private ShankCounter _shankCounter; //counts the amount of times b*tches will get shanked, hypothetically that is. (for legal reasons).
 
 	private bool _switchBoundaryCollision = false;
 	private bool _switchScreenSizeOverlay = false;
@@ -58,6 +58,10 @@ public class MyGame : Game
 		_backgroundSprite.SetOrigin(_backgroundSprite.width / 2, _backgroundSprite.height / 2);
 		_backgroundSprite.SetXY(width / 2, 0);
 		AddChild(_backgroundSprite);
+
+		//_shankCounter = new ShankCounter();
+		//_shankCounter.AddShank();
+		//Console.WriteLine(_shankCounter.GetShanks());
 
 		_background = new Canvas(_gameWidth, _gameHeight);
 		AddChild(_background);
@@ -85,8 +89,8 @@ public class MyGame : Game
 		_catHandler = new MouseHandler(_player);
 		_catHandler.OnMouseDownOnTarget += onCatMouseDown;
 
-		_asteroid = new Asteroid(350, new Vec2(_gameWidth / 2, _gameHeight - 600));
-		AddChild(_asteroid);
+		//_asteroid = new Asteroid(350, new Vec2(_gameWidth / 2, _gameHeight - 600));
+		//AddChild(_asteroid);
 
 		////Planets and black holes
 		//_planet1 = new Planet(new Vec2(100, 700), "Sprites/Planet 1.png", 5, 0.5f, 300);
