@@ -1,0 +1,103 @@
+From da5393a2b062b8f41bb592de8421b31a4f736b2f Mon Sep 17 00:00:00 2001
+From: "CHRISTIAN\\Christian" <433910@student.saxion.nl>
+Date: Wed, 15 Feb 2017 00:27:03 +0100
+Subject: [PATCH] Minor tweaks, wanted to test new levels but I could see from
+ the code that they're tile layers rather than object layers.
+
+---
+ Code Stuff/Purroject_SpaceCats/sourcefiles/GXPEngine/Asteroid.cs  | 2 +-
+ Code Stuff/Purroject_SpaceCats/sourcefiles/GXPEngine/MyGame.cs    | 8 +++++++-
+ Code Stuff/Purroject_SpaceCats/sourcefiles/GXPEngine/Planet.cs    | 5 +++--
+ .../Purroject_SpaceCats/sourcefiles/GXPEngine/ShankCounter.cs     | 1 +
+ .../sourcefiles/GXPEngine/bin/Debug/Levels/ShankFiles.xml         | 2 +-
+ 5 files changed, 13 insertions(+), 5 deletions(-)
+
+diff --git a/Code Stuff/Purroject_SpaceCats/sourcefiles/GXPEngine/Asteroid.cs b/Code Stuff/Purroject_SpaceCats/sourcefiles/GXPEngine/Asteroid.cs
+index 6cc4e6c..0dd02e7 100644
+--- a/Code Stuff/Purroject_SpaceCats/sourcefiles/GXPEngine/Asteroid.cs	
++++ b/Code Stuff/Purroject_SpaceCats/sourcefiles/GXPEngine/Asteroid.cs	
+@@ -30,7 +30,7 @@ namespace Purroject_SpaceCats
+ 		{
+ 			_position.Add(_velocity);
+ 
+-			if (_velocity.Length() > 5.0f && !_crushed)
++			if (_velocity.Length() > 3.0f && !_crushed)
+ 			{
+ 				Crush();
+ 			}
+diff --git a/Code Stuff/Purroject_SpaceCats/sourcefiles/GXPEngine/MyGame.cs b/Code Stuff/Purroject_SpaceCats/sourcefiles/GXPEngine/MyGame.cs
+index 38c31bc..24c0659 100644
+--- a/Code Stuff/Purroject_SpaceCats/sourcefiles/GXPEngine/MyGame.cs	
++++ b/Code Stuff/Purroject_SpaceCats/sourcefiles/GXPEngine/MyGame.cs	
+@@ -49,8 +49,10 @@ public class MyGame : Game
+ 	private const int _gameWidth = 640; //Actual game width, regardless of screen width
+ 	private const int _gameHeight = 6500;   //Actual game height, regardless of screen height
+ 
+-	//TODO: Implement this fully. 
++	//TODO: Implement these 3 variables fully
+ 	private int _catCounter = 5;
++	private int _scoreCounter = 0;
++	private float _time = 999.0f;
+ 	private int _emporerSoulCounter = 0;
+ 	//private ShankCounter _shankCounter; //counts the amount of times b*tches will get shanked, hypothetically that is. (for legal reasons).
+ 
+@@ -444,6 +446,10 @@ public class MyGame : Game
+ 
+ 			//_playerLastPosition.x = _player.x;
+ 			//_playerLastPosition.y = _player.y;
++			_time -= (Time.deltaTime / 1000);
++			_hud.SetCats(_catCounter);
++			_hud.SetTime((int)(_time));
++			_hud.SetScore(_scoreCounter);
+ 			_hud.Step();
+ 		}
+ 		else
+diff --git a/Code Stuff/Purroject_SpaceCats/sourcefiles/GXPEngine/Planet.cs b/Code Stuff/Purroject_SpaceCats/sourcefiles/GXPEngine/Planet.cs
+index 01d3425..266a8ba 100644
+--- a/Code Stuff/Purroject_SpaceCats/sourcefiles/GXPEngine/Planet.cs	
++++ b/Code Stuff/Purroject_SpaceCats/sourcefiles/GXPEngine/Planet.cs	
+@@ -37,8 +37,9 @@ namespace GXPEngine
+ 			//_planetSprite.SetScaleXY(0.66f, 0.66f);
+ 			//_planetSprite.alpha = 0.5f;
+ 
+-			Console.WriteLine(pFilename);
++			//Console.WriteLine(pFilename);
+ 
++			//Are these types really necessary? You can access the filename through _planetSprite.name too, so you can cut out the middle man here 
+ 			if (pFilename == "Sprites/Planet 1.png")
+ 				_planetType = PlanetType.BLUE;
+ 			if (pFilename == "Sprites/Planet 2.png")
+@@ -84,7 +85,7 @@ namespace GXPEngine
+ 			
+ 			_hitball.alpha = 0.5f;
+ 			AddChild(_hitball);
+-			Console.WriteLine(_planetType);
++			//Console.WriteLine(_planetType);
+ 		}
+ 
+ 		/// <summary>
+diff --git a/Code Stuff/Purroject_SpaceCats/sourcefiles/GXPEngine/ShankCounter.cs b/Code Stuff/Purroject_SpaceCats/sourcefiles/GXPEngine/ShankCounter.cs
+index 8e960d7..ed20a89 100644
+--- a/Code Stuff/Purroject_SpaceCats/sourcefiles/GXPEngine/ShankCounter.cs	
++++ b/Code Stuff/Purroject_SpaceCats/sourcefiles/GXPEngine/ShankCounter.cs	
+@@ -19,6 +19,7 @@ namespace Purroject_SpaceCats
+ 			ShankCounter shankCounter = ReadShanks();
+ 			shankCounter.shanks++;
+ 			shankCounter.WriteShanks();
++			Console.WriteLine("Shank successfully added to counter");
+ 		}
+ 
+ 		public void WriteShanks()
+diff --git a/Code Stuff/Purroject_SpaceCats/sourcefiles/GXPEngine/bin/Debug/Levels/ShankFiles.xml b/Code Stuff/Purroject_SpaceCats/sourcefiles/GXPEngine/bin/Debug/Levels/ShankFiles.xml
+index 5abbf52..8a2e5eb 100644
+--- a/Code Stuff/Purroject_SpaceCats/sourcefiles/GXPEngine/bin/Debug/Levels/ShankFiles.xml	
++++ b/Code Stuff/Purroject_SpaceCats/sourcefiles/GXPEngine/bin/Debug/Levels/ShankFiles.xml	
+@@ -1,2 +1,2 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<shankcounter xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" shanks="15" />
+\ No newline at end of file
++<shankcounter xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" shanks="16" />
+\ No newline at end of file
+-- 
+2.8.1.windows.1
+
