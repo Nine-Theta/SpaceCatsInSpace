@@ -446,7 +446,7 @@ public class MyGame : Game
 
 			//_playerLastPosition.x = _player.x;
 			//_playerLastPosition.y = _player.y;
-			_time -= (Time.deltaTime / 1000);
+			_time -= (Time.deltaTime / 100);
 			_hud.SetCats(_catCounter);
 			_hud.SetTime((int)(_time));
 			_hud.SetScore(_scoreCounter);

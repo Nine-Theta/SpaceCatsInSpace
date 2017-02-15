@@ -98,7 +98,6 @@ namespace GXPEngine
 			if (_levelRef != null && _levelRef.planetList != null)
 			{
 				_bouncedOffPlanetTimer--;
-				//foreach (Planet planet in _levelRef.planetList)
 				for (int i = 0; i < _levelRef.planetList.Length; i++)
 				{
 					Planet planet = _levelRef.planetList[i];
@@ -124,9 +123,10 @@ namespace GXPEngine
 							///Iteration 4: Dot Product angle forcing? Was this supposed to be used this way? WORKS! Kinda... See: Iteration 5
 							Vec2 normalDelta = deltaVec.Clone().Normalize();
 							//Console.WriteLine(normalDelta);
-							Vec2 projectedVec = _velocity.Clone().Normalize().Scale(_velocity.Dot(normalDelta));
-							_velocity.RotateDegrees(projectedVec.GetAngleDegrees()).RotateDegrees(projectedVec.GetAngleDegrees());
-							_acceleration.RotateDegrees(projectedVec.GetAngleDegrees()).RotateDegrees(projectedVec.GetAngleDegrees());
+							Vec2 projectedVec = _velocity.Clone().Normalize().Scale(deltaVec.Dot(normalDelta));
+							projectedVec.RotateDegrees(180);
+							_velocity.RotateRadians(projectedVec.GetAngleRadians()).RotateRadians(projectedVec.GetAngleRadians()).Scale(0.8f);
+							_acceleration.RotateRadians(projectedVec.GetAngleRadians()).RotateRadians(projectedVec.GetAngleRadians()).Scale(0.8f);
 							///Iteration 5: To be used with Iteration 4. Fixes some of Iteration 4's issues. 
 							_position.SetXY(deltaVec.Clone().Normalize().Scale(planet.hitball.radius + radius).Add(planet.position));
 
@@ -142,7 +142,6 @@ namespace GXPEngine
 			}
 			if (_levelRef != null && _levelRef.asteroidList != null)
 			{
-				//foreach (Planet planet in _levelRef.planetList)
 				for (int i = 0; i < _levelRef.asteroidList.Length; i++)
 				{
 					Asteroid asteroid = _levelRef.asteroidList[i];
@@ -160,7 +159,6 @@ namespace GXPEngine
 			}
 			if (_levelRef != null && _levelRef.pickupList != null)
 			{
-				//foreach (Planet planet in _levelRef.planetList)
 				for (int i = 0; i < _levelRef.pickupList.Length; i++)
 				{
 					Pickup pickup = _levelRef.pickupList[i];
