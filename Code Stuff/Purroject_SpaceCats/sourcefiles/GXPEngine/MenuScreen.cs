@@ -196,7 +196,7 @@ namespace Purroject_SpaceCats
 		{
 			_gameRef = game;
 		}
-		public void ShowEndScreen(int pScore, int pTime)
+		public void ShowEndScreen(int pScore, int pTime, bool pWon)
 		{
 			this.alpha = 1.0f;
 			_inOtherScreen = true;
@@ -207,20 +207,27 @@ namespace Purroject_SpaceCats
 			_ruleScreen.alpha = 0.0f;
 			_creditScreen.alpha = 0.0f;
 			_endScreen.alpha = 1.0f;
-			if (pScore >= 7)
+			if (pWon)
 			{
-				_endScreen.SetFrame(3);
-			}
-			else if (pScore >= 3)
-			{
-				_endScreen.SetFrame(2);
+				if (pScore >= 7)
+				{
+					_endScreen.SetFrame(3);
+				}
+				else if (pScore >= 3)
+				{
+					_endScreen.SetFrame(2);
+				}
+				else
+				{
+					_endScreen.SetFrame(1);
+				}
 			}
 			else
 			{
-				_endScreen.SetFrame(1);
+				_endScreen.SetFrame(0);
 			}
 			_selectedButton = 0;
-			Console.WriteLine(_endScreen.y);
+			
 		}
 	}
 }

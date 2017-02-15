@@ -166,13 +166,21 @@ public class MyGame : Game
 
 	private void onCatMouseDown(GameObject target, MouseEventType type)
 	{
-		_catHandler.OnMouseMove += onCatMouseMove;
-		_catHandler.OnMouseUp += onCatMouseUp;
-		_catHandler.OnMouseRightDown += onCatRightMouseDown;
-		_player.cat.alpha = 1.0f;
-		_player.selected = true;
-		_player.arrow.alpha = 1.0f;
-		//_switchCatMoveToPlayer = false;
+		if (_catCounter > 0)
+		{
+			_catHandler.OnMouseMove += onCatMouseMove;
+			_catHandler.OnMouseUp += onCatMouseUp;
+			_catHandler.OnMouseRightDown += onCatRightMouseDown;
+			_player.cat.alpha = 1.0f;
+			_player.selected = true;
+			_player.arrow.alpha = 1.0f;
+			//_switchCatMoveToPlayer = false;
+		}
+		else
+		{
+			//Instant forfeit? Special Icon?
+			Console.WriteLine("You cats are on another yarn flying through space.");
+		}
 	}
 
 	private void onCatMouseMove(GameObject target, MouseEventType type)
@@ -194,6 +202,7 @@ public class MyGame : Game
 		_player.cat.alpha = 0.0f;
 		SpawnDisposableCat();
 		_player.acceleration.Add(_mouseDelta.Clone().Normalize().Scale(-_accelerationValue));
+		_catCounter--;
 		//_arrow.position.SetXY(_player.position.Clone().Subtract(_player.position.Clone().Normalize().Scale(_player.radius*1.5f)));
 	}
 
@@ -503,7 +512,7 @@ public class MyGame : Game
 			}
 			if (topHit){
 				_player.velocity.Scale(0);
-				_menuScreen.ShowEndScreen(_scoreCounter, (int)(_time));
+				_menuScreen.ShowEndScreen(_scoreCounter, (int)(_time), true);
 				y = 0;
 				_started = false;
 				_player.cat.Destroy();
