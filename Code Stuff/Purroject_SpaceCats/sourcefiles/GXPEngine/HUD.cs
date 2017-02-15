@@ -46,9 +46,10 @@ namespace Purroject_SpaceCats
 			UpdateCats();
 		}
 
-		public void SetTime(int pTime)
+		public void SetTime(float pTime)
 		{
-			_time = pTime;
+			pTime -= (pTime % 1);
+			_time = (int)(pTime);
 		}
 		public void SetCats(int pCats)
 		{
@@ -76,11 +77,8 @@ namespace Purroject_SpaceCats
 		private void UpdateTime()
 		{
 			int firstDigit = (_time - (_time % 100)) / 100;
-			Console.WriteLine("FirstDigit" + firstDigit);
 			int secondDigit = (_time - (_time % 10) - ((_time / 100) * 100)) / 10;
-			Console.WriteLine("secondDigit" + secondDigit);
 			int thirdDigit = _time % 10;
-			Console.WriteLine("thirdDigit" + thirdDigit);
 			_hectaSecond.SetNumber(firstDigit);
 			_decaSecond.SetNumber(secondDigit);
 			_flatSecond.SetNumber(thirdDigit);
