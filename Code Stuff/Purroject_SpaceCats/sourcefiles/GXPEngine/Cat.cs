@@ -15,7 +15,7 @@ namespace GXPEngine
 
 		private type _catType;
 
-		private int _catID;
+		//private int _catID;
 
 		public Cat(Player pTarget, type? pType = type.NORMAL, int? pCatID = -1) : base("Sprites/Cat.png")
 		{
@@ -23,7 +23,7 @@ namespace GXPEngine
 			scale = 0.5f;
 
 			_catType = pType ?? type.NORMAL;
-			_catID = pCatID ?? -1;
+			//_catID = pCatID ?? -1;
 
 			_target = new Vec2(pTarget.x, pTarget.y);
 			position = _target.Add(_target.Clone().Normalize().Scale(pTarget.radius));
@@ -31,11 +31,11 @@ namespace GXPEngine
 			acceleration = Vec2.zero;
 		}
 
-		public int GetCatID{
-			get{
-				return _catID;
-			}
-		}
+		//public int GetCatID{
+		//	get{
+		//		return _catID;
+		//	}
+		//}
 
 		public Vec2 position{
 			set{
