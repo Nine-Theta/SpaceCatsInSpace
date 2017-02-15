@@ -68,9 +68,9 @@ public class MyGame : Game
 
 	}
 
-	public void InitializeGame()
+	public void InitializeGame(int pLevel)
 	{
-		_levelManager = new LevelManager();
+		_levelManager = new LevelManager(pLevel);
 		_backgroundSprite = new Sprite("Sprites/Background.png");
 		_backgroundSprite.SetOrigin(_backgroundSprite.width / 2, _backgroundSprite.height / 2);
 		_backgroundSprite.SetXY(width / 2, 0);

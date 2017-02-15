@@ -38,7 +38,7 @@ namespace Purroject_SpaceCats
 			_endScreen = new AnimSprite("Sprites/Menu/Endscreen.png", 4, 1);
 			AddChild(_endScreen);
 			_endScreen.alpha = 0.0f;
-			_levelScreen = new AnimSprite("Sprites/Menu/Map.png", 1, 1);
+			_levelScreen = new AnimSprite("Sprites/Menu/Map.png", 3, 1);
 			AddChild(_levelScreen);
 			_levelScreen.alpha = 0.0f;
 		}
@@ -53,12 +53,12 @@ namespace Purroject_SpaceCats
 		{
 			if (_levelScreen.alpha == 1.0f)
 			{
-				if (Input.GetKeyDown(Key.UP) && _selectedButton > 0)
+				if (Input.GetKeyDown(Key.DOWN) && _selectedButton > 0)
 				{
 					_selectedButton--;
 					_levelScreen.SetFrame(_selectedButton);
 				}
-				if (Input.GetKeyDown(Key.DOWN) && _selectedButton < 2)
+				if (Input.GetKeyDown(Key.UP) && _selectedButton < 2)
 				{
 					_selectedButton++;
 					_levelScreen.SetFrame(_selectedButton);
@@ -84,13 +84,36 @@ namespace Purroject_SpaceCats
 					switch (_selectedButton)
 					{
 						case 0:
-							StartGame();
+							_mainScreen.alpha = 0.0f;
+							_levelScreen.alpha = 1.0f;
+							_inOtherScreen = true;
 							break;
 						case 1:
 							Rules();
 							break;
 						case 2:
 							Credits();
+							break;
+						case 3:
+							Exit();
+							break;
+						default:
+							Console.WriteLine("Shit be broke yo " + _selectedButton);
+							break;
+					}
+				}
+				else if (_levelScreen.alpha == 1.0f)
+				{
+					switch (_selectedButton)
+					{
+						case 0:
+							StartGame(1);
+							break;
+						case 1:
+							StartGame(2);
+							break;
+						case 2:
+							StartGame(3);
 							break;
 						case 3:
 							Exit();
@@ -147,10 +170,10 @@ namespace Purroject_SpaceCats
 			}
 		}
 
-		void StartGame()
+		void StartGame(int pLevel)
 		{
 			this.alpha = 0.0f;
-			_gameRef.InitializeGame();
+			_gameRef.InitializeGame(pLevel);
 		}
 		void Rules()
 		{

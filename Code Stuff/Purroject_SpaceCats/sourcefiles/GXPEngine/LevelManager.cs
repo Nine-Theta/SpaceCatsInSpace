@@ -8,10 +8,10 @@ namespace GXPEngine
 		private XMLMap _currentMap;
 		private int _currentlevel;
 
-		public LevelManager()
+		public LevelManager(int pLevel)
 		{
 			_currentMap = new XMLMap();
-			LoadLevel(1);
+			LoadLevel(pLevel);
 		}
 
 		void LoadLevel(int pLevel)
