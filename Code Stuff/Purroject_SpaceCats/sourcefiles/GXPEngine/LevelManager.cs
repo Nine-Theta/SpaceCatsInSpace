@@ -8,10 +8,10 @@ namespace GXPEngine
 		private XMLMap _currentMap;
 		private int _currentlevel;
 
-		public LevelManager()
+		public LevelManager(int pLevel)
 		{
 			_currentMap = new XMLMap();
-			LoadLevel(3);
+			LoadLevel(pLevel);
 		}
 
 		void LoadLevel(int pLevel)
@@ -26,36 +26,45 @@ namespace GXPEngine
 
 		void InterpretObject(TiledObject pObject)
 		{
-			string objectName = pObject.Name;
+			string objectName = pObject.Name.ToLower();
 			string[] splitNames = objectName.Split(' ');
 			switch (splitNames[0])
 			{
-				case "Player":
+				case "player":
 					Player player = new Player(XMLMap.PLAYER_RADIUS, new Vec2(pObject.X, pObject.Y));
 					player.levelRef = this;
 					AddChild(player);
 					player.rotation = pObject.Rotation;
 					break;
-				case "Planet":
+				case "planet":
 					string fileSource = "Sprites/Planet ";
 					string PartOfSource = "";
-					switch (pObject.GID)
+					if (pObject.GID != 0)
 					{
-						case 1:
-							PartOfSource = "1";
-							break;
-						case 2:
-							PartOfSource = "2";
-							break;
-						case 3:
-							PartOfSource = "4";
-							break;
-						case 4:
-							PartOfSource = "3";
-							break;
-						default:
-							Console.WriteLine("Faulty GID in planet code, GID: " + pObject.GID);
-							break;
+						switch (pObject.GID)
+						{
+							case 1:
+								PartOfSource = "1";
+								break;
+							case 2:
+								PartOfSource = "2";
+								break;
+							case 3:
+								PartOfSource = "4";
+								break;
+							case 4:
+								PartOfSource = "3";
+								break;
+							default:
+								Console.WriteLine("Faulty GID in planet code, GID: " + pObject.GID);
+								break;
+						}
+					}
+					else
+					{
+						Random rand = new Random();
+						int random = rand.Next(1, 4);
+						PartOfSource = random.ToString();
 					}
 					if (PartOfSource == "")
 					{
@@ -69,50 +78,55 @@ namespace GXPEngine
 					//AddPlanetList(planet);
 					AddChild(planet);
 					break;
-				case "Station":
+				case "station":
 					//Changes frame if frame is the starting station, else it uses another frame;
-					SpaceStation station = new SpaceStation(pObject.X, pObject.Y, "Sprites/SpaceStation-v3.png");
+					SpaceStation station = new SpaceStation(pObject.Width/2, pObject.Y, "Sprites/SpaceStation-v3.png");
 					AddChild(station);
 					station.rotation = pObject.Rotation;
 					break;
-				case "Black":
+				case "black":
 					BlackHole blackhole = new BlackHole(new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), 5, 300);
 					AddChild(blackhole);
 					blackhole.rotation = pObject.Rotation;
 					break;
-				case "Blackhole":
+				case "blackhole":
 					BlackHole blackhole1 = new BlackHole(new Vec2(pObject.X, pObject.Y), 5, 300);
 					AddChild(blackhole1);
 					blackhole1.rotation = pObject.Rotation;
 					break;
-				case "Meteor":
+				case "meteor":
 					Asteroid asteroid = new Asteroid(350, new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)));
 					AddChild(asteroid);
 					asteroid.rotation = pObject.Rotation;
 					break;
-				case "Asteroid":
+				case "asteroid":
 					Asteroid asteroid1 = new Asteroid(350, new Vec2(pObject.X, pObject.Y));
 					AddChild(asteroid1);
 					asteroid1.rotation = pObject.Rotation;
 					break;
-				case "Milk":
-					Pickup milk = new Pickup((int)(pObject.Width), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Milk.png");
+				case "astroid":
+					Asteroid asteroid2 = new Asteroid(350, new Vec2(pObject.X, pObject.Y));
+					AddChild(asteroid2);
+					asteroid2.rotation = pObject.Rotation;
+					break;
+				case "milk":
+					Pickup milk = new Pickup((int)(pObject.Width / 2), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Milk.png");
 					AddChild(milk);
 					break;
-				case "Fish":
-					Pickup fish = new Pickup((int)(pObject.Width), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Fish.png");
+				case "fish":
+					Pickup fish = new Pickup((int)(pObject.Width / 2), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Fish.png");
 					AddChild(fish);
 					break;
-				case "Token":
-					Pickup pickup = new Pickup((int)(pObject.Width), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Pickup.png");
+				case "token":
+					Pickup pickup = new Pickup((int)(pObject.Width / 2), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Pick Up.png");
 					AddChild(pickup);
 					break;
-				case "Pickup":
-					Pickup pickup1 = new Pickup((int)(pObject.Width), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Pickup.png");
+				case "pick":
+					Pickup pickup1 = new Pickup((int)(pObject.Width / 2), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Pick Up.png");
 					AddChild(pickup1);
 					break;
 				case "Coin":
-					Pickup pickup2 = new Pickup((int)(pObject.Width), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Pickup.png");
+					Pickup pickup2 = new Pickup((int)(pObject.Width) / 2, new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Pick Up.png");
 					AddChild(pickup2);
 					break;
 				default:

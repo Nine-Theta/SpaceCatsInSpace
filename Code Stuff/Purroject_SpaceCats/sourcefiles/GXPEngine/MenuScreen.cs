@@ -17,7 +17,7 @@ namespace Purroject_SpaceCats
 		//inOtherScreen is for Screens that aren't the main menu. Pressing enter or space will take you back when true
 		private bool _inOtherScreen = true;
 		private int _selectedButton = 0;
-		private int _backgroundTimer = 5;
+		private int _backgroundTimer = 10;
 
 		public MenuScreen(int pWidth, int pHeight) : base(pWidth, pHeight)
 		{
@@ -38,7 +38,7 @@ namespace Purroject_SpaceCats
 			_endScreen = new AnimSprite("Sprites/Menu/Endscreen.png", 4, 1);
 			AddChild(_endScreen);
 			_endScreen.alpha = 0.0f;
-			_levelScreen = new AnimSprite("Sprites/Menu/Map.png", 1, 1);
+			_levelScreen = new AnimSprite("Sprites/Menu/Map.png", 3, 1);
 			AddChild(_levelScreen);
 			_levelScreen.alpha = 0.0f;
 		}
@@ -53,12 +53,12 @@ namespace Purroject_SpaceCats
 		{
 			if (_levelScreen.alpha == 1.0f)
 			{
-				if (Input.GetKeyDown(Key.UP) && _selectedButton > 0)
+				if (Input.GetKeyDown(Key.DOWN) && _selectedButton > 0)
 				{
 					_selectedButton--;
 					_levelScreen.SetFrame(_selectedButton);
 				}
-				if (Input.GetKeyDown(Key.DOWN) && _selectedButton < 2)
+				if (Input.GetKeyDown(Key.UP) && _selectedButton < 2)
 				{
 					_selectedButton++;
 					_levelScreen.SetFrame(_selectedButton);
@@ -84,13 +84,36 @@ namespace Purroject_SpaceCats
 					switch (_selectedButton)
 					{
 						case 0:
-							StartGame();
+							_mainScreen.alpha = 0.0f;
+							_levelScreen.alpha = 1.0f;
+							_inOtherScreen = true;
 							break;
 						case 1:
 							Rules();
 							break;
 						case 2:
 							Credits();
+							break;
+						case 3:
+							Exit();
+							break;
+						default:
+							Console.WriteLine("Shit be broke yo " + _selectedButton);
+							break;
+					}
+				}
+				else if (_levelScreen.alpha == 1.0f)
+				{
+					switch (_selectedButton)
+					{
+						case 0:
+							StartGame(1);
+							break;
+						case 1:
+							StartGame(2);
+							break;
+						case 2:
+							StartGame(3);
 							break;
 						case 3:
 							Exit();
@@ -110,7 +133,7 @@ namespace Purroject_SpaceCats
 					_ruleScreen.alpha = 0.0f;
 					_creditScreen.alpha = 0.0f;
 					_endScreen.alpha = 0.0f;
-					_backgroundTimer = 5;
+					_backgroundTimer = 10;
 				}
 			}
 		}
@@ -122,18 +145,18 @@ namespace Purroject_SpaceCats
 			{
 				if (_mainScreen.alpha == 1.0f)
 				{
-					_backgroundTimer = 5;
+					_backgroundTimer = 10;
 					_background.NextFrame();
 				}
 				if (_ruleScreen.alpha == 1.0f)
 				{
-					_backgroundTimer = 10;
+					_backgroundTimer = 20;
 					_ruleScreen.NextFrame();
 				}
 				if (_creditScreen.alpha == 1.0f)
 				{
 					_creditScreen.NextFrame();
-					_backgroundTimer = 5;
+					_backgroundTimer = 10;
 					if (_creditScreen.currentFrame == 0)
 					{
 						_backgroundTimer += 35;
@@ -142,15 +165,15 @@ namespace Purroject_SpaceCats
 				if (_titleScreen.alpha == 1.0f)
 				{
 					_titleScreen.NextFrame();
-					_backgroundTimer = 5;
+					_backgroundTimer = 10;
 				}
 			}
 		}
 
-		void StartGame()
+		void StartGame(int pLevel)
 		{
 			this.alpha = 0.0f;
-			_gameRef.InitializeGame();
+			_gameRef.InitializeGame(pLevel);
 		}
 		void Rules()
 		{

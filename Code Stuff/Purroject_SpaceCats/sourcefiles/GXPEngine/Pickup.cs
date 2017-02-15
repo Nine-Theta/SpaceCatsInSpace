@@ -10,6 +10,9 @@ namespace Purroject_SpaceCats
 		{
 			alpha = 0.0f;
 			_sprite = new Sprite(pSource);
+			_sprite.SetOrigin(_sprite.width / 2, _sprite.height / 2);
+			_sprite.width = pRadius * 2;
+			_sprite.height = pRadius * 2;
 			AddChild(_sprite);
 		}
 
