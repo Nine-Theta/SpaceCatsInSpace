@@ -210,11 +210,10 @@ public class MyGame : Game
 
 	void SpawnDisposableCat()
 	{
-		_disposableCat = new Cat(_player, Cat.type.DISPOSABLE, _catCounter);
+		_disposableCat = new Cat(_player, Cat.type.DISPOSABLE);
 		AddChild(_disposableCat);
 		//_arrayDisposableCat[_arrayDisposableCat.Length - _catCounter] = _disposableCat;
 		_listDisposableCat.Add(_disposableCat);
-		_catCounter += 1;
 		_disposableCat.SetXY(_cat.x, _cat.y);
 		_disposableCat.acceleration.Add(_mouseDelta.Clone().Normalize().Scale(_accelerationValue));
 
@@ -342,7 +341,6 @@ public class MyGame : Game
 		if (leftExit || rightExit || topExit || bottomExit)
 		{
 			_listDisposableCat.RemoveAt(index);
-			_catCounter -= 1;
 			casualty.Destroy();
 			casualty = null;
 			_emporerSoulCounter += 1;
