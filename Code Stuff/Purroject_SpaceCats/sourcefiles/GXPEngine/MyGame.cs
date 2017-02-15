@@ -50,9 +50,10 @@ public class MyGame : Game
 	private const int _gameHeight = 6500;   //Actual game height, regardless of screen height
 
 	//TODO: Implement these 3 variables fully
-	private int _catCounter = 5;
+	private int _catCounter = 15;
 	private int _scoreCounter = 0;
-	private float _time = 999.0f;
+	private float _oldTime = 0;
+	private float _time = 0.0f;
 	private int _emporerSoulCounter = 0;
 	//private ShankCounter _shankCounter; //counts the amount of times b*tches will get shanked, hypothetically that is. (for legal reasons).
 
@@ -70,7 +71,8 @@ public class MyGame : Game
 
 	public void InitializeGame(int pLevel)
 	{
-		_levelManager = new LevelManager(pLevel);
+		_oldTime = Time.now;
+		_levelManager = new LevelManager(pLevel, this);
 		_backgroundSprite = new Sprite("Sprites/Background.png");
 		_backgroundSprite.SetOrigin(_backgroundSprite.width / 2, _backgroundSprite.height / 2);
 		_backgroundSprite.SetXY(width / 2, 0);
@@ -104,7 +106,7 @@ public class MyGame : Game
 		//_arrayDisposableCat = new Cat[10];
 		_listDisposableCat = new List<Cat>();
 
-		_catHandler = new MouseHandler(_player);
+		_catHandler = new MouseHandler(_player.yarnSprite);
 		_catHandler.OnMouseDownOnTarget += onCatMouseDown;
 
 		//_asteroid = new Asteroid(350, new Vec2(_gameWidth / 2, _gameHeight - 600));
@@ -167,6 +169,7 @@ public class MyGame : Game
 		_catHandler.OnMouseMove += onCatMouseMove;
 		_catHandler.OnMouseUp += onCatMouseUp;
 		_catHandler.OnMouseRightDown += onCatRightMouseDown;
+		_player.cat.alpha = 1.0f;
 		_player.selected = true;
 		_player.arrow.alpha = 1.0f;
 		//_switchCatMoveToPlayer = false;
@@ -211,13 +214,13 @@ public class MyGame : Game
 	void SpawnDisposableCat()
 	{
 		_disposableCat = new Cat(_player, Cat.type.DISPOSABLE);
-		_disposableCat.SetFrame(3);
+		//_disposableCat.SetFrame(3);
 		AddChild(_disposableCat);
 		//_arrayDisposableCat[_arrayDisposableCat.Length - _catCounter] = _disposableCat;
 		_listDisposableCat.Add(_disposableCat);
-		_disposableCat.SetXY(_player.x + _player.cat.x, _player.y + _player.cat.y);
-		_disposableCat.acceleration.Add(_mouseDelta.Clone().Normalize().Scale(_accelerationValue*0.000001f));
-
+		_disposableCat.position.SetXY(_player.x + _player.cat.x, _player.y + _player.cat.y);
+		_disposableCat.acceleration.Add(_mouseDelta.Clone().Normalize().Scale(_accelerationValue));
+		//Console.WriteLine(_disposableCat.acceleration);
 	}
 
 	private void BasicCollisionCheck(Planet other) //Very Basic
@@ -440,7 +443,7 @@ public class MyGame : Game
 				_player.ballColor = Color.Pink;
 			}
 
-			if (_player.cat.velocity.EqualsTo(Vec2.zero))
+			if (_player.cat != null && _player.cat.velocity.EqualsTo(Vec2.zero))
 			{
 				//_player.cat.position.SetXY(_player.position.Clone().Add(_player.position.Clone().Normalize().Scale(_player.radius)));
 			}
@@ -448,7 +451,9 @@ public class MyGame : Game
 			//_playerLastPosition.x = _player.x;
 			//_playerLastPosition.y = _player.y;
 			//Console.WriteLine(_time);
-			_time = _time - (Time.deltaTime / 1000);
+			float tTime = (Time.now - _oldTime) / 1000;
+			_oldTime = Time.now;
+			_time += tTime;
 			_hud.SetCats(_catCounter);
 			_hud.SetTime(_time);
 			_hud.SetScore(_scoreCounter);
@@ -498,6 +503,18 @@ public class MyGame : Game
 			}
 			if (topHit){
 				_player.velocity.Scale(0);
+				_menuScreen.ShowEndScreen(_scoreCounter, (int)(_time));
+				y = 0;
+				_started = false;
+				_player.cat.Destroy();
+				_player.cat = null;
+				_levelManager.UnloadLevel();
+				_background.alpha = 0.0f;
+				_backgroundSprite.alpha = 0.0f;
+				_catCounter = 15;
+				_time = 0;
+				_scoreCounter = 0;
+				_hud.Hide();
 				//_player.position.Add(_playerPOI);
 				//_player.velocity.Scale(1, -1);
 			}
@@ -509,6 +526,11 @@ public class MyGame : Game
 		else {
 			_player.ballColor = Color.Pink;
 		}
+	}
+
+	public void AddScore(int pScore)
+	{
+		_scoreCounter += pScore;
 	}
 
 	/// <summary>

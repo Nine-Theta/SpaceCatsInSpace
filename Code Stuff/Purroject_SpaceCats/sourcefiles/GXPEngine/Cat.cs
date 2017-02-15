@@ -12,6 +12,7 @@ namespace GXPEngine
 		private Vec2 _velocity;
 		private Vec2 _acceleration;
 		private Vec2 _target;
+		private int _animTimer = 5;
 
 		private type _catType;
 
@@ -70,15 +71,20 @@ namespace GXPEngine
 		public void Step(){
 			_velocity.Add(_acceleration);
 			_position.Add(_velocity);
-			
+
 			x = _position.x;
 			y = _position.y;
 
 			_acceleration = Vec2.zero;
 
-			if (_catType == type.DISPOSABLE)
+			if (_catType == type.DISPOSABLE && currentFrame < 3)
 			{
-
+				_animTimer--;
+				if (_animTimer <= 0)
+				{
+					NextFrame();
+					_animTimer = 5;
+				}
 			}
 		}
 	}

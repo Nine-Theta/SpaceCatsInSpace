@@ -6,7 +6,8 @@ namespace Purroject_SpaceCats
 	public class Pickup : Ball
 	{
 		private Sprite _sprite;
-		public Pickup(int pRadius, Vec2 pPosVec, string pSource) : base(pRadius, pPosVec)
+		private MyGame _gameRef;
+		public Pickup(int pRadius, Vec2 pPosVec, string pSource, MyGame pGameRef) : base(pRadius, pPosVec)
 		{
 			alpha = 0.0f;
 			_sprite = new Sprite(pSource);
@@ -14,6 +15,7 @@ namespace Purroject_SpaceCats
 			_sprite.width = pRadius * 2;
 			_sprite.height = pRadius * 2;
 			AddChild(_sprite);
+			_gameRef = pGameRef;
 		}
 
 		//TODO: Communicate what their purposes should be. Just score?
@@ -21,14 +23,15 @@ namespace Purroject_SpaceCats
 		{
 			switch (_sprite.name)
 			{
-				case "Milk.png":
+				case "Sprites/Milk.png":
 					//Milk stuffs
 					break;
-				case "Fish.png":
+				case "Sprites/Fish.png":
 					//Fish stuffs
 					break;
-				case "Pickup.png":
+				case "Sprites/Pick Up.png":
 					//Pickup stuffs (the paw bubble one)
+					_gameRef.AddScore(1);
 					break;
 				default:
 					Console.WriteLine("Error on Pickup source name" + _sprite.name );

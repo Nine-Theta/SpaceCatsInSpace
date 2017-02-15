@@ -13,9 +13,9 @@ namespace Purroject_SpaceCats
 		private Digit _flatCats;
 		private Digit _decaScore;
 		private Digit _flatScore;
-		private int _score;
-		private int _cats;
-		private int _time;
+		private int _score = 0;
+		private int _cats = 0;
+		private int _time = 0;
 
 
 		public HUD(int pWidth, int pHeight) : base(pWidth, pHeight)
@@ -38,7 +38,7 @@ namespace Purroject_SpaceCats
 			AddChild(_flatScore);
 		}
 
-		//TODO: Fix this so it doesn force it every time. Too much calculations
+		//TODO? Fix this so it doesn force it every time. Too much calculations
 		public void Step()
 		{
 			UpdateScore();
@@ -82,6 +82,19 @@ namespace Purroject_SpaceCats
 			_hectaSecond.SetNumber(firstDigit);
 			_decaSecond.SetNumber(secondDigit);
 			_flatSecond.SetNumber(thirdDigit);
+		}
+
+		public void Hide()
+		{
+			_hudSprite.alpha = 0.0f;
+			_hectaSecond.alpha = 0.0f;
+			_decaSecond.alpha = 0.0f;
+			_flatSecond.alpha = 0.0f;
+			_decaCats.alpha = 0.0f;
+			_flatCats.alpha = 0.0f;
+			_decaScore.alpha = 0.0f;
+			_flatScore.alpha = 0.0f;
+			this.alpha = 0.0f;
 		}
 	}
 }

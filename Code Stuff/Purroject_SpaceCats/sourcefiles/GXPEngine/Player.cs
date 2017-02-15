@@ -86,6 +86,13 @@ namespace GXPEngine
 				return _arrow;
 			}
 		}
+		public AnimSprite yarnSprite
+		{
+			get
+			{
+				return _yarnSprite;
+			}
+		}
 
 		private void AnimationCycle(){
 			int tFrame = 0;

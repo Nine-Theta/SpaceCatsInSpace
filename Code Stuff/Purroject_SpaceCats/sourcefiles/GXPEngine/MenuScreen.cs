@@ -23,6 +23,8 @@ namespace Purroject_SpaceCats
 		{
 			_titleScreen = new AnimSprite("Sprites/Menu/Title.png",  4, 1);
 			AddChild(_titleScreen);
+			_titleScreen.width = pWidth;
+			_titleScreen.height = pHeight;
 			_background = new AnimSprite("Sprites/Menu/Menu.png", 11, 1);
 			AddChild(_background);
 			_background.alpha = 0.0f;
@@ -193,6 +195,32 @@ namespace Purroject_SpaceCats
 		public void SetGameRef(MyGame game)
 		{
 			_gameRef = game;
+		}
+		public void ShowEndScreen(int pScore, int pTime)
+		{
+			this.alpha = 1.0f;
+			_inOtherScreen = true;
+			_titleScreen.alpha = 0.0f;
+			_background.alpha = 0.0f;
+			_mainScreen.alpha = 0.0f;
+			_levelScreen.alpha = 0.0f;
+			_ruleScreen.alpha = 0.0f;
+			_creditScreen.alpha = 0.0f;
+			_endScreen.alpha = 1.0f;
+			if (pScore >= 7)
+			{
+				_endScreen.SetFrame(3);
+			}
+			else if (pScore >= 3)
+			{
+				_endScreen.SetFrame(2);
+			}
+			else
+			{
+				_endScreen.SetFrame(1);
+			}
+			_selectedButton = 0;
+			Console.WriteLine(_endScreen.y);
 		}
 	}
 }

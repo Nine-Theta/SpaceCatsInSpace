@@ -25,7 +25,7 @@ namespace GXPEngine
 
 		private PlanetType _planetType;
 
-		public Planet(Vec2 pPosVec, string pFilename, float pRadius, float pGravityForce = 1.0f, int pGravityRange = 0, float pRotationSpeed = 0.0f) : base (1, pPosVec)
+		public Planet(Vec2 pPosVec, string pFilename, float pRadius, float pGravityForce = 1.0f, int pGravityRange = 0, float pRotationSpeed = 1.0f) : base (1, pPosVec)
 		{
 			_posVec = pPosVec;
 			SetXY(_posVec.x, _posVec.y);

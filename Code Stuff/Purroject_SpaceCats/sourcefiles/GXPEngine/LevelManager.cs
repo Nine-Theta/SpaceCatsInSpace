@@ -6,11 +6,13 @@ namespace GXPEngine
 	public class LevelManager : GameObject
 	{
 		private XMLMap _currentMap;
+		private MyGame _gameRef;
 		private int _currentlevel;
 
-		public LevelManager(int pLevel)
+		public LevelManager(int pLevel, MyGame pGameRef)
 		{
 			_currentMap = new XMLMap();
+			_gameRef = pGameRef;
 			LoadLevel(pLevel);
 		}
 
@@ -21,6 +23,20 @@ namespace GXPEngine
 			foreach (TiledObject tObject in _currentMap.objectGroup.TiledObject)
 			{
 				InterpretObject(tObject);
+			}
+		}
+		public void UnloadLevel()
+		{
+			GameObject[] ObjectList = new GameObject[this.GetChildren().Count];
+			int index = 0;
+			foreach (GameObject pObject in this.GetChildren())
+			{
+				ObjectList[index] = pObject;
+				index++;
+			}
+			for (int i = 0; i < ObjectList.Length; i++)
+			{
+				ObjectList[i].Destroy();
 			}
 		}
 
@@ -110,23 +126,23 @@ namespace GXPEngine
 					asteroid2.rotation = pObject.Rotation;
 					break;
 				case "milk":
-					Pickup milk = new Pickup((int)(pObject.Width / 2), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Milk.png");
+					Pickup milk = new Pickup((int)(pObject.Width / 2), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Milk.png", _gameRef);
 					AddChild(milk);
 					break;
 				case "fish":
-					Pickup fish = new Pickup((int)(pObject.Width / 2), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Fish.png");
+					Pickup fish = new Pickup((int)(pObject.Width / 2), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Fish.png", _gameRef);
 					AddChild(fish);
 					break;
 				case "token":
-					Pickup pickup = new Pickup((int)(pObject.Width / 2), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Pick Up.png");
+					Pickup pickup = new Pickup((int)(pObject.Width / 2), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Pick Up.png", _gameRef);
 					AddChild(pickup);
 					break;
 				case "pick":
-					Pickup pickup1 = new Pickup((int)(pObject.Width / 2), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Pick Up.png");
+					Pickup pickup1 = new Pickup((int)(pObject.Width / 2), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Pick Up.png", _gameRef);
 					AddChild(pickup1);
 					break;
 				case "Coin":
-					Pickup pickup2 = new Pickup((int)(pObject.Width) / 2, new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Pick Up.png");
+					Pickup pickup2 = new Pickup((int)(pObject.Width) / 2, new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Pick Up.png", _gameRef);
 					AddChild(pickup2);
 					break;
 				default:
