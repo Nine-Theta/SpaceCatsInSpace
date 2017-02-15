@@ -131,7 +131,7 @@ namespace GXPEngine
 							//_position.SetXY(deltaVec.Clone().Normalize().Scale(planet.hitball.radius + radius).Add(planet.position));
 
 							//Iteration 6:
-							_velocity.Reflect(normalDelta, 1);
+							_velocity.Reflect(normalDelta, 1).Scale(0.8f);
 
 							Console.WriteLine(projectedVec.GetAngleDegrees());
 							_bouncedOffPlanetTimer = 3;

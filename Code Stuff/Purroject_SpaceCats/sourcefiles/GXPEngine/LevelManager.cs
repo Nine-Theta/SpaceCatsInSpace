@@ -11,7 +11,7 @@ namespace GXPEngine
 		public LevelManager()
 		{
 			_currentMap = new XMLMap();
-			LoadLevel(3);
+			LoadLevel(1);
 		}
 
 		void LoadLevel(int pLevel)
@@ -26,17 +26,17 @@ namespace GXPEngine
 
 		void InterpretObject(TiledObject pObject)
 		{
-			string objectName = pObject.Name;
+			string objectName = pObject.Name.ToLower();
 			string[] splitNames = objectName.Split(' ');
 			switch (splitNames[0])
 			{
-				case "Player":
+				case "player":
 					Player player = new Player(XMLMap.PLAYER_RADIUS, new Vec2(pObject.X, pObject.Y));
 					player.levelRef = this;
 					AddChild(player);
 					player.rotation = pObject.Rotation;
 					break;
-				case "Planet":
+				case "planet":
 					string fileSource = "Sprites/Planet ";
 					string PartOfSource = "";
 					switch (pObject.GID)
@@ -69,45 +69,50 @@ namespace GXPEngine
 					//AddPlanetList(planet);
 					AddChild(planet);
 					break;
-				case "Station":
+				case "station":
 					//Changes frame if frame is the starting station, else it uses another frame;
 					SpaceStation station = new SpaceStation(pObject.X, pObject.Y, "Sprites/SpaceStation-v3.png");
 					AddChild(station);
 					station.rotation = pObject.Rotation;
 					break;
-				case "Black":
+				case "black":
 					BlackHole blackhole = new BlackHole(new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), 5, 300);
 					AddChild(blackhole);
 					blackhole.rotation = pObject.Rotation;
 					break;
-				case "Blackhole":
+				case "blackhole":
 					BlackHole blackhole1 = new BlackHole(new Vec2(pObject.X, pObject.Y), 5, 300);
 					AddChild(blackhole1);
 					blackhole1.rotation = pObject.Rotation;
 					break;
-				case "Meteor":
+				case "meteor":
 					Asteroid asteroid = new Asteroid(350, new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)));
 					AddChild(asteroid);
 					asteroid.rotation = pObject.Rotation;
 					break;
-				case "Asteroid":
+				case "asteroid":
 					Asteroid asteroid1 = new Asteroid(350, new Vec2(pObject.X, pObject.Y));
 					AddChild(asteroid1);
 					asteroid1.rotation = pObject.Rotation;
 					break;
-				case "Milk":
+				case "astroid":
+					Asteroid asteroid2 = new Asteroid(350, new Vec2(pObject.X, pObject.Y));
+					AddChild(asteroid2);
+					asteroid2.rotation = pObject.Rotation;
+					break;
+				case "milk":
 					Pickup milk = new Pickup((int)(pObject.Width), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Milk.png");
 					AddChild(milk);
 					break;
-				case "Fish":
+				case "fish":
 					Pickup fish = new Pickup((int)(pObject.Width), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Fish.png");
 					AddChild(fish);
 					break;
-				case "Token":
+				case "token":
 					Pickup pickup = new Pickup((int)(pObject.Width), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Pickup.png");
 					AddChild(pickup);
 					break;
-				case "Pickup":
+				case "pick":
 					Pickup pickup1 = new Pickup((int)(pObject.Width), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Pickup.png");
 					AddChild(pickup1);
 					break;
