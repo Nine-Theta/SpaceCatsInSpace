@@ -125,10 +125,13 @@ namespace GXPEngine
 							//Console.WriteLine(normalDelta);
 							Vec2 projectedVec = _velocity.Clone().Normalize().Scale(deltaVec.Dot(normalDelta));
 							projectedVec.RotateDegrees(180);
-							_velocity.RotateRadians(projectedVec.GetAngleRadians()).RotateRadians(projectedVec.GetAngleRadians()).Scale(0.8f);
-							_acceleration.RotateRadians(projectedVec.GetAngleRadians()).RotateRadians(projectedVec.GetAngleRadians()).Scale(0.8f);
+							//_velocity.RotateRadians(projectedVec.GetAngleRadians()).RotateRadians(projectedVec.GetAngleRadians()).Scale(0.8f);
+							//_acceleration.RotateRadians(projectedVec.GetAngleRadians()).RotateRadians(projectedVec.GetAngleRadians()).Scale(0.8f);
 							///Iteration 5: To be used with Iteration 4. Fixes some of Iteration 4's issues. 
-							_position.SetXY(deltaVec.Clone().Normalize().Scale(planet.hitball.radius + radius).Add(planet.position));
+							//_position.SetXY(deltaVec.Clone().Normalize().Scale(planet.hitball.radius + radius).Add(planet.position));
+
+							//Iteration 6:
+							_velocity.Reflect(normalDelta, 1);
 
 							Console.WriteLine(projectedVec.GetAngleDegrees());
 							_bouncedOffPlanetTimer = 3;

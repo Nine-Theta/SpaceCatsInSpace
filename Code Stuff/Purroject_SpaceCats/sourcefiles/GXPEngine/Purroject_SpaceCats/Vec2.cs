@@ -255,11 +255,10 @@ namespace GXPEngine
 			y = -y;
 		}
 
-		//public Vec2 Reflect(float pBounciness = 1) //Think about Life, The Universe, Reflect in Normal, etc.
-		//{
-		//	this.Subtract()
-		//	return this;
-		//}
+		public Vec2 Reflect(Vec2 pNormal, float pBounciness = 0) //Think about Life, The Universe, Reflect in Normal, etc.
+		{
+			return this.Subtract(pNormal.Scale((1 + pBounciness) * (this.Clone().Dot(pNormal))));
+		}
 	}
 }
 
