@@ -9,7 +9,7 @@ public class MyGame : Game
 	private MouseHandler _catHandler = null; //playerhandler won the vote over "ballhandler" & "ballfondler" //Renamed playerhandler to cathandler
 	private Player _player = null;
 	private LevelManager _levelManager = null;
-	private Cat _cat = null;
+	//private Cat _cat = null;
 	private Cat _disposableCat = null; //Acceptable losses
 	//private Arrow _arrow = null;
 	//private Planet _planet1 = null;
@@ -93,10 +93,10 @@ public class MyGame : Game
 		_playerLastPosition = new Vec2(_player.x, _player.y);
 		_playerBouncePos = Vec2.zero;
 		_playerPOI = Vec2.zero;
-
-		_cat = new Cat(_player);
-		AddChild(_cat);
 		_player.arrow.alpha = 0.0f;
+
+		//_cat = new Cat(_player);
+		//AddChild(_cat);
 		//_arrow = new Arrow(_player);
 		//AddChild(_arrow);
 		//_arrow.alpha = 0.0f;
@@ -174,8 +174,8 @@ public class MyGame : Game
 
 	private void onCatMouseMove(GameObject target, MouseEventType type)
 	{
-		_cat.position.SetXY(_player.position.Clone().Add(_mouseDelta.Clone().Normalize().Scale(_player.radius)));
-		_cat.rotation = _mouseDelta.GetAngleDegrees() + 180;
+		//_cat.position.SetXY(_player.position.Clone().Add(_mouseDelta.Clone().Normalize().Scale(_player.radius)));
+		//_cat.rotation = _mouseDelta.GetAngleDegrees() + 180;
 		//_arrow.position.SetXY(_player.position.Clone().Subtract(_mouseDelta.Clone().Normalize().Scale(_player.radius*1.5f)));
 		//_arrow.rotation = _mouseDelta.GetAngleDegrees() + 180;
 
@@ -188,7 +188,7 @@ public class MyGame : Game
 		_catHandler.OnMouseUp -= onCatMouseUp;
 		_player.arrow.alpha = 0.0f;
 		_player.selected = false;
-		_cat.alpha = 0.0f;
+		_player.cat.alpha = 0.0f;
 		SpawnDisposableCat();
 		_player.acceleration.Add(_mouseDelta.Clone().Normalize().Scale(-_accelerationValue));
 		//_arrow.position.SetXY(_player.position.Clone().Subtract(_player.position.Clone().Normalize().Scale(_player.radius*1.5f)));
@@ -196,9 +196,9 @@ public class MyGame : Game
 
 	private void onCatRightMouseDown(GameObject target, MouseEventType type)
 	{
-		_cat.velocity = Vec2.zero;
-		_cat.alpha = 1.0f;
-		_cat.position.SetXY(_player.position.Clone().Add(_player.position.Clone().Normalize().Scale(_player.radius)));
+		_player.cat.velocity = Vec2.zero;
+		_player.cat.alpha = 1.0f;
+		//_player.cat.position.SetXY(_player.position.Clone().Add(_player.position.Clone().Normalize().Scale(_player.radius)));
 		//_player.arrow.position.SetXY(_player.position.Clone().Subtract(_player.position.Clone().Normalize().Scale(_player.radius * 1.5f)));
 		 //_arrow.position.SetXY(_player.position.Clone().Subtract(_player.position.Clone().Normalize().Scale(_player.radius*1.5f)));
 	}
@@ -211,11 +211,12 @@ public class MyGame : Game
 	void SpawnDisposableCat()
 	{
 		_disposableCat = new Cat(_player, Cat.type.DISPOSABLE);
+		_disposableCat.SetFrame(3);
 		AddChild(_disposableCat);
 		//_arrayDisposableCat[_arrayDisposableCat.Length - _catCounter] = _disposableCat;
 		_listDisposableCat.Add(_disposableCat);
-		_disposableCat.SetXY(_cat.x, _cat.y);
-		_disposableCat.acceleration.Add(_mouseDelta.Clone().Normalize().Scale(_accelerationValue));
+		_disposableCat.SetXY(_player.x + _player.cat.x, _player.y + _player.cat.y);
+		_disposableCat.acceleration.Add(_mouseDelta.Clone().Normalize().Scale(_accelerationValue*0.000001f));
 
 	}
 
@@ -388,12 +389,14 @@ public class MyGame : Game
 
 			_player.Step();
 
-			_cat.Step();
+			//_cat.Step();
 
 			//_arrow.Step();
 
 			_player.arrow.position.SetXY(_mouseDelta.Clone().Normalize().Scale(-_player.radius));
 			_player.arrow.rotation = _mouseDelta.GetAngleDegrees() + 180;
+			_player.cat.position.SetXY(_mouseDelta.Clone().Normalize().Scale(_player.radius*2));
+			_player.cat.rotation = _mouseDelta.GetAngleDegrees()+90;
 
 			if (_disposableCat != null && _listDisposableCat.Contains(_disposableCat))
 			{
@@ -437,14 +440,14 @@ public class MyGame : Game
 				_player.ballColor = Color.Pink;
 			}
 
-			if (_cat.velocity.EqualsTo(Vec2.zero))
+			if (_player.cat.velocity.EqualsTo(Vec2.zero))
 			{
-				_cat.position.SetXY(_player.position.Clone().Add(_player.position.Clone().Normalize().Scale(_player.radius)));
+				//_player.cat.position.SetXY(_player.position.Clone().Add(_player.position.Clone().Normalize().Scale(_player.radius)));
 			}
 
 			//_playerLastPosition.x = _player.x;
 			//_playerLastPosition.y = _player.y;
-			Console.WriteLine(_time);
+			//Console.WriteLine(_time);
 			_time = _time - (Time.deltaTime / 1000);
 			_hud.SetCats(_catCounter);
 			_hud.SetTime(_time);

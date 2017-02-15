@@ -11,6 +11,7 @@ namespace GXPEngine
 
 		private AnimSprite _yarnSprite;
 		private LevelManager _levelRef;
+		private Cat _cat = null;
 		private Arrow _arrow = null;
 
 		private bool _selected;
@@ -32,6 +33,9 @@ namespace GXPEngine
 			_yarnSprite.SetScaleXY(0.3f, 0.3f);
 			alpha = 0.0f;
 			AddChild(_yarnSprite);
+
+			_cat = new Cat(this);
+			AddChild(_cat);
 
 			_arrow = new Arrow(this);
 			AddChild(_arrow);
@@ -64,6 +68,15 @@ namespace GXPEngine
 			set{
 				_selected = value;
 			}
+		}
+
+		public Cat cat{
+			set{
+				_cat = value ?? null;
+			}
+			get{
+				return _cat;
+				}
 		}
 		public Arrow arrow{
 			set{
@@ -133,7 +146,7 @@ namespace GXPEngine
 							//Iteration 6:
 							_velocity.Reflect(normalDelta, 1).Scale(0.8f);
 
-							Console.WriteLine(projectedVec.GetAngleDegrees());
+							//Console.WriteLine(projectedVec.GetAngleDegrees());
 							_bouncedOffPlanetTimer = 3;
 						}
 						else if (planet.gravityRadius + radius > deltaVec.Length())
@@ -191,6 +204,8 @@ namespace GXPEngine
 			y = _position.y;
 
 			_acceleration = Vec2.zero;
+
+			_cat.Step();
 
 			_arrow.Step();
 
