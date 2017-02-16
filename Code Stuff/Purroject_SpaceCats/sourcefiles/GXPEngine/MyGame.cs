@@ -215,7 +215,7 @@ public class MyGame : Game
 		if ((_player.radius + other.radius) > deltaVec.Length())
 		{
 			_player.velocity.Scale(0.5f);
-			other.AddVelocity(_player.velocity.Clone());
+			other.acceleration.Add(_player.velocity);
 		}
 	}
 

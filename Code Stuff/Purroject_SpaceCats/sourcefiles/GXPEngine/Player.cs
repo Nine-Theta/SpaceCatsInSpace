@@ -123,12 +123,12 @@ namespace GXPEngine
 					Planet planet = _levelRef.planetList[i];
 					if (planet != null)
 					{
-						Vec2 deltaVec = _position.Clone().Subtract(planet.posVec);
+						Vec2 deltaVec = position.Clone().Subtract(planet.posVec);
 						if (planet.hitball.radius + radius > deltaVec.Length() && _bouncedOffPlanetTimer < 0)
 						{
 							if (planet is BlackHole)
 							{
-								_position = planet.position;
+								position = planet.position;
 								_bouncedOffPlanetTimer = -1;
 								//Get all cats to die for the glory of the emperor
 							}
@@ -156,11 +156,16 @@ namespace GXPEngine
 					if (asteroid != null)
 					{
 						asteroid.Step();
-						Vec2 deltaVec = _position.Clone().Subtract(asteroid.position);
+						Vec2 deltaVec = position.Clone().Subtract(asteroid.position);
 						if ((radius + asteroid.radius) > deltaVec.Length())
 						{
-							velocity.Scale(0.5f);
-							asteroid.AddVelocity(velocity.Clone());
+							if (_velocity.Length() > 10.0f && !asteroid.crushed)
+							{
+								asteroid.Crush();
+							}
+							_velocity.Scale(0.5f);
+							_acceleration.Subtract(asteroid.velocity.Clone().Scale(0.7f));
+							asteroid.acceleration.Add(_velocity.Clone().Scale(0.9f));
 						}
 					}
 				}
@@ -172,7 +177,7 @@ namespace GXPEngine
 					Pickup pickup = _levelRef.pickupList[i];
 					if (pickup != null)
 					{
-						Vec2 deltaVec = _position.Clone().Subtract(pickup.position);
+						Vec2 deltaVec = position.Clone().Subtract(pickup.position);
 						if ((radius + pickup.radius) > deltaVec.Length())
 						{
 							//TODO: Make this do stuff
@@ -190,10 +195,10 @@ namespace GXPEngine
 			{
 				_velocity.Normalize().Scale(25.0f);
 			}
-			_position.Add(_velocity);
+			position.Add(_velocity);
 
-			x = _position.x;
-			y = _position.y;
+			x = position.x;
+			y = position.y;
 
 			_acceleration = Vec2.zero;
 
