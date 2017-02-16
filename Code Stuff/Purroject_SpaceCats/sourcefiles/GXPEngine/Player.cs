@@ -20,8 +20,7 @@ namespace GXPEngine
 		//Amount of frames of "invulnerability" to planet bumping
 		//Doesn't fix the problem at hand but decreases the symptoms 
 		private int _bouncedOffPlanetTimer = 3;
-		private float _speedLimit = 20.0f;
-
+		//private float _gravityScale = 0.1f;
 
 		public Player(int pRadius, Vec2 pPosition = null) : base(pRadius, pPosition)
 		{
@@ -124,38 +123,23 @@ namespace GXPEngine
 					Planet planet = _levelRef.planetList[i];
 					if (planet != null)
 					{
-						Vec2 deltaVec = position.Clone().Subtract(planet.posVec);
+						Vec2 deltaVec = _position.Clone().Subtract(planet.posVec);
 						if (planet.hitball.radius + radius > deltaVec.Length() && _bouncedOffPlanetTimer < 0)
 						{
-							///Iteration 1, reflects velocity. Bounces back where it came from
-							//Console.WriteLine(_acceleration);
-							//_acceleration.Invert();
-							//_velocity.Invert();
-							///Iteration 2, Sets degrees to match the delta vector's, effectively sends them away from the core. 
-							//float degrees = deltaVec.GetAngleDegrees();
-							//_acceleration.SetAngleDegrees(degrees);
-							//_velocity.SetAngleDegrees(degrees);
-							///Iteration 3: Dot Product. Should reflect with bounciness of 1. Fails miserably. Adding probably not the solution
-							//Note: This can be used as a normal for the dot product as we are dealing with a circle, and the delta is not the line of reflection
-							//Vec2 normalDelta = deltaVec.Clone().Normalize();
-							//Console.WriteLine(normalDelta);
-							//Vec2 projectedVec = _velocity.Clone().Normalize().Scale(_velocity.Dot(normalDelta));
-							//_velocity.Add(projectedVec).Add(projectedVec);
-							///Iteration 4: Dot Product angle forcing? Was this supposed to be used this way? WORKS! Kinda... See: Iteration 5
-							Vec2 normalDelta = deltaVec.Clone().Normalize();
-							//Console.WriteLine(normalDelta);
-							Vec2 projectedVec = _velocity.Clone().Normalize().Scale(deltaVec.Dot(normalDelta));
-							projectedVec.RotateDegrees(180);
-							//_velocity.RotateRadians(projectedVec.GetAngleRadians()).RotateRadians(projectedVec.GetAngleRadians()).Scale(0.8f);
-							//_acceleration.RotateRadians(projectedVec.GetAngleRadians()).RotateRadians(projectedVec.GetAngleRadians()).Scale(0.8f);
-							///Iteration 5: To be used with Iteration 4. Fixes some of Iteration 4's issues. 
-							//_position.SetXY(deltaVec.Clone().Normalize().Scale(planet.hitball.radius + radius).Add(planet.position));
-
-							//Iteration 6:
-							_velocity.Reflect(normalDelta, 1).Scale(0.8f);
-
-							//Console.WriteLine(projectedVec.GetAngleDegrees());
-							_bouncedOffPlanetTimer = 3;
+							if (planet is BlackHole)
+							{
+								_position = planet.position;
+								_bouncedOffPlanetTimer = -1;
+								//Get all cats to die for the glory of the emperor
+							}
+							else
+							{
+								Vec2 normalDelta = deltaVec.Clone().Normalize();
+								Vec2 projectedVec = _velocity.Clone().Normalize().Scale(deltaVec.Dot(normalDelta));
+								projectedVec.RotateDegrees(180);
+								_velocity.Reflect(normalDelta, 1).Scale(0.8f);
+								_bouncedOffPlanetTimer = 3;
+							}
 						}
 						else if (planet.gravityRadius + radius > deltaVec.Length())
 						{
@@ -172,15 +156,11 @@ namespace GXPEngine
 					if (asteroid != null)
 					{
 						asteroid.Step();
-						Vec2 deltaVec = position.Clone().Subtract(asteroid.position);
+						Vec2 deltaVec = _position.Clone().Subtract(asteroid.position);
 						if ((radius + asteroid.radius) > deltaVec.Length())
 						{
-							if (_velocity.Length() > 10.0f && !asteroid.crushed){
-								asteroid.Crush();
-							}
-							_velocity.Scale(0.5f);
-							_acceleration.Subtract(asteroid.velocity.Clone().Scale(0.7f));
-							asteroid.acceleration.Add(_velocity.Clone().Scale(0.9f));
+							velocity.Scale(0.5f);
+							asteroid.AddVelocity(velocity.Clone());
 						}
 					}
 				}
@@ -192,7 +172,7 @@ namespace GXPEngine
 					Pickup pickup = _levelRef.pickupList[i];
 					if (pickup != null)
 					{
-						Vec2 deltaVec = position.Clone().Subtract(pickup.position);
+						Vec2 deltaVec = _position.Clone().Subtract(pickup.position);
 						if ((radius + pickup.radius) > deltaVec.Length())
 						{
 							//TODO: Make this do stuff
@@ -206,13 +186,14 @@ namespace GXPEngine
 		public void Step()
 		{
 			_velocity.Add(_acceleration);
-			if (_velocity.Length() > _speedLimit){
-				_velocity.Normalize().Scale(_speedLimit);
+			if (_velocity.Length() > 25.0f)
+			{
+				_velocity.Normalize().Scale(25.0f);
 			}
-			position.Add(_velocity);
+			_position.Add(_velocity);
 
-			x = position.x;
-			y = position.y;
+			x = _position.x;
+			y = _position.y;
 
 			_acceleration = Vec2.zero;
 
