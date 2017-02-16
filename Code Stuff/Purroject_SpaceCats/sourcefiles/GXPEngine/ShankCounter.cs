@@ -22,6 +22,14 @@ namespace Purroject_SpaceCats
 			Console.WriteLine("Shank successfully added to counter");
 		}
 
+		public void AddShank(int pShanks)
+		{
+			ShankCounter shankCounter = ReadShanks();
+			shankCounter.shanks+=pShanks;
+			shankCounter.WriteShanks();
+			Console.WriteLine("Shank successfully added to counter");
+		}
+
 		public void WriteShanks()
 		{
 			XmlSerializer serializer = new XmlSerializer(typeof(ShankCounter));
