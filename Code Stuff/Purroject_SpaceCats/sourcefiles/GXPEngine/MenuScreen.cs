@@ -56,7 +56,7 @@ namespace Purroject_SpaceCats
 			_levelScreen = new AnimSprite("Sprites/Menu/Map.png", 7, 1);
 			AddChild(_levelScreen);
 			_levelScreen.alpha = 0.0f;
-			_levelScreenForeground = new Sprite("Sprites/Menu/MapBackground.png");
+			_levelScreenForeground = new Sprite("Sprites/Menu/Menu Bars.png");
 			AddChild(_levelScreenForeground);
 			_levelScreenForeground.alpha = 0.0f;
 
@@ -123,6 +123,7 @@ namespace Purroject_SpaceCats
 							_mainScreen.alpha = 0.0f;
 							_levelScreen.alpha = 1.0f;
 							_levelScreenBackground.alpha = 1.0f;
+							_levelScreenForeground.alpha = 1.0f;
 							_levelScreen.y = -height + _levelScreen.currentFrame * LEVEL_SCREEN_OFFSET_PER_LEVEL;
 							_inOtherScreen = true;
 							break;

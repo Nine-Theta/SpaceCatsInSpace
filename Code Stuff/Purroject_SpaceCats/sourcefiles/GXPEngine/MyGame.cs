@@ -52,7 +52,7 @@ public class MyGame : Game
 	public MyGame() : base(640, 960, false, false) //Screen size should be 640x960. Don't overstep this boundary
 	{
 		targetFps = 60;
-		_menuMusic = new Sound("Music/the_environment.mp3", true);
+		_menuMusic = new Sound("Music/Rushjet1_-_11_-_The_Voyage.mp3", true);
 		_menuMusic.Play();
 		_menuScreen = new MenuScreen(width, height);
 		AddChild(_menuScreen);
