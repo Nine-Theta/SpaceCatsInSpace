@@ -11,14 +11,6 @@ public class MyGame : Game
 	private LevelManager _levelManager = null;
 	//private Cat _cat = null;
 	private Cat _disposableCat = null; //Acceptable losses
-	//private Arrow _arrow = null;
-	//private Planet _planet1 = null;
-	//private Planet _planet2 = null;
-	//private Planet _planet3 = null;
-	//private Planet _planet4 = null;
-	//private BlackHole _blackhole = null;
-	//private Asteroid _asteroid = null;
-	//private SpaceStation _spaceStation = null;
 
 	//private Cat[] _arrayDisposableCat;
 	private List<Cat> _listDisposableCat;
@@ -39,17 +31,12 @@ public class MyGame : Game
 	private MenuScreen _menuScreen = null;
 
 	private float _accelerationValue = 0.0f;
-	//TODO? get an image file with the ball with decreasing amounts of cats
-	//Already have the counter, extra files redundant. Possible though as they have time left
 	private float _leftBoundary, _rightBoundary, _topBoundary, _bottomBoundary;
-	///private float _bounceX Pos, _bounceYPos; //Why did these exist again? I've only ever seen them as warnings in the error list
-	// Legacy values. Also, could you not use three slashes for comments?
 
 	private const int _scrollBoundary = 1600;
 	private const int _gameWidth = 640; //Actual game width, regardless of screen width
 	private const int _gameHeight = 6500;   //Actual game height, regardless of screen height
 
-	//TODO: Implement these 3 variables fully
 	private int _catCounter = 15;
 	private int _scoreCounter = 0;
 	private float _oldTime = 0;
@@ -73,7 +60,7 @@ public class MyGame : Game
 	{
 		_oldTime = Time.now;
 		_levelManager = new LevelManager(pLevel, this);
-		_backgroundSprite = new Sprite("Sprites/Background.png");
+		_backgroundSprite = new Sprite("Sprites/Background v2.png");
 		_backgroundSprite.SetOrigin(_backgroundSprite.width / 2, _backgroundSprite.height / 2);
 		_backgroundSprite.SetXY(width / 2, 0);
 		AddChild(_backgroundSprite);
@@ -88,8 +75,6 @@ public class MyGame : Game
 		AddChild(_levelManager);
 
 		_player = _levelManager.GetPlayer();
-		//_player = new Player(40, new Vec2(_gameWidth / 2, _gameHeight - 400));
-		//AddChild(_player);
 		_scrollTarget = _player;
 		_playerStartPosition = new Vec2(_player.x, _player.y);
 		_playerLastPosition = new Vec2(_player.x, _player.y);
@@ -97,37 +82,10 @@ public class MyGame : Game
 		_playerPOI = Vec2.zero;
 		_player.arrow.alpha = 0.0f;
 
-		//_cat = new Cat(_player);
-		//AddChild(_cat);
-		//_arrow = new Arrow(_player);
-		//AddChild(_arrow);
-		//_arrow.alpha = 0.0f;
-
-		//_arrayDisposableCat = new Cat[10];
 		_listDisposableCat = new List<Cat>();
 
 		_catHandler = new MouseHandler(_player.yarnSprite);
 		_catHandler.OnMouseDownOnTarget += onCatMouseDown;
-
-		//_asteroid = new Asteroid(350, new Vec2(_gameWidth / 2, _gameHeight - 600));
-		//AddChild(_asteroid);
-
-		////Planets and black holes
-		//_planet1 = new Planet(new Vec2(100, 700), "Sprites/Planet 1.png", 5, 0.5f, 300);
-		//AddChild(_planet1);
-		//_planet2 = new Planet(new Vec2(500, 4500), "Sprites/Planet 2.png", 5, 0.2f, 300);
-		//AddChild(_planet2);
-		//_planet3 = new Planet(new Vec2(100, 2700), "Sprites/Planet 3.png", 5, 0.5f, 300);
-		//AddChild(_planet3);
-		//_planet4 = new Planet(new Vec2(500, 5500), "Sprites/Planet 4.png", 5, 0.2f, 300);
-		//AddChild(_planet4);
-
-		//_blackhole = new BlackHole(new Vec2(_gameWidth / 2, _gameHeight), 5, 300);
-		//AddChild(_blackhole);
-
-		////SpaceStations (spawn and end should be here)
-		//_spaceStation = new SpaceStation(_gameWidth / 2, 0, "Sprites/SpaceStationTemp.png");
-		//AddChild(_spaceStation);
 
 		_mouseDelta = new Vec2(Input.mouseX, Input.mouseY);
 
@@ -185,11 +143,6 @@ public class MyGame : Game
 
 	private void onCatMouseMove(GameObject target, MouseEventType type)
 	{
-		//_cat.position.SetXY(_player.position.Clone().Add(_mouseDelta.Clone().Normalize().Scale(_player.radius)));
-		//_cat.rotation = _mouseDelta.GetAngleDegrees() + 180;
-		//_arrow.position.SetXY(_player.position.Clone().Subtract(_mouseDelta.Clone().Normalize().Scale(_player.radius*1.5f)));
-		//_arrow.rotation = _mouseDelta.GetAngleDegrees() + 180;
-
 		_accelerationValue = _mouseDelta.Length() / 15;
 	}
 
@@ -210,9 +163,6 @@ public class MyGame : Game
 	{
 		_player.cat.velocity = Vec2.zero;
 		_player.cat.alpha = 1.0f;
-		//_player.cat.position.SetXY(_player.position.Clone().Add(_player.position.Clone().Normalize().Scale(_player.radius)));
-		//_player.arrow.position.SetXY(_player.position.Clone().Subtract(_player.position.Clone().Normalize().Scale(_player.radius * 1.5f)));
-		//_arrow.position.SetXY(_player.position.Clone().Subtract(_player.position.Clone().Normalize().Scale(_player.radius*1.5f)));
 	}
 
 	private void OnMouseEvent(GameObject target, MouseEventType type)
@@ -289,56 +239,52 @@ public class MyGame : Game
 	/// <summary>
 	/// The boundary collision check that is currently being worked on.
 	/// </summary>
-	private void checkBoundaryCollisions()
-	{
-		bool leftHit = (_player.x - _player.radius) < _leftBoundary;
-		bool rightHit = (_player.x + _player.radius) > _rightBoundary;
-		bool topHit = (_player.y - _player.radius) < _topBoundary;
-		bool bottomHit = (_player.y + _player.radius) > _bottomBoundary;
-
-		if (leftHit || rightHit || topHit || bottomHit)
-		{
-			_playerBouncePos.x = _player.x;
-			_playerBouncePos.y = _player.y;
-			_player.ballColor = Color.Maroon;
-
-			//_playerPOI.SetXY(_playerBouncePos.Clone().Subtract(_playerLastPosition));
-			//Console.WriteLine("_playerBounce(" + _playerBouncePos + ") - _playerLastPosition(" + _playerLastPosition + ") = _playerPOI(" + _playerPOI + ")");
-
-			//_playerPOI.SetXY(_playerLastPosition.Clone().Subtract(_playerBouncePos));
-			//Console.WriteLine("_playerLastPosition(" + _playerLastPosition + ") - _playerBounce(" + _playerBouncePos + ") = _playerPOI(" + _playerPOI + ")");
-
-			if (leftHit)
-			{
-				//Console.WriteLine("Last Pos PreCalc:D " + _playerLastPosition);
-				_playerPOI.SetXY(_playerLastPosition.Clone().Normalize().Scale(_playerLastPosition.x - _leftBoundary));
-				//Console.WriteLine("Last Pos PostCalc:D " + _playerPOI);
-				_player.position.SetXY(_playerLastPosition.Add(_playerPOI.Clone().Normalize().Scale(_playerPOI.Length())));
-				_player.velocity.Scale(-1, 1);
-			}
-			if (rightHit)
-			{
-				_playerPOI.SetXY(_playerLastPosition.Clone().Normalize().Scale(_rightBoundary - _playerLastPosition.x));
-				_player.position.SetXY(_playerPOI.Add(_playerLastPosition));
-				_player.velocity.Scale(-1, 1);
-			}
-			if (topHit)
-			{
-				_playerPOI.SetXY(_playerLastPosition.Clone().Normalize().Scale(_playerLastPosition.y - _topBoundary));
-				_player.position.SetXY(_playerPOI.Add(_playerLastPosition));
-				_player.velocity.Scale(1, -1);
-			}
-			if (bottomHit)
-			{
-				_playerPOI.SetXY(_playerLastPosition.Clone().Normalize().Scale(_bottomBoundary - _playerLastPosition.y));
-				_player.position.SetXY(_playerPOI.Add(_playerLastPosition));
-				_player.velocity.Scale(1, -1);
-			}
-		}
-		else {
-			_player.ballColor = Color.Pink;
-		}
-	}
+	//private void checkBoundaryCollisions()
+	//{
+	//	bool leftHit = (_player.x - _player.radius) < _leftBoundary;
+	//	bool rightHit = (_player.x + _player.radius) > _rightBoundary;
+	//	bool topHit = (_player.y - _player.radius) < _topBoundary;
+	//	bool bottomHit = (_player.y + _player.radius) > _bottomBoundary;
+	//	if (leftHit || rightHit || topHit || bottomHit)
+	//	{
+	//		_playerBouncePos.x = _player.x;
+	//		_playerBouncePos.y = _player.y;
+	//		_player.ballColor = Color.Maroon;
+	//		//_playerPOI.SetXY(_playerBouncePos.Clone().Subtract(_playerLastPosition));
+	//		//Console.WriteLine("_playerBounce(" + _playerBouncePos + ") - _playerLastPosition(" + _playerLastPosition + ") = _playerPOI(" + _playerPOI + ")");
+	//		//_playerPOI.SetXY(_playerLastPosition.Clone().Subtract(_playerBouncePos));
+	//		//Console.WriteLine("_playerLastPosition(" + _playerLastPosition + ") - _playerBounce(" + _playerBouncePos + ") = _playerPOI(" + _playerPOI + ")");
+	//		if (leftHit)
+	//		{
+	//			//Console.WriteLine("Last Pos PreCalc:D " + _playerLastPosition);
+	//			_playerPOI.SetXY(_playerLastPosition.Clone().Normalize().Scale(_playerLastPosition.x - _leftBoundary));
+	//			//Console.WriteLine("Last Pos PostCalc:D " + _playerPOI);
+	//			_player.position.SetXY(_playerLastPosition.Add(_playerPOI.Clone().Normalize().Scale(_playerPOI.Length())));
+	//			_player.velocity.Scale(-1, 1);
+	//		}
+	//		if (rightHit)
+	//		{
+	//			_playerPOI.SetXY(_playerLastPosition.Clone().Normalize().Scale(_rightBoundary - _playerLastPosition.x));
+	//			_player.position.SetXY(_playerPOI.Add(_playerLastPosition));
+	//			_player.velocity.Scale(-1, 1);
+	//		}
+	//		if (topHit)
+	//		{
+	//			_playerPOI.SetXY(_playerLastPosition.Clone().Normalize().Scale(_playerLastPosition.y - _topBoundary));
+	//			_player.position.SetXY(_playerPOI.Add(_playerLastPosition));
+	//			_player.velocity.Scale(1, -1);
+	//		}
+	//		if (bottomHit)
+	//		{
+	//			_playerPOI.SetXY(_playerLastPosition.Clone().Normalize().Scale(_bottomBoundary - _playerLastPosition.y));
+	//			_player.position.SetXY(_playerPOI.Add(_playerLastPosition));
+	//			_player.velocity.Scale(1, -1);
+	//		}
+	//	}
+	//	else {
+	//		_player.ballColor = Color.Pink;
+	//	}
+	//}
 
 	/// <summary>
 	/// Any cat unfortunate enough to be "misplaced" out of the game area, will be fed to the god-emperor of mankind
@@ -402,10 +348,6 @@ public class MyGame : Game
 
 			_player.Step();
 
-			//_cat.Step();
-
-			//_arrow.Step();
-
 			_player.arrow.position.SetXY(_mouseDelta.Clone().Normalize().Scale((_player.radius*-2) - (_accelerationValue*3)));
 			_player.arrow.rotation = _mouseDelta.GetAngleDegrees() + 180;
 			_player.arrow.scaleX = (0.5f + (_accelerationValue / 100));
@@ -433,22 +375,15 @@ public class MyGame : Game
 
 			if (_switchBoundaryCollision)
 			{
-				checkBoundaryCollisions();
-				_player.ballColor = Color.Red;
+				//checkBoundaryCollisions();
+				//_player.ballColor = Color.Red;
 			}
 			else {
 				brokenBoundaryCollisionCheck();
 				_player.ballColor = Color.Pink;
 			}
 
-			if (_player.cat != null && _player.cat.velocity.EqualsTo(Vec2.zero))
-			{
-				//_player.cat.position.SetXY(_player.position.Clone().Add(_player.position.Clone().Normalize().Scale(_player.radius)));
-			}
 
-			//_playerLastPosition.x = _player.x;
-			//_playerLastPosition.y = _player.y;
-			//Console.WriteLine(_time);
 			float tTime = (Time.now - _oldTime) / 1000;
 			_oldTime = Time.now;
 			if (tTime >= 1.0f)
@@ -504,20 +439,7 @@ public class MyGame : Game
 				_player.velocity.Scale(-1, 1);
 			}
 			if (topHit){
-				_player.velocity.Scale(0);
-				_scoreCounter += _catCounter;
-				_menuScreen.ShowEndScreen(_scoreCounter, (int)(_time), true);
-				y = 0;
-				_started = false;
-				_player.cat.Destroy();
-				_player.cat = null;
-				_levelManager.UnloadLevel();
-				_background.alpha = 0.0f;
-				_backgroundSprite.alpha = 0.0f;
-				_catCounter = 15;
-				_time = 0;
-				_scoreCounter = 0;
-				_hud.Destroy();
+				WinScreen();
 				//_player.position.Add(_playerPOI);
 				//_player.velocity.Scale(1, -1);
 			}
@@ -534,6 +456,36 @@ public class MyGame : Game
 	public void AddScore(int pScore)
 	{
 		_scoreCounter += pScore;
+	}
+	public void SetCats(int pCats)
+	{
+		if (_catCounter < pCats)
+		{
+			_catCounter = pCats;
+		}
+	}
+
+	private void WinScreen()
+	{
+		_player.velocity.Scale(0);
+		_scoreCounter += _catCounter;
+		_menuScreen.ShowEndScreen(_scoreCounter, (int)(_time), true);
+		for (int i = 0; i < _listDisposableCat.Count; i++)
+		{
+
+			_listDisposableCat[i].alpha = 0.0f;
+		}
+		y = 0;
+		_started = false;
+		_player.cat.Destroy();
+		_player.cat = null;
+		_levelManager.UnloadLevel();
+		_background.alpha = 0.0f;
+		_backgroundSprite.alpha = 0.0f;
+		_catCounter = 15;
+		_time = 0;
+		_scoreCounter = 0;
+		_hud.Destroy();
 	}
 
 	/// <summary>

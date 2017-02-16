@@ -55,26 +55,9 @@ namespace GXPEngine
 				case "planet":
 					string fileSource = "Sprites/Planet ";
 					string PartOfSource = "";
-					if (pObject.GID != 0)
+					if (splitNames.Length > 1 && splitNames[1] != null)
 					{
-						switch (pObject.GID)
-						{
-							case 1:
-								PartOfSource = "1";
-								break;
-							case 2:
-								PartOfSource = "2";
-								break;
-							case 3:
-								PartOfSource = "4";
-								break;
-							case 4:
-								PartOfSource = "3";
-								break;
-							default:
-								Console.WriteLine("Faulty GID in planet code, GID: " + pObject.GID);
-								break;
-						}
+						PartOfSource = splitNames[1];
 					}
 					else
 					{
@@ -150,9 +133,17 @@ namespace GXPEngine
 					Pickup pickup1 = new Pickup((int)(pObject.Width / 2), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Pick Up.png", _gameRef);
 					AddChild(pickup1);
 					break;
-				case "Coin":
-					Pickup pickup2 = new Pickup((int)(pObject.Width) / 2, new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Pick Up.png", _gameRef);
+				case "coin":
+					Pickup pickup2 = new Pickup((int)(pObject.Width / 2), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Pick Up.png", _gameRef);
 					AddChild(pickup2);
+					break;
+				case "cow":
+					//Cow cow = new Cow((int)(pObject.Width / 2), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Cow.png");
+					//AddChild(cow);
+					break;
+				case "spaceship":
+					//SpaceShip spaceship = new SpaceShip((int)(pObject.Width / 2), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Cow.png");
+					//AddChild(spaceship);
 					break;
 				default:
 					Console.WriteLine("Unknown object in Object Layer");

@@ -12,6 +12,8 @@ namespace Purroject_SpaceCats
 		private AnimSprite _ruleScreen;
 		private AnimSprite _creditScreen;
 		private AnimSprite _levelScreen;
+		private Sprite _levelScreenBackground;
+		private Sprite _levelScreenForeground;
 		private AnimSprite _endScreen;
 		private Digit _endDecaScore;
 		private Digit _endFlatScore;
@@ -45,9 +47,18 @@ namespace Purroject_SpaceCats
 			_endScreen = new AnimSprite("Sprites/Menu/Endscreen.png", 4, 1);
 			AddChild(_endScreen);
 			_endScreen.alpha = 0.0f;
-			_levelScreen = new AnimSprite("Sprites/Menu/Map.png", 3, 1);
+
+			//Keep these 3 in order!
+			_levelScreenBackground = new Sprite("Sprites/Menu/MapBackground.png");
+			AddChild(_levelScreenBackground);
+			_levelScreenBackground.alpha = 0.0f;
+			_levelScreen = new AnimSprite("Sprites/Menu/Map.png", 7, 1);
 			AddChild(_levelScreen);
 			_levelScreen.alpha = 0.0f;
+			_levelScreenForeground = new Sprite("Sprites/Menu/MapBackground.png");
+			AddChild(_levelScreenForeground);
+			_levelScreenForeground.alpha = 0.0f;
+
 			_endDecaScore = new Digit(260.0f, 547.0f);
 			_endFlatScore = new Digit(282.0f, 547.0f);
 			_endHectaTime = new Digit(460.0f, 547.0f);
@@ -79,11 +90,13 @@ namespace Purroject_SpaceCats
 				{
 					_selectedButton--;
 					_levelScreen.SetFrame(_selectedButton);
+					_levelScreen.y = -height + _levelScreen.currentFrame * 130;
 				}
-				if (Input.GetKeyDown(Key.UP) && _selectedButton < 2)
+				if (Input.GetKeyDown(Key.UP) && _selectedButton < 6)
 				{
 					_selectedButton++;
 					_levelScreen.SetFrame(_selectedButton);
+					_levelScreen.y = -height + _levelScreen.currentFrame * 130;
 				}
 			}
 			if (_mainScreen.alpha == 1.0f)
@@ -108,6 +121,8 @@ namespace Purroject_SpaceCats
 						case 0:
 							_mainScreen.alpha = 0.0f;
 							_levelScreen.alpha = 1.0f;
+							_levelScreenBackground.alpha = 1.0f;
+							_levelScreen.y = -height + _levelScreen.currentFrame * 130;
 							_inOtherScreen = true;
 							break;
 						case 1:
@@ -129,16 +144,25 @@ namespace Purroject_SpaceCats
 					switch (_selectedButton)
 					{
 						case 0:
-							StartGame(1);
+							StartGame(_selectedButton);
 							break;
 						case 1:
-							StartGame(2);
+							StartGame(_selectedButton);
 							break;
 						case 2:
-							StartGame(3);
+							StartGame(_selectedButton);
 							break;
 						case 3:
-							Exit();
+							StartGame(_selectedButton);
+							break;
+						case 4:
+							StartGame(_selectedButton);
+							break;
+						case 5:
+							StartGame(_selectedButton);
+							break;
+						case 6:
+							StartGame(_selectedButton);
 							break;
 						default:
 							Console.WriteLine("Shit be broke yo " + _selectedButton);
@@ -152,6 +176,8 @@ namespace Purroject_SpaceCats
 					_background.alpha = 1.0f;
 					_mainScreen.alpha = 1.0f;
 					_levelScreen.alpha = 0.0f;
+					_levelScreenBackground.alpha = 0.0f;
+					_levelScreenForeground.alpha = 0.0f;
 					_ruleScreen.alpha = 0.0f;
 					_creditScreen.alpha = 0.0f;
 					_endScreen.alpha = 0.0f;
@@ -230,6 +256,8 @@ namespace Purroject_SpaceCats
 			_mainScreen.alpha = 0.0f;
 			_levelScreen.alpha = 0.0f;
 			_ruleScreen.alpha = 0.0f;
+			_levelScreenForeground.alpha = 0.0f;
+			_levelScreenBackground.alpha = 0.0f;
 			_creditScreen.alpha = 0.0f;
 			_endScreen.alpha = 1.0f;
 			if (pWon)
