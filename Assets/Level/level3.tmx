@@ -7,7 +7,7 @@
   <object id="6" name="planet 3" x="-220" y="3916" width="532" height="544">
    <ellipse/>
   </object>
-  <object id="7" name="planet 4" x="-212" y="2668" width="532" height="544">
+  <object id="7" name="planet 4" x="-343" y="2727" width="532" height="544">
    <ellipse/>
   </object>
   <object id="10" name="planet 2" x="354.788" y="2264.61" width="643.394" height="631.273">
@@ -34,7 +34,7 @@
   <object id="55" name="pick up" x="284" y="1344" width="80" height="76">
    <ellipse/>
   </object>
-  <object id="38" name="black hole" x="356" y="1576" width="496" height="512">
+  <object id="38" name="black hole" x="393" y="459" width="357" height="344">
    <ellipse/>
   </object>
   <object id="41" name="astroid" x="320" y="3980" width="64" height="80"/>
