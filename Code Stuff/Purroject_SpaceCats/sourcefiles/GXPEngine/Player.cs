@@ -157,7 +157,7 @@ namespace GXPEngine
 								asteroid.Crush();
 							}
 							_velocity.Scale(0.5f);
-							_acceleration.Subtract(asteroid.velocity.Clone().Scale(0.6f));
+							_acceleration.Subtract(asteroid.velocity.Clone().Scale(0.4f));
 							asteroid.acceleration.Add(_velocity.Clone().Scale(0.9f));
 						}
 					}
