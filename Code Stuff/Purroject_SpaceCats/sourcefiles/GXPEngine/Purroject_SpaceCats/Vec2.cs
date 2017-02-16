@@ -62,6 +62,27 @@ namespace GXPEngine
 			return this;
 		}
 
+		public Vec2 Scale(float pScalarX, float pScalarY) //Overload added to support separate XY scaling
+		{
+			x *= pScalarX;
+			y *= pScalarY;
+			return this;
+		}
+
+		public Vec2 Scale(Vec2 other) //Overload added to support scaling with another vector;
+		{
+			x *= other.x;
+			y *= other.y;
+			return this;
+		}
+
+		//public Vec2 Divide(float pDividar)//ha!
+		//{
+		//	x /= pDividar;
+		//	y /= pDividar;
+		//	return this;
+		//}
+
 		public float Length()
 		{
 			float tLength;
@@ -80,8 +101,7 @@ namespace GXPEngine
 				x = x / tLength;
 				y = y / tLength;
 			}
-			else
-			{
+			else{
 				Console.WriteLine("Normalize failed, 0 in formula");
 			}
 			return this;
@@ -97,7 +117,6 @@ namespace GXPEngine
 		{
 			x = pX;
 			y = pY;
-
 			return this;
 		}
 
@@ -105,7 +124,6 @@ namespace GXPEngine
 		{
 			x = other.x;
 			y = other.y;
-
 			return this;
 		}
 
@@ -212,6 +230,34 @@ namespace GXPEngine
 			this.x += point.x;
 			this.y += point.y;
 			return this;
+		}
+
+		public Vec2 GetNormal()
+		{
+			return new Vec2(-this.y, this.x);
+		}
+
+		/// <summary>
+		/// Don't forget to Normalize the "other" Vec2
+		/// </summary>
+		/// <param name="pOther">other Vec2</param>
+		public float Dot(Vec2 pOther)
+		{
+			return ((this.x * pOther.x) + (this.y * pOther.y));
+		}
+
+		/// <summary>
+		/// Invert this instance, see also: Reflect. 
+		/// </summary>
+		public void Invert()
+		{
+			x = -x;
+			y = -y;
+		}
+
+		public Vec2 Reflect(Vec2 pNormal, float pBounciness = 0) //Think about Life, The Universe, Reflect in Normal, etc.
+		{
+			return this.Subtract(pNormal.Scale((1 + pBounciness) * (this.Clone().Dot(pNormal))));
 		}
 	}
 }

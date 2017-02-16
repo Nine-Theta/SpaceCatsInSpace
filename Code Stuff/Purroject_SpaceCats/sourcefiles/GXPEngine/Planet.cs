@@ -2,15 +2,17 @@
 
 namespace GXPEngine
 {
-	public class Planet : Sprite
+	public class Planet : Ball
 	{
-		//Planets for Player access
-		//private static Planet[] _planetList;
+		protected enum PlanetType { BLUE, PURPLE, GREEN, RED, BLACKHOLE }
 
 		//Hitbox for the planet (don't add as child)
 		private Ball _hitball;
+		private Ball _hitball2;
 		//Range for the gravity of this planet (don't add as child)
 		private Ball _gravityRange;
+		//Fix to resize without fucking up everything
+		protected Sprite _planetSprite;
 
 		//the radius of this planet's gravity
 		private int _gravityRadius;
@@ -21,125 +23,100 @@ namespace GXPEngine
 
 		private Vec2 _posVec;
 
+		private PlanetType _planetType;
 
-		public Planet(Vec2 pPosVec, string pFilename, float pRadius, float pGravityForce = 1.0f, int pGravityRange = 0, float pRotationSpeed = 0.0f) : base (pFilename)
+		public Planet(Vec2 pPosVec, string pFilename, float pRadius, float pGravityForce = 1.0f, int pGravityRange = 0, float pRotationSpeed = 1.0f) : base (1, pPosVec)
 		{
-			//Potential future changes:
-			//width = pRadius * 2;
-			//height = pRadius * 2;
-			SetOrigin(width / 2, height / 2);
-
-			_gravityRadius = pGravityRange;
 			_posVec = pPosVec;
 			SetXY(_posVec.x, _posVec.y);
-			_hitball = new Ball(width / 2, Vec2.zero);
 
-			if (pGravityRange != 0)
-			{
-				_gravityRange = new Ball(_gravityRadius, Vec2.zero, System.Drawing.Color.Cyan);
+			_planetSprite = new Sprite(pFilename);
+			_planetSprite.SetOrigin(_planetSprite.width / 2, _planetSprite.height / 2);
+			alpha = 0.0f;
+			AddChild(_planetSprite);
+			//_planetSprite.SetScaleXY(0.66f, 0.66f);
+			//_planetSprite.alpha = 0.5f;
+
+			//Console.WriteLine(pFilename);
+
+			//Are these types really necessary? You can access the filename through _planetSprite.name too, so you can cut out the middle man here 
+			if (pFilename == "Sprites/Planet 1.png")
+				_planetType = PlanetType.BLUE;
+			if (pFilename == "Sprites/Planet 2.png")
+				_planetType = PlanetType.PURPLE;
+			if (pFilename == "Sprites/Planet 3.png")
+				_planetType = PlanetType.GREEN;
+			if (pFilename == "Sprites/Planet 4.png")
+				_planetType = PlanetType.RED;
+
+			SetHitball();
+
+			if (pGravityRange != 0){
+				_gravityRange = new Ball((int)(pGravityRange), Vec2.zero, System.Drawing.Color.Cyan);
 			}
 			else{
 				//If gravity range is not specified, set range of gravity to twice the size of the hitbox
-				_gravityRange = new Ball(width, Vec2.zero);
+				_gravityRange = new Ball((int)(width * 3), Vec2.zero);
+				//Console.WriteLine(_gravityRange.radius);
 			}
+
+			_gravityRadius = _gravityRange.radius;
 			_rotationSpeed = pRotationSpeed;
 			_gravityForce = pGravityForce;
 
 			AddChild(_gravityRange);
-			_gravityRange.alpha = 0.25f;
-			//AddPlanetList(this);
+			_gravityRange.alpha = 0.125f;
+		}
+
+		private void SetHitball(){
+			if (_planetType == PlanetType.BLUE)
+				_hitball = new Ball((int)(_planetSprite.width / 2.5f), new Vec2(20,-6));
+			if (_planetType == PlanetType.PURPLE)
+				_hitball = new Ball((int)(_planetSprite.width / 2.3f), Vec2.zero);
+			if (_planetType == PlanetType.GREEN)
+				_hitball = new Ball((int)(_planetSprite.width / 3.6f), new Vec2(-2,-12));
+			if (_planetType == PlanetType.RED){
+				_hitball = new Ball((int)(_planetSprite.width / 3.0f), new Vec2(-8, -7));
+				_hitball2 = new Ball((int)(_planetSprite.width / 10.0f), new Vec2(165, 123));
+				AddChild(_hitball2);
+				_hitball2.alpha = 0.5f;
+			}
+			
+			_hitball.alpha = 0.5f;
+			AddChild(_hitball);
+			//Console.WriteLine(_planetType);
 		}
 
 		/// <summary>
 		/// Gets the gravity force.
 		/// </summary>
 		/// <value>the scalar for calculating gravitational force</value>
-		public float gravityForce
-		{
+		public float gravityForce{
 			get{
 				return _gravityForce;
 			}
 		}
 
-		public int gravityRadius
-		{
+		public int gravityRadius{
 			get{
 				return _gravityRadius;
 			}
 		}
 
 
-		void Update()
-		{
+		void Update(){
 			rotation += _rotationSpeed;
 		}
 
-		/// <summary>
-		/// Returns a boolean if in range of gravitational pull
-		/// Accepts separate x and y floats but also a vec2
-		/// </summary>
-		public bool InRange(float pX, float pY, int pRadius)
-		{
-			Vec2 deltaVec = new Vec2(pX, pY);
-			deltaVec.Subtract(_posVec);
-			if (pRadius + _gravityRange.radius < deltaVec.Length()){
-				//_gravityRange.color = 0xFF0000;
-				return true;
-			}
-			else{
-				//_gravityRange.color = 0x0000FF;
-				return false;
-			}
-		}
-		/// <summary>
-		/// Returns a boolean if in range of gravitational pull
-		/// /// </summary>
-		public bool InRange(Vec2 pVec, int pRadius)
-		{
-			Vec2 deltaVec = pVec.Clone();
-			deltaVec.Subtract(_posVec);
-			if (pRadius + _gravityRange.radius < deltaVec.Length()){
-				return true;
-			}
-			else{
-				return false;
-			}
-		}
-
-		public Vec2 posVec
-		{
-			get
-			{
+		public Vec2 posVec{
+			get{
 				return _posVec;
 			}
 		}
-
-		//TODO: SOMETHING WITH THIS MAYBE
-		////PlanetList setup for accessibility
-		//public static void AddPlanetList(Planet pPlanet)
-		//{
-		//	int index = _planetList.Length;
-		//	_planetList[index] = pPlanet;
-		//}
-
-		//public static void ClearPlanetList()
-		//{
-		//	int index = 0;
-		//	foreach (Planet planet in _planetList)
-		//	{
-		//		planet.Destroy();
-		//		_planetList[index] = null;
-		//		index++;
-		//	}
-		//}
-
-		////ReadOnly, add through AddPlanetList. Only clear when changing levels
-		//public static Planet[] planetList
-		//{
-		//	get
-		//	{
-		//		return _planetList;
-		//	}
-		//}
+		public Ball hitball{
+			get{
+				return _hitball;
+			}
+		}
 	}
 }

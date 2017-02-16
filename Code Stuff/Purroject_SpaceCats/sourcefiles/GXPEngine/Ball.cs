@@ -6,9 +6,7 @@ namespace GXPEngine
 	public class Ball : Canvas
 	{
 		public readonly int radius;
-		protected Vec2 _position;
-		//private Vec2 _velocity;
-		//private Vec2 _acceleration;
+		private Vec2 _position;
 
 		private Color _ballColor;
 
@@ -24,8 +22,7 @@ namespace GXPEngine
 			y = position.y;
 		}
 
-		private void draw()
-		{
+		private void draw(){
 			graphics.Clear(Color.Empty);
 			graphics.FillEllipse(
 				new SolidBrush(_ballColor),
@@ -33,8 +30,7 @@ namespace GXPEngine
 			);
 		}
 
-		public Color ballColor
-		{
+		public Color ballColor{
 			get{
 				return _ballColor;
 			}
@@ -44,8 +40,7 @@ namespace GXPEngine
 			}
 		}
 
-		public Vec2 position
-		{
+		public Vec2 position{
 			set{
 				_position = value ?? Vec2.zero;
 			}

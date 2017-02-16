@@ -1,5 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -61,15 +60,24 @@
     <Compile Include="Purroject_SpaceCats\Utils\MouseHandler.cs" />
     <Compile Include="Purroject_SpaceCats\Utils\Time.cs" />
     <Compile Include="Purroject_SpaceCats\Utils\Utils.cs" />
+    <Compile Include="MenuScreen.cs" />
     <Compile Include="MyGame.cs" />
     <Compile Include="Purroject_SpaceCats\Vec2.cs" />
     <Compile Include="Planet.cs" />
     <Compile Include="Ball.cs" />
     <Compile Include="SpaceStation.cs" />
     <Compile Include="XMLMap.cs" />
+    <Compile Include="BlackHole.cs" />
     <Compile Include="Cat.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="LevelManager.cs" />
+    <Compile Include="Arrow.cs" />
+    <Compile Include="Asteroid.cs" />
+    <Compile Include="ShankCounter.cs" />
+    <Compile Include="HUD.cs" />
+    <Compile Include="Digit.cs" />
+    <Compile Include="Pickup.cs" />
+    <Compile Include="CowFO.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Purroject_SpaceCats\" />

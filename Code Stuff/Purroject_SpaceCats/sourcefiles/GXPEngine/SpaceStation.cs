@@ -3,13 +3,13 @@ using GXPEngine;
 
 namespace Purroject_SpaceCats
 {
-	public class SpaceStation : AnimSprite
+	public class SpaceStation : Sprite
 	{
-		public SpaceStation(float pX, float pY, int pFrame) : base ("checkers.png", 2, 1)
+		public SpaceStation(float pX, float pY, string pFilename) : base (pFilename)
 		{
 			SetXY(pX, pY);
 			SetOrigin(width / 2, height / 2);
-			SetFrame(pFrame);
+			//SetScaleXY(6, 3);
 		}
 	}
 }
