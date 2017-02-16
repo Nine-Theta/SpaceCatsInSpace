@@ -16,30 +16,20 @@ namespace GXPEngine
 
 		private type _catType;
 
-		//private int _catID;
-
-		public Cat(Player pTarget, type? pType = type.NORMAL, int? pCatID = -1) : base("Cat-Spritesheet.png", 4, 1)
+		public Cat(Player pTarget, type? pType = type.NORMAL) : base("Cat-Spritesheet.png", 4, 1)
 		{
 			SetOrigin(width / 2, height / 2);
 			scale = 0.5f;
 			SetFrame(0);
 
 			_catType = pType ?? type.NORMAL;
-			//_catID = pCatID ?? -1;
 
 			_target = new Vec2(pTarget.x, pTarget.y);
-			//position = _target.Add(_target.Clone().Normalize().Scale(pTarget.radius));
 			position = Vec2.zero;
 			rotation = position.Clone().GetAngleDegrees();
 			velocity = Vec2.zero;
 			acceleration = Vec2.zero;
 		}
-
-		//public int GetCatID{
-		//	get{
-		//		return _catID;
-		//	}
-		//}
 
 		public Vec2 position{
 			set{

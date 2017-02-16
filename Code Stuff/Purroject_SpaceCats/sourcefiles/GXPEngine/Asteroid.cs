@@ -25,8 +25,7 @@ namespace Purroject_SpaceCats
 			_acceleration = Vec2.zero;
 		}
 
-		public Vec2 velocity
-		{
+		public Vec2 velocity{
 			set{
 				_velocity = value ?? Vec2.zero;
 			}
@@ -34,8 +33,7 @@ namespace Purroject_SpaceCats
 				return _velocity;
 			}
 		}
-		public Vec2 acceleration
-		{
+		public Vec2 acceleration{
 			set{
 				_acceleration = value ?? Vec2.zero;
 			}
@@ -44,15 +42,13 @@ namespace Purroject_SpaceCats
 			}
 		}
 
-		public LevelManager levelRef
-		{
+		public LevelManager levelRef{
 			set{
 				_levelRef = value;
 			}
 		}
 
-		public void Step()
-		{
+		public void Step(){
 			_velocity.Add(_acceleration);
 			position.Add(_velocity);
 

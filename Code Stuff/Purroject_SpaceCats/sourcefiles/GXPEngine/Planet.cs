@@ -68,8 +68,7 @@ namespace GXPEngine
 			_gravityRange.alpha = 0.125f;
 		}
 
-		private void SetHitball()
-		{
+		private void SetHitball(){
 			if (_planetType == PlanetType.BLUE)
 				_hitball = new Ball((int)(_planetSprite.width / 2.5f), new Vec2(20,-6));
 			if (_planetType == PlanetType.PURPLE)

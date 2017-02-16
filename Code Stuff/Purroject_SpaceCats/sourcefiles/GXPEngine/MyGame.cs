@@ -53,7 +53,6 @@ public class MyGame : Game
 		_menuScreen = new MenuScreen(width, height);
 		AddChild(_menuScreen);
 		_menuScreen.SetGameRef(this);
-
 	}
 
 	public void InitializeGame(int pLevel)
@@ -64,10 +63,6 @@ public class MyGame : Game
 		_backgroundSprite.SetOrigin(_backgroundSprite.width / 2, _backgroundSprite.height / 2);
 		_backgroundSprite.SetXY(width / 2, 0);
 		AddChild(_backgroundSprite);
-
-		//_shankCounter = new ShankCounter();
-		//_shankCounter.AddShank();
-		//Console.WriteLine(_shankCounter.GetShanks());
 
 		_background = new Canvas(_gameWidth, _gameHeight);
 		AddChild(_background);
@@ -132,12 +127,15 @@ public class MyGame : Game
 			_player.cat.alpha = 1.0f;
 			_player.selected = true;
 			_player.arrow.alpha = 1.0f;
-			//_switchCatMoveToPlayer = false;
 		}
 		else
 		{
 			//Instant forfeit? Special Icon?
 			Console.WriteLine("You cats are on another yarn flying through space.");
+			//Console.WriteLine("And their last memory, was that of pain.");
+			//Console.WriteLine("In space, meow-one can hear you purr.");
+			//Console.WriteLine("Cats, report. Cats? Caaaaaaaaaaaaaaaaaats!");
+			//Console.WriteLine("A life not spent serving the emperor, is a life wasted.")
 		}
 	}
 
@@ -156,7 +154,6 @@ public class MyGame : Game
 		SpawnDisposableCat();
 		_player.acceleration.Add(_mouseDelta.Clone().Normalize().Scale(-_accelerationValue));
 		_catCounter--;
-		//_arrow.position.SetXY(_player.position.Clone().Subtract(_player.position.Clone().Normalize().Scale(_player.radius*1.5f)));
 	}
 
 	private void onCatRightMouseDown(GameObject target, MouseEventType type)
@@ -176,11 +173,9 @@ public class MyGame : Game
 		_disposableCat.rotation = _player.cat.rotation;
 		//_disposableCat.SetFrame(3);
 		AddChild(_disposableCat);
-		//_arrayDisposableCat[_arrayDisposableCat.Length - _catCounter] = _disposableCat;
 		_listDisposableCat.Add(_disposableCat);
 		_disposableCat.position.SetXY(_player.x + _player.cat.x, _player.y + _player.cat.y);
 		_disposableCat.acceleration.Add(_mouseDelta.Clone().Normalize().Scale(_accelerationValue));
-		//Console.WriteLine(_disposableCat.acceleration);
 	}
 
 	private void BasicCollisionCheck(Planet other) //Very Basic
@@ -192,20 +187,15 @@ public class MyGame : Game
 			///_player.acceleration.Subtract(new Vec2(((_planet1.gravityForce  * Mathf.Cos(deltaVec.GetAngleRadians()))), ((_planet1.gravityForce * Mathf.Sin(deltaVec.GetAngleRadians())))).Normalize().Divide(deltaVec.Length()*0.04f));
 			if ((_player.radius + other.hitball.radius) > deltaVec.Length())
 			{
-				//float degrees = deltaVec.GetAngleDegrees() + 180;
 				_player.velocity.SetXY(0, 0);
 				_player.acceleration.SetXY(0, 0);
-				if (other is BlackHole)
-				{
+				if (other is BlackHole){
 					_player.position = other.position;
 				}
 			}
 			else{
 				_player.acceleration.Subtract(deltaVec.Clone().Normalize().Scale(other.gravityForce));
 			}
-		}
-		else {
-			//Console.WriteLine("Collision = false");
 		}
 	}
 
@@ -219,10 +209,8 @@ public class MyGame : Game
 		}
 	}
 
-	private void scrollToTarget()
-	{
-		if (_scrollTarget != null)
-		{
+	private void scrollToTarget(){
+		if (_scrollTarget != null){
 			y = (game.height / 2 - _scrollTarget.y);
 			_backgroundSprite.y = _scrollTarget.y;
 			_hud.y = _backgroundSprite.y - (height/2);
@@ -232,7 +220,6 @@ public class MyGame : Game
 			else {
 				_screenSizeOverlay.SetXY(-2000, -2000);
 			}
-			//this.y = (_scrollBoundary - _scrollTarget.y);
 		}
 	}
 
@@ -298,13 +285,12 @@ public class MyGame : Game
 		bool topExit = (casualty.y < -100);
 		bool bottomExit = (casualty.y > (_gameHeight + 100));
 
-		if (leftExit || rightExit || topExit || bottomExit)
-		{
+		if (leftExit || rightExit || topExit || bottomExit){
 			_listDisposableCat.RemoveAt(index);
 			casualty.Destroy();
 			casualty = null;
 			_emporerSoulCounter += 1;
-			Console.WriteLine("Souls fed to the emperor today: [{0}/1000]", _emporerSoulCounter);
+			Console.WriteLine("Souls fed to the emperor today: [{0}/1000]", _emporerSoulCounter); //Success is measured in blood: yours, or your enemy's.
 		}
 	}
 
@@ -338,10 +324,8 @@ public class MyGame : Game
 	//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 	//																									UPDATE																									//
 	//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-	void Update()
-	{
-		if (_started)
-		{
+	void Update(){
+		if (_started){
 			scrollToTarget();
 
 			Debug();
@@ -355,13 +339,9 @@ public class MyGame : Game
 			_player.cat.position.SetXY(_mouseDelta.Clone().Normalize().Scale(_player.radius*2));
 			_player.cat.rotation = _mouseDelta.GetAngleDegrees()+90;
 
-			if (_disposableCat != null && _listDisposableCat.Contains(_disposableCat))
-			{
-				for (int i = 0; i < _listDisposableCat.Count; i++)
-				{
-
+			if (_disposableCat != null && _listDisposableCat.Contains(_disposableCat)){
+				for (int i = 0; i < _listDisposableCat.Count; i++){
 					_listDisposableCat[i].Step();
-
 					CheckForCatDestruction(_listDisposableCat[i], i);
 				}
 			}
@@ -373,8 +353,7 @@ public class MyGame : Game
 			_playerLastPosition.x = _player.x;
 			_playerLastPosition.y = _player.y;
 
-			if (_switchBoundaryCollision)
-			{
+			if (_switchBoundaryCollision){
 				//checkBoundaryCollisions();
 				//_player.ballColor = Color.Red;
 			}
@@ -386,8 +365,7 @@ public class MyGame : Game
 
 			float tTime = (Time.now - _oldTime) / 1000;
 			_oldTime = Time.now;
-			if (tTime >= 1.0f)
-			{
+			if (tTime >= 1.0f){
 				tTime = 0.0f;
 			}
 			_time += tTime;
@@ -396,14 +374,12 @@ public class MyGame : Game
 			_hud.SetScore(_scoreCounter);
 			_hud.Step();
 		}
-		else
-		{
+		else{
 			_menuScreen.Step();
 		}
 	}
 
-	static void Main()
-	{
+	static void Main(){
 		new MyGame().Start();
 	}
 
@@ -412,8 +388,7 @@ public class MyGame : Game
 	/// This will be used until the normal version works properly.
 	/// Doesn't that make this the normal version and the other one the broken one?
 	/// </summary>
-	private void brokenBoundaryCollisionCheck()
-	{
+	private void brokenBoundaryCollisionCheck(){
 		bool leftHit = (_player.x - _player.radius) < _leftBoundary;
 		bool rightHit = (_player.x + _player.radius) > _rightBoundary;
 		bool topHit = (_player.y - _player.radius) < _topBoundary;
@@ -425,10 +400,6 @@ public class MyGame : Game
 			_player.ballColor = Color.Maroon;
 
 			_playerPOI.SetXY(_playerBouncePos.Clone().Subtract(_playerLastPosition));
-			//Console.WriteLine("_playerBounce(" + _playerBouncePos + ") - _playerLastPosition(" + _playerLastPosition + ") = _playerPOI(" + _playerPOI + ")");
-
-			//_playerPOI.SetXY(_playerLastPosition.Clone().Subtract(_playerBouncePos));
-			//Console.WriteLine("_playerLastPosition(" + _playerLastPosition + ") - _playerBounce(" + _playerBouncePos + ") = _playerPOI(" + _playerPOI + ")");
 
 			if (leftHit){
 				_player.position.Add(_playerPOI);
@@ -440,8 +411,6 @@ public class MyGame : Game
 			}
 			if (topHit){
 				WinScreen();
-				//_player.position.Add(_playerPOI);
-				//_player.velocity.Scale(1, -1);
 			}
 			if (bottomHit){
 				_player.position.Add(_playerPOI);
@@ -453,26 +422,20 @@ public class MyGame : Game
 		}
 	}
 
-	public void AddScore(int pScore)
-	{
+	public void AddScore(int pScore){
 		_scoreCounter += pScore;
 	}
-	public void SetCats(int pCats)
-	{
-		if (_catCounter < pCats)
-		{
+	public void SetCats(int pCats){
+		if (_catCounter < pCats){
 			_catCounter = pCats;
 		}
 	}
 
-	private void WinScreen()
-	{
+	private void WinScreen(){
 		_player.velocity.Scale(0);
 		_scoreCounter += _catCounter;
 		_menuScreen.ShowEndScreen(_scoreCounter, (int)(_time), true);
-		for (int i = 0; i < _listDisposableCat.Count; i++)
-		{
-
+		for (int i = 0; i < _listDisposableCat.Count; i++){
 			_listDisposableCat[i].alpha = 0.0f;
 		}
 		y = 0;
@@ -490,6 +453,7 @@ public class MyGame : Game
 
 	/// <summary>
 	/// Ollieses the private empty void.
+	/// Also, she should play Fallout: New Vegas
 	/// </summary>
 	private void OlliesPrivateEmptyVoid()
 	{

@@ -5,7 +5,6 @@ namespace GXPEngine
 	//TODO: Everything
 	public class Player : Ball
 	{
-		//private Vec2 _position;
 		private Vec2 _velocity;
 		private Vec2 _acceleration;
 
@@ -20,7 +19,6 @@ namespace GXPEngine
 		//Amount of frames of "invulnerability" to planet bumping
 		//Doesn't fix the problem at hand but decreases the symptoms 
 		private int _bouncedOffPlanetTimer = 3;
-		//private float _gravityScale = 0.1f;
 
 		public Player(int pRadius, Vec2 pPosition = null) : base(pRadius, pPosition)
 		{
@@ -88,8 +86,7 @@ namespace GXPEngine
 		}
 		public AnimSprite yarnSprite
 		{
-			get
-			{
+			get{
 				return _yarnSprite;
 			}
 		}
@@ -124,16 +121,13 @@ namespace GXPEngine
 					if (planet != null)
 					{
 						Vec2 deltaVec = position.Clone().Subtract(planet.posVec);
-						if (planet.hitball.radius + radius > deltaVec.Length() && _bouncedOffPlanetTimer < 0)
-						{
-							if (planet is BlackHole)
-							{
+						if (planet.hitball.radius + radius > deltaVec.Length() && _bouncedOffPlanetTimer < 0){
+							if (planet is BlackHole){
 								position = planet.position;
 								_bouncedOffPlanetTimer = -1;
 								//Get all cats to die for the glory of the emperor
 							}
-							else
-							{
+							else{
 								Vec2 normalDelta = deltaVec.Clone().Normalize();
 								Vec2 projectedVec = _velocity.Clone().Normalize().Scale(deltaVec.Dot(normalDelta));
 								projectedVec.RotateDegrees(180);
@@ -141,8 +135,7 @@ namespace GXPEngine
 								_bouncedOffPlanetTimer = 3;
 							}
 						}
-						else if (planet.gravityRadius + radius > deltaVec.Length())
-						{
+						else if (planet.gravityRadius + radius > deltaVec.Length()){
 							_acceleration.Subtract(deltaVec.Normalize().Scale(planet.gravityForce));
 						}
 					}
@@ -164,7 +157,7 @@ namespace GXPEngine
 								asteroid.Crush();
 							}
 							_velocity.Scale(0.5f);
-							_acceleration.Subtract(asteroid.velocity.Clone().Scale(0.7f));
+							_acceleration.Subtract(asteroid.velocity.Clone().Scale(0.6f));
 							asteroid.acceleration.Add(_velocity.Clone().Scale(0.9f));
 						}
 					}
@@ -188,8 +181,7 @@ namespace GXPEngine
 			}
 		}
 
-		public void Step()
-		{
+		public void Step(){
 			_velocity.Add(_acceleration);
 			if (_velocity.Length() > 25.0f)
 			{
@@ -211,7 +203,6 @@ namespace GXPEngine
 				AnimationCycle();
 				_animTimer = 4;
 			}
-
 			PlanetGravity();
 		}
 	}
