@@ -19,6 +19,8 @@ public class MyGame : Game
 	private Sprite _scrollTarget = null;
 	private Sprite _screenSizeOverlay = null;
 	private Sprite _backgroundSprite = null;
+	private AnimSprite _catlessWarning = null;
+	private bool _warningAdded = false;
 
 	private Vec2 _playerStartPosition = null;
 	private Vec2 _mouseDelta = null;
@@ -26,6 +28,7 @@ public class MyGame : Game
 	private Vec2 _playerBouncePos = null;
 	private Vec2 _playerPOI = null;
 	private HUD _hud = null;
+	private float _deathTimer = 8.0f;
 
 	private Sound _menuMusic = null;
 
@@ -52,7 +55,7 @@ public class MyGame : Game
 	public MyGame() : base(640, 960, false, false) //Screen size should be 640x960. Don't overstep this boundary
 	{
 		targetFps = 60;
-		_menuMusic = new Sound("Music/the_environment.mp3", true);
+		_menuMusic = new Sound("Music/Rushjet1_-_11_-_The_Voyage.mp3", true);
 		_menuMusic.Play();
 		_menuScreen = new MenuScreen(width, height);
 		AddChild(_menuScreen);
@@ -108,6 +111,8 @@ public class MyGame : Game
 		AddChild(_hud);
 		_hud.SetCats(_catCounter);
 		_started = true;
+		_catlessWarning = new AnimSprite("Sprites/Message.png", 4, 1);
+		_catlessWarning.alpha = 0.0f;
 	}
 
 	private void DrawBorder(float boundary, bool isXBoundary)
@@ -218,6 +223,7 @@ public class MyGame : Game
 			y = (game.height / 2 - _scrollTarget.y);
 			_backgroundSprite.y = _scrollTarget.y;
 			_hud.y = _backgroundSprite.y - (height/2);
+			_catlessWarning.y = _backgroundSprite.y - (height / 2);
 			if (_switchScreenSizeOverlay){
 				_screenSizeOverlay.SetXY(_scrollTarget.x, _scrollTarget.y);
 			}
@@ -377,6 +383,24 @@ public class MyGame : Game
 			_hud.SetTime(_time);
 			_hud.SetScore(_scoreCounter);
 			_hud.Step();
+			if (_catCounter <= 0)
+			{
+				_deathTimer -= tTime;
+				_catlessWarning.alpha = 1.0f;
+				if (!_warningAdded)
+				{
+					_warningAdded = true;
+					AddChild(_catlessWarning);
+				}
+				if (_deathTimer <= 4)
+				{
+					_catlessWarning.SetFrame(3 - (int)(_deathTimer));
+					if (_deathTimer <= 0)
+					{
+						WinScreen(false);
+					}
+				}
+			}
 		}
 		else{
 			_menuScreen.Step();
@@ -414,7 +438,7 @@ public class MyGame : Game
 				_player.velocity.Scale(-1, 1);
 			}
 			if (topHit){
-				WinScreen();
+				WinScreen(true);
 			}
 			if (bottomHit){
 				_player.position.Add(_playerPOI);
@@ -435,10 +459,10 @@ public class MyGame : Game
 		}
 	}
 
-	private void WinScreen(){
+	private void WinScreen(bool pTrue){
 		_player.velocity.Scale(0);
 		_scoreCounter += _catCounter;
-		_menuScreen.ShowEndScreen(_scoreCounter, (int)(_time), true);
+		_menuScreen.ShowEndScreen(_scoreCounter, (int)(_time), pTrue);
 		for (int i = 0; i < _listDisposableCat.Count; i++){
 			_listDisposableCat[i].alpha = 0.0f;
 		}
