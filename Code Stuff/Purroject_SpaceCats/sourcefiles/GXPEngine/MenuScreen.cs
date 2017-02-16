@@ -6,7 +6,7 @@ namespace Purroject_SpaceCats
 {
 	public class MenuScreen : Canvas
 	{
-		private const int LEVEL_SCREEN_OFFSET_PER_LEVEL = 150;
+		private const int LEVEL_SCREEN_OFFSET_PER_LEVEL = 200;
 		private AnimSprite _titleScreen;
 		private AnimSprite _background;
 		private AnimSprite _mainScreen;
@@ -124,6 +124,7 @@ namespace Purroject_SpaceCats
 							_levelScreen.alpha = 1.0f;
 							_levelScreenBackground.alpha = 1.0f;
 							_levelScreenForeground.alpha = 1.0f;
+							_levelScreen.SetFrame(0);
 							_levelScreen.y = -height + _levelScreen.currentFrame * LEVEL_SCREEN_OFFSET_PER_LEVEL;
 							_inOtherScreen = true;
 							break;
