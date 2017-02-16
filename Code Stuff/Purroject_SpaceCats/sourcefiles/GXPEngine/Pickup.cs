@@ -18,16 +18,17 @@ namespace Purroject_SpaceCats
 			_gameRef = pGameRef;
 		}
 
-		//TODO: Communicate what their purposes should be. Just score?
 		public void Pick()
 		{
 			switch (_sprite.name)
 			{
 				case "Sprites/Milk.png":
 					//Milk stuffs
+					_gameRef.SetCats(10);
 					break;
 				case "Sprites/Fish.png":
 					//Fish stuffs
+					_gameRef.AddScore(5);
 					break;
 				case "Sprites/Pick Up.png":
 					//Pickup stuffs (the paw bubble one)
