@@ -113,6 +113,7 @@ public class MyGame : Game
 		_started = true;
 		_catlessWarning = new AnimSprite("Sprites/Message.png", 4, 1);
 		_catlessWarning.alpha = 0.0f;
+		_player.SetGameRef(this);
 	}
 
 	private void DrawBorder(float boundary, bool isXBoundary)
@@ -477,6 +478,11 @@ public class MyGame : Game
 		_time = 0;
 		_scoreCounter = 0;
 		_hud.Destroy();
+	}
+
+	public void KillCats(int cats)
+	{
+		_catCounter = cats;
 	}
 
 	/// <summary>

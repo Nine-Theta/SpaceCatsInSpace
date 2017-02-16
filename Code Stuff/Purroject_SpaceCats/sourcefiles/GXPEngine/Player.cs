@@ -7,7 +7,7 @@ namespace GXPEngine
 	{
 		private Vec2 _velocity;
 		private Vec2 _acceleration;
-
+		private MyGame _gameRef;
 		private AnimSprite _yarnSprite;
 		private LevelManager _levelRef;
 		private Cat _cat = null;
@@ -124,7 +124,9 @@ namespace GXPEngine
 						if (planet.hitball.radius + radius > deltaVec.Length() && _bouncedOffPlanetTimer < 0){
 							if (planet is BlackHole){
 								position = planet.position;
+								_velocity = Vec2.zero;
 								_bouncedOffPlanetTimer = -1;
+								_gameRef.KillCats(0);
 								//Get all cats to die for the glory of the emperor
 							}
 							else{
@@ -204,6 +206,11 @@ namespace GXPEngine
 				_animTimer = 4;
 			}
 			PlanetGravity();
+		}
+
+		public void SetGameRef(MyGame pGameRef)
+		{
+			_gameRef = pGameRef;
 		}
 	}
 }
