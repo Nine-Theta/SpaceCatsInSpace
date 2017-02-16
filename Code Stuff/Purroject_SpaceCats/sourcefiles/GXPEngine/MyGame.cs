@@ -27,6 +27,8 @@ public class MyGame : Game
 	private Vec2 _playerPOI = null;
 	private HUD _hud = null;
 
+	private Sound _menuMusic = null;
+
 	private bool _started = false;
 	private MenuScreen _menuScreen = null;
 
@@ -50,6 +52,8 @@ public class MyGame : Game
 	public MyGame() : base(640, 960, false, false) //Screen size should be 640x960. Don't overstep this boundary
 	{
 		targetFps = 60;
+		_menuMusic = new Sound("Music/the_environment.mp3", true);
+		_menuMusic.Play();
 		_menuScreen = new MenuScreen(width, height);
 		AddChild(_menuScreen);
 		_menuScreen.SetGameRef(this);

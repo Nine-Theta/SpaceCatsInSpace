@@ -6,6 +6,7 @@ namespace Purroject_SpaceCats
 {
 	public class MenuScreen : Canvas
 	{
+		private const int LEVEL_SCREEN_OFFSET_PER_LEVEL = 150;
 		private AnimSprite _titleScreen;
 		private AnimSprite _background;
 		private AnimSprite _mainScreen;
@@ -90,13 +91,13 @@ namespace Purroject_SpaceCats
 				{
 					_selectedButton--;
 					_levelScreen.SetFrame(_selectedButton);
-					_levelScreen.y = -height + _levelScreen.currentFrame * 130;
+					_levelScreen.y = -height + _levelScreen.currentFrame * LEVEL_SCREEN_OFFSET_PER_LEVEL;
 				}
 				if (Input.GetKeyDown(Key.UP) && _selectedButton < 6)
 				{
 					_selectedButton++;
 					_levelScreen.SetFrame(_selectedButton);
-					_levelScreen.y = -height + _levelScreen.currentFrame * 130;
+					_levelScreen.y = -height + _levelScreen.currentFrame * LEVEL_SCREEN_OFFSET_PER_LEVEL;
 				}
 			}
 			if (_mainScreen.alpha == 1.0f)
@@ -122,7 +123,7 @@ namespace Purroject_SpaceCats
 							_mainScreen.alpha = 0.0f;
 							_levelScreen.alpha = 1.0f;
 							_levelScreenBackground.alpha = 1.0f;
-							_levelScreen.y = -height + _levelScreen.currentFrame * 130;
+							_levelScreen.y = -height + _levelScreen.currentFrame * LEVEL_SCREEN_OFFSET_PER_LEVEL;
 							_inOtherScreen = true;
 							break;
 						case 1:
@@ -198,7 +199,7 @@ namespace Purroject_SpaceCats
 			{
 				if (_mainScreen.alpha == 1.0f)
 				{
-					_backgroundTimer = 5;
+					_backgroundTimer = 10;
 					_background.NextFrame();
 				}
 				if (_ruleScreen.alpha == 1.0f)
@@ -218,7 +219,7 @@ namespace Purroject_SpaceCats
 				if (_titleScreen.alpha == 1.0f)
 				{
 					_titleScreen.NextFrame();
-					_backgroundTimer = 5;
+					_backgroundTimer = 10;
 				}
 			}
 		}
