@@ -405,8 +405,10 @@ public class MyGame : Game
 
 			//_arrow.Step();
 
-			_player.arrow.position.SetXY(_mouseDelta.Clone().Normalize().Scale(-_player.radius));
+			_player.arrow.position.SetXY(_mouseDelta.Clone().Normalize().Scale((_player.radius*-2) - (_accelerationValue*3)));
 			_player.arrow.rotation = _mouseDelta.GetAngleDegrees() + 180;
+			_player.arrow.scaleX = (0.5f + (_accelerationValue / 100));
+			_player.arrow.scaleY = (0.5f + (_accelerationValue / 200));
 			_player.cat.position.SetXY(_mouseDelta.Clone().Normalize().Scale(_player.radius*2));
 			_player.cat.rotation = _mouseDelta.GetAngleDegrees()+90;
 
