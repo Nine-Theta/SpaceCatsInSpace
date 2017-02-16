@@ -145,6 +145,10 @@ namespace GXPEngine
 					//SpaceShip spaceship = new SpaceShip((int)(pObject.Width / 2), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Cow.png");
 					//AddChild(spaceship);
 					break;
+				case "earth":
+					Sprite earth = new Sprite("Sprites/Earth.png");
+					AddChild(earth);
+					break;
 				default:
 					Console.WriteLine("Unknown object in Object Layer");
 					Console.WriteLine("Name: " + objectName);

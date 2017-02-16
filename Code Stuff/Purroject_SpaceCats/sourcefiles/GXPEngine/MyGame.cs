@@ -474,9 +474,11 @@ public class MyGame : Game
 		_levelManager.UnloadLevel();
 		_background.alpha = 0.0f;
 		_backgroundSprite.alpha = 0.0f;
+		_warningAdded = false;
 		_catCounter = 15;
 		_time = 0;
 		_scoreCounter = 0;
+		_deathTimer = 8.0f;
 		_hud.Destroy();
 	}
 

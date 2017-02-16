@@ -79,10 +79,10 @@ namespace GXPEngine
 				_hitball = new Ball((int)(_planetSprite.width / 3.0f), new Vec2(-8, -7));
 				_hitball2 = new Ball((int)(_planetSprite.width / 10.0f), new Vec2(165, 123));
 				AddChild(_hitball2);
-				_hitball2.alpha = 0.5f;
+				_hitball2.alpha = 0.0f;
 			}
 			
-			_hitball.alpha = 0.5f;
+			_hitball.alpha = 0.0f;
 			AddChild(_hitball);
 			//Console.WriteLine(_planetType);
 		}
