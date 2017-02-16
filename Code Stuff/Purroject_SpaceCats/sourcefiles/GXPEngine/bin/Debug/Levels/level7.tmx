@@ -10,10 +10,10 @@
   <object id="77" name="planet 4" x="388" y="4196" width="532" height="544">
    <ellipse/>
   </object>
-  <object id="7" name="planet 1" x="-196" y="3852" width="532" height="544">
+  <object id="7" name="planet 1" x="-208" y="3776" width="532" height="544">
    <ellipse/>
   </object>
-  <object id="78" name="planet 2" x="124" y="2764" width="420" height="424">
+  <object id="78" name="planet 2" x="236" y="2762" width="420" height="424">
    <ellipse/>
   </object>
   <object id="56" name="planet 2" x="452" y="1492" width="532" height="544">
@@ -31,16 +31,16 @@
   <object id="19" name="pick up" x="281.939" y="2101.09" width="80" height="76">
    <ellipse/>
   </object>
-  <object id="21" name="pick up" x="404" y="4120" width="80" height="76">
+  <object id="21" name="pick up" x="375" y="4151" width="80" height="76">
    <ellipse/>
   </object>
-  <object id="22" name="pick up" x="367.879" y="5198.79" width="80" height="76">
+  <object id="22" name="pick up" x="257.879" y="5367.79" width="80" height="76">
    <ellipse/>
   </object>
   <object id="55" name="pick up" x="228" y="1360" width="80" height="76">
    <ellipse/>
   </object>
-  <object id="38" name="black hole" x="332" y="3488" width="496" height="512">
+  <object id="38" name="black hole" x="386" y="3201" width="496" height="512">
    <ellipse/>
   </object>
   <object id="57" name="pick up" x="147.394" y="3359.76" width="80" height="76">

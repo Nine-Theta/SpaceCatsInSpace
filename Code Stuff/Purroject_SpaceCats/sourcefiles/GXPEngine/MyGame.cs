@@ -55,8 +55,8 @@ public class MyGame : Game
 	public MyGame() : base(640, 960, false, false) //Screen size should be 640x960. Don't overstep this boundary
 	{
 		targetFps = 60;
-		_menuMusic = new Sound("Music/Rushjet1_-_11_-_The_Voyage.mp3", true);
-		_menuMusic.Play();
+		//_menuMusic = new Sound("Music/Rushjet1_-_11_-_The_Voyage.mp3", true);
+		//_menuMusic.Play();
 		_menuScreen = new MenuScreen(width, height);
 		AddChild(_menuScreen);
 		_menuScreen.SetGameRef(this);
@@ -160,7 +160,7 @@ public class MyGame : Game
 		_catHandler.OnMouseUp -= onCatMouseUp;
 		_player.arrow.alpha = 0.0f;
 		_player.selected = false;
-		_player.cat.alpha = 0.0f;
+		_player.cat.alpha = 0.0f; 
 		SpawnDisposableCat();
 		_player.acceleration.Add(_mouseDelta.Clone().Normalize().Scale(-_accelerationValue));
 		_catCounter--;

@@ -4,13 +4,13 @@
   <object id="3" name="station" x="56" y="6008" width="528" height="328"/>
   <object id="4" name="station" x="64" y="56" width="528" height="328"/>
   <object id="5" name="player" x="112" y="5728" width="160" height="152"/>
-  <object id="6" name="planet 3" x="328" y="4808" width="532" height="544">
+  <object id="6" name="planet 3" x="-358" y="4859" width="532" height="544">
    <ellipse/>
   </object>
-  <object id="7" name="planet 1" x="-272" y="4248" width="532" height="544">
+  <object id="7" name="planet 1" x="342" y="4505" width="532" height="544">
    <ellipse/>
   </object>
-  <object id="10" name="planet 4" x="330.788" y="1912.61" width="643.394" height="631.273">
+  <object id="10" name="planet 4" x="-304.212" y="3808.61" width="643.394" height="631.273">
    <ellipse/>
   </object>
   <object id="11" name="planet 2" x="-252" y="1324" width="532" height="544">
@@ -18,41 +18,39 @@
   </object>
   <object id="12" name="astroid" x="136" y="1204" width="96" height="96"/>
   <object id="13" name="astroid" x="320" y="1324" width="96" height="96"/>
-  <object id="14" name="astroid" x="236" y="888" width="96" height="96"/>
+  <object id="14" name="astroid" x="267" y="1086" width="96" height="96"/>
   <object id="15" name="astroid" x="420" y="1196" width="96" height="96"/>
-  <object id="16" name="astroid" x="528" y="1376" width="96" height="96"/>
+  <object id="16" name="astroid" x="526" y="1310" width="96" height="96"/>
   <object id="17" name="astroid" x="48" y="1032" width="96" height="96"/>
   <object id="18" name="pick up" x="276" y="572" width="80" height="76">
    <ellipse/>
   </object>
-  <object id="19" name="pick up" x="244" y="2500" width="80" height="76">
+  <object id="19" name="pick up" x="309" y="2312" width="80" height="76">
    <ellipse/>
   </object>
-  <object id="20" name="pick up" x="102" y="3377" width="80" height="76">
+  <object id="20" name="pick up" x="64" y="3306" width="80" height="76">
    <ellipse/>
   </object>
-  <object id="21" name="pick up" x="416" y="4420" width="80" height="76">
+  <object id="21" name="pick up" x="411" y="4299" width="80" height="76">
    <ellipse/>
   </object>
-  <object id="22" name="pick up" x="264" y="5332" width="80" height="76">
+  <object id="22" name="pick up" x="411" y="5381" width="80" height="76">
    <ellipse/>
   </object>
-  <object id="23" name="pick up" x="388" y="1664" width="80" height="76">
+  <object id="23" name="pick up" x="442" y="1638" width="80" height="76">
    <ellipse/>
   </object>
-  <object id="26" name="astroid" x="20" y="2880" width="96" height="96"/>
-  <object id="27" name="astroid" x="120" y="2704" width="96" height="96"/>
-  <object id="28" name="astroid" x="224" y="2972" width="96" height="96"/>
-  <object id="29" name="astroid" x="316" y="2804" width="96" height="96"/>
-  <object id="30" name="astroid" x="424" y="2644" width="96" height="96"/>
-  <object id="31" name="astroid" x="524" y="2768" width="96" height="96"/>
-  <object id="32" name="astroid" x="20" y="4088" width="96" height="96"/>
-  <object id="33" name="astroid" x="192" y="3980" width="96" height="96"/>
-  <object id="34" name="astroid" x="220" y="4224" width="96" height="96"/>
-  <object id="35" name="astroid" x="368" y="4136" width="96" height="96"/>
-  <object id="36" name="astroid" x="544" y="4356" width="96" height="96"/>
-  <object id="37" name="astroid" x="500" y="3912" width="96" height="96"/>
-  <object id="38" name="black hole" x="456" y="3152" width="496" height="512">
+  <object id="28" name="astroid" x="242" y="2984" width="96" height="96"/>
+  <object id="29" name="astroid" x="430" y="2940" width="96" height="96"/>
+  <object id="30" name="astroid" x="363" y="2756" width="96" height="96"/>
+  <object id="31" name="astroid" x="558" y="2833" width="96" height="96"/>
+  <object id="32" name="astroid" x="405" y="3576" width="96" height="96"/>
+  <object id="33" name="astroid" x="102" y="3718" width="96" height="96"/>
+  <object id="34" name="astroid" x="365" y="3979" width="96" height="96"/>
+  <object id="35" name="astroid" x="398" y="3780" width="96" height="96"/>
+  <object id="36" name="astroid" x="559" y="3663" width="96" height="96"/>
+  <object id="37" name="astroid" x="528" y="3879" width="96" height="96"/>
+  <object id="38" name="black hole" x="227" y="3117" width="496" height="512">
    <ellipse/>
   </object>
  </objectgroup>

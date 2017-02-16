@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="100" tilewidth="64" tileheight="64" nextobjectid="66">
- <tileset firstgid="1" name="Planets2" tilewidth="64" tileheight="64" tilecount="135" columns="9">
+ <tileset firstgid="1" name="Planets2" tilewidth="64" tileheight="64" tilecount="0" columns="9">
   <image source="../Planets2.png" width="600" height="992"/>
  </tileset>
- <tileset firstgid="136" name="Planets1" tilewidth="64" tileheight="64" tilecount="150" columns="10">
+ <tileset firstgid="1" name="Planets1" tilewidth="64" tileheight="64" tilecount="0" columns="10">
   <image source="../Planets1.png" width="669" height="1012"/>
  </tileset>
- <tileset firstgid="286" name="black hole" tilewidth="64" tileheight="64" tilecount="88" columns="11">
-  <image source="../black hole.png" width="721" height="548"/>
+ <tileset firstgid="1" name="black hole" tilewidth="64" tileheight="64" tilecount="36" columns="6">
+  <image source="../black hole.png" width="420" height="421"/>
  </tileset>
- <tileset firstgid="374" name="Spacestation-v1-(1)" tilewidth="64" tileheight="64" tilecount="81" columns="9">
+ <tileset firstgid="37" name="Spacestation-v1-(1)" tilewidth="64" tileheight="64" tilecount="0" columns="9">
   <image source="../Spacestation-v1-(1).png" width="600" height="600"/>
  </tileset>
- <tileset firstgid="455" name="Planet1 smoll" tilewidth="64" tileheight="64" tilecount="9" columns="3">
+ <tileset firstgid="37" name="Planet1 smoll" tilewidth="64" tileheight="64" tilecount="0" columns="3">
   <image source="../Planets/Planet1 smoll.png" width="220" height="208"/>
  </tileset>
- <tileset firstgid="464" name="SMOLLY SMOLL" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+ <tileset firstgid="37" name="SMOLLY SMOLL" tilewidth="64" tileheight="64" tilecount="0" columns="1">
   <image source="../SMOLLY SMOLL.png" width="101" height="99"/>
  </tileset>
- <tileset firstgid="465" name="pick-up1" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+ <tileset firstgid="37" name="pick-up1" tilewidth="64" tileheight="64" tilecount="0" columns="1">
   <image source="../pick-up1.png" width="76" height="72"/>
  </tileset>
  <objectgroup name="Objectlaag 1">
@@ -51,31 +51,19 @@
   <object id="40" name="astroid" x="418.182" y="3054.55" width="66.6667" height="66.6667">
    <ellipse/>
   </object>
-  <object id="41" name="astroid" x="366.667" y="2096.97" width="66.6667" height="66.6667">
+  <object id="41" name="astroid" x="479.667" y="1941.97" width="66.6667" height="66.6667">
    <ellipse/>
   </object>
-  <object id="44" name="astroid" x="266.667" y="1945.45" width="66.6667" height="66.6667">
+  <object id="44" name="astroid" x="311.667" y="1992.45" width="66.6667" height="66.6667">
    <ellipse/>
   </object>
-  <object id="45" name="astroid" x="206.061" y="2157.58" width="66.6667" height="66.6667">
+  <object id="45" name="astroid" x="528.061" y="2122.58" width="66.6667" height="66.6667">
    <ellipse/>
   </object>
-  <object id="46" name="astroid" x="96.9697" y="2078.79" width="66.6667" height="66.6667">
+  <object id="46" name="astroid" x="126.97" y="2023.79" width="66.6667" height="66.6667">
    <ellipse/>
   </object>
-  <object id="47" name="astroid" x="72.7273" y="1942.42" width="66.6667" height="66.6667">
-   <ellipse/>
-  </object>
-  <object id="48" name="astroid" x="460.606" y="1681.82" width="66.6667" height="66.6667">
-   <ellipse/>
-  </object>
-  <object id="49" name="astroid" x="575.758" y="1590.91" width="66.6667" height="66.6667">
-   <ellipse/>
-  </object>
-  <object id="50" name="astroid" x="424.242" y="1581.82" width="66.6667" height="66.6667">
-   <ellipse/>
-  </object>
-  <object id="51" name="astroid" x="336.364" y="1457.58" width="66.6667" height="66.6667">
+  <object id="47" name="astroid" x="28.7273" y="1893.42" width="66.6667" height="66.6667">
    <ellipse/>
   </object>
   <object id="52" name="pick up" x="452" y="660" width="56" height="56"/>
