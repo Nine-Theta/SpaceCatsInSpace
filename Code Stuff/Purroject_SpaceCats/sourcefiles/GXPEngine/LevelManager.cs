@@ -185,6 +185,7 @@ namespace GXPEngine
 					{
 						Asteroid asteroid = tObject as Asteroid;
 						asteroidlist[index] = asteroid;
+						asteroid.levelRef = this;
 						index++;
 					}
 				}

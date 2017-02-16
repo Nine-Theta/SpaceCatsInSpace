@@ -6,7 +6,7 @@ namespace GXPEngine
 	public class Ball : Canvas
 	{
 		public readonly int radius;
-		protected Vec2 _position;
+		private Vec2 _position;
 		//private Vec2 _velocity;
 		//private Vec2 _acceleration;
 
