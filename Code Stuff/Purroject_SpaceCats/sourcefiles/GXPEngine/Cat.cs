@@ -12,7 +12,7 @@ namespace GXPEngine
 		private Vec2 _velocity;
 		private Vec2 _acceleration;
 		private Vec2 _target;
-		private int _animTimer = 5;
+		private int _animTimer = 3;
 
 		private type _catType;
 
@@ -83,7 +83,7 @@ namespace GXPEngine
 				if (_animTimer <= 0)
 				{
 					NextFrame();
-					_animTimer = 5;
+					_animTimer = 3;
 				}
 			}
 		}

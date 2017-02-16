@@ -13,6 +13,11 @@ namespace Purroject_SpaceCats
 		private AnimSprite _creditScreen;
 		private AnimSprite _levelScreen;
 		private AnimSprite _endScreen;
+		private Digit _endDecaScore;
+		private Digit _endFlatScore;
+		private Digit _endHectaTime;
+		private Digit _endDecaTime;
+		private Digit _endFlatTime;
 		private MyGame _gameRef;
 		//inOtherScreen is for Screens that aren't the main menu. Pressing enter or space will take you back when true
 		private bool _inOtherScreen = true;
@@ -43,6 +48,21 @@ namespace Purroject_SpaceCats
 			_levelScreen = new AnimSprite("Sprites/Menu/Map.png", 3, 1);
 			AddChild(_levelScreen);
 			_levelScreen.alpha = 0.0f;
+			_endDecaScore = new Digit(260.0f, 547.0f);
+			_endFlatScore = new Digit(282.0f, 547.0f);
+			_endHectaTime = new Digit(460.0f, 547.0f);
+			_endDecaTime = new Digit(482.0f, 547.0f);
+			_endFlatTime = new Digit(504.0f, 547.0f);
+			AddChild(_endDecaScore);
+			AddChild(_endFlatScore);
+			AddChild(_endHectaTime);
+			AddChild(_endDecaTime);
+			AddChild(_endFlatTime);
+			_endDecaScore.alpha = 0.0f;
+			_endFlatScore.alpha = 0.0f;
+			_endHectaTime.alpha = 0.0f;
+			_endDecaTime.alpha = 0.0f;
+			_endFlatTime.alpha = 0.0f;
 		}
 
 		public void Step()
@@ -135,7 +155,12 @@ namespace Purroject_SpaceCats
 					_ruleScreen.alpha = 0.0f;
 					_creditScreen.alpha = 0.0f;
 					_endScreen.alpha = 0.0f;
-					_backgroundTimer = 10;
+					_backgroundTimer = 5;
+					_endDecaScore.alpha = 0.0f;
+					_endFlatScore.alpha = 0.0f;
+					_endHectaTime.alpha = 0.0f;
+					_endDecaTime.alpha = 0.0f;
+					_endFlatTime.alpha = 0.0f;
 				}
 			}
 		}
@@ -147,18 +172,18 @@ namespace Purroject_SpaceCats
 			{
 				if (_mainScreen.alpha == 1.0f)
 				{
-					_backgroundTimer = 10;
+					_backgroundTimer = 5;
 					_background.NextFrame();
 				}
 				if (_ruleScreen.alpha == 1.0f)
 				{
-					_backgroundTimer = 20;
+					_backgroundTimer = 10;
 					_ruleScreen.NextFrame();
 				}
 				if (_creditScreen.alpha == 1.0f)
 				{
 					_creditScreen.NextFrame();
-					_backgroundTimer = 10;
+					_backgroundTimer = 5;
 					if (_creditScreen.currentFrame == 0)
 					{
 						_backgroundTimer += 35;
@@ -167,7 +192,7 @@ namespace Purroject_SpaceCats
 				if (_titleScreen.alpha == 1.0f)
 				{
 					_titleScreen.NextFrame();
-					_backgroundTimer = 10;
+					_backgroundTimer = 5;
 				}
 			}
 		}
@@ -209,11 +234,11 @@ namespace Purroject_SpaceCats
 			_endScreen.alpha = 1.0f;
 			if (pWon)
 			{
-				if (pScore >= 7)
+				if (pScore >= 12)
 				{
 					_endScreen.SetFrame(3);
 				}
-				else if (pScore >= 3)
+				else if (pScore >= 8)
 				{
 					_endScreen.SetFrame(2);
 				}
@@ -221,6 +246,7 @@ namespace Purroject_SpaceCats
 				{
 					_endScreen.SetFrame(1);
 				}
+				AssignScores(pScore, pTime);
 			}
 			else
 			{
@@ -228,6 +254,35 @@ namespace Purroject_SpaceCats
 			}
 			_selectedButton = 0;
 			
+		}
+
+		private void AssignScores(int pScore, int pTime)
+		{
+			_endDecaScore.alpha = 1.0f;
+			_endFlatScore.alpha = 1.0f;
+			UpdateScore(pScore);
+			_endHectaTime.alpha = 1.0f;
+			_endDecaTime.alpha = 1.0f;
+			_endFlatTime.alpha = 1.0f;
+			UpdateTime(pTime);
+		}
+
+		private void UpdateTime(int pTime)
+		{
+			int firstDigit = (pTime - (pTime % 100)) / 100;
+			int secondDigit = (pTime - (pTime % 10) - ((pTime / 100) * 100)) / 10;
+			int thirdDigit = pTime % 10;
+			_endHectaTime.SetNumber(firstDigit);
+			_endDecaTime.SetNumber(secondDigit);
+			_endFlatTime.SetNumber(thirdDigit);
+		}
+
+		private void UpdateScore(int pScore)
+		{
+			int firstDigit = (pScore - (pScore % 10)) / 10;
+			int secondDigit = pScore % 10;
+			_endDecaScore.SetNumber(firstDigit);
+			_endFlatScore.SetNumber(secondDigit);
 		}
 	}
 }

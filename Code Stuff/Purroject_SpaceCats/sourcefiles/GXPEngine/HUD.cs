@@ -13,6 +13,7 @@ namespace Purroject_SpaceCats
 		private Digit _flatCats;
 		private Digit _decaScore;
 		private Digit _flatScore;
+		private Sprite _outOfCatsSprite;
 		private int _score = 0;
 		private int _cats = 0;
 		private int _time = 0;
@@ -22,6 +23,9 @@ namespace Purroject_SpaceCats
 		{
 			_hudSprite = new Sprite("Sprites/HUD.png");
 			AddChild(_hudSprite);
+			_outOfCatsSprite = new Sprite("Sprites/HUD.png");
+			AddChild(_outOfCatsSprite);
+			_outOfCatsSprite.alpha = 0.0f;
 			_hectaSecond = new Digit(144.0f);
 			_decaSecond = new Digit(166.0f);
 			_flatSecond = new Digit(188.0f);

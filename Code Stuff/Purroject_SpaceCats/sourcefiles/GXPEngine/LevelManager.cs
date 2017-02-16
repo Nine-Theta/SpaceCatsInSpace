@@ -96,7 +96,16 @@ namespace GXPEngine
 					break;
 				case "station":
 					//Changes frame if frame is the starting station, else it uses another frame;
-					SpaceStation station = new SpaceStation(pObject.Width/2, pObject.Y, "Sprites/SpaceStation-v3.png");
+					string source = "";
+					if (pObject.Y <= 2500)
+					{
+						source = "Sprites/SpaceStation-v3.png";
+					}
+					else
+					{
+						source = "Sprites/SpaceStation-Dark.png";
+					}
+					SpaceStation station = new SpaceStation(pObject.Width/2, pObject.Y, source);
 					AddChild(station);
 					station.rotation = pObject.Rotation;
 					break;

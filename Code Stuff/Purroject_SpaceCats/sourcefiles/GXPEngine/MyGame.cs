@@ -212,7 +212,7 @@ public class MyGame : Game
 		_player.cat.alpha = 1.0f;
 		//_player.cat.position.SetXY(_player.position.Clone().Add(_player.position.Clone().Normalize().Scale(_player.radius)));
 		//_player.arrow.position.SetXY(_player.position.Clone().Subtract(_player.position.Clone().Normalize().Scale(_player.radius * 1.5f)));
-		 //_arrow.position.SetXY(_player.position.Clone().Subtract(_player.position.Clone().Normalize().Scale(_player.radius*1.5f)));
+		//_arrow.position.SetXY(_player.position.Clone().Subtract(_player.position.Clone().Normalize().Scale(_player.radius*1.5f)));
 	}
 
 	private void OnMouseEvent(GameObject target, MouseEventType type)
@@ -223,6 +223,7 @@ public class MyGame : Game
 	void SpawnDisposableCat()
 	{
 		_disposableCat = new Cat(_player, Cat.type.DISPOSABLE);
+		_disposableCat.rotation = _player.cat.rotation;
 		//_disposableCat.SetFrame(3);
 		AddChild(_disposableCat);
 		//_arrayDisposableCat[_arrayDisposableCat.Length - _catCounter] = _disposableCat;
@@ -425,20 +426,6 @@ public class MyGame : Game
 
 			_mouseDelta.SetXY((Input.mouseX - game.x) - _player.position.x, (Input.mouseY - game.y) - _player.position.y);
 
-			//if (_arrow.alpha == 1.0f){
-			//_arrow.position.SetXY(_player.position.Clone().Subtract(_player.position.Clone().Normalize().Scale(_player.radius * 1.5f).Scale(_mouseDelta.Clone().Normalize())));
-			//_arrow.position.RotateAroundRadians(_player.position,-_mouseDelta.GetAngleRadians());
-			//}
-
-			//TODO: Replace this code by a for each loop (or just the levelmanager's system if the time is right)
-			//BasicCollisionCheck(_planet1);
-			//BasicCollisionCheck(_planet2);
-			//BasicCollisionCheck(_planet3);
-			//BasicCollisionCheck(_planet4);
-			//BasicCollisionCheck(_blackhole);
-			//BasicAsteroidCheck(_asteroid);
-			//_asteroid.Step();
-
 			_background.graphics.DrawLine(new Pen(Color.White), _playerLastPosition.x, _playerLastPosition.y, _player.x, _player.y);
 
 			_playerLastPosition.x = _player.x;
@@ -464,6 +451,10 @@ public class MyGame : Game
 			//Console.WriteLine(_time);
 			float tTime = (Time.now - _oldTime) / 1000;
 			_oldTime = Time.now;
+			if (tTime >= 1.0f)
+			{
+				tTime = 0.0f;
+			}
 			_time += tTime;
 			_hud.SetCats(_catCounter);
 			_hud.SetTime(_time);
@@ -514,6 +505,7 @@ public class MyGame : Game
 			}
 			if (topHit){
 				_player.velocity.Scale(0);
+				_scoreCounter += _catCounter;
 				_menuScreen.ShowEndScreen(_scoreCounter, (int)(_time), true);
 				y = 0;
 				_started = false;
@@ -525,7 +517,7 @@ public class MyGame : Game
 				_catCounter = 15;
 				_time = 0;
 				_scoreCounter = 0;
-				_hud.Hide();
+				_hud.Destroy();
 				//_player.position.Add(_playerPOI);
 				//_player.velocity.Scale(1, -1);
 			}
