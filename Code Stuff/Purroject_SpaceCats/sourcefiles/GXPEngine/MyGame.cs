@@ -26,6 +26,7 @@ public class MyGame : Game
 	private Vec2 _playerBouncePos = null;
 	private Vec2 _playerPOI = null;
 	private HUD _hud = null;
+	private float _deathTimer = 15.0f;
 
 	private Sound _menuMusic = null;
 
@@ -377,6 +378,14 @@ public class MyGame : Game
 			_hud.SetTime(_time);
 			_hud.SetScore(_scoreCounter);
 			_hud.Step();
+			if (_catCounter <= 0)
+			{
+				_deathTimer -= tTime;
+				if (_deathTimer <= 0)
+				{
+					WinScreen(false);
+				}
+			}
 		}
 		else{
 			_menuScreen.Step();
@@ -414,7 +423,7 @@ public class MyGame : Game
 				_player.velocity.Scale(-1, 1);
 			}
 			if (topHit){
-				WinScreen();
+				WinScreen(true);
 			}
 			if (bottomHit){
 				_player.position.Add(_playerPOI);
@@ -435,10 +444,10 @@ public class MyGame : Game
 		}
 	}
 
-	private void WinScreen(){
+	private void WinScreen(bool pTrue){
 		_player.velocity.Scale(0);
 		_scoreCounter += _catCounter;
-		_menuScreen.ShowEndScreen(_scoreCounter, (int)(_time), true);
+		_menuScreen.ShowEndScreen(_scoreCounter, (int)(_time), pTrue);
 		for (int i = 0; i < _listDisposableCat.Count; i++){
 			_listDisposableCat[i].alpha = 0.0f;
 		}
