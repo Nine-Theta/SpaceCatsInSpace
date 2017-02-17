@@ -38,8 +38,8 @@ namespace Purroject_SpaceCats
 				
 			}
 			else {
-				rotation += _rotationSpeed * 2;
-				position.RotateAroundDegrees(new Vec2(320, 6500), 1);
+				//rotation += _rotationSpeed * 2;
+				//position.RotateAroundDegrees(new Vec2(320, 6500), 1);
 			}
 
 		}

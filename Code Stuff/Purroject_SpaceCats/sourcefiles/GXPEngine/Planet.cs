@@ -11,7 +11,6 @@ namespace GXPEngine
 		private Ball _hitball2;
 		//Range for the gravity of this planet (don't add as child)
 		private Ball _gravityRange;
-		//Fix to resize without fucking up everything
 		protected Sprite _planetSprite;
 
 		//the radius of this planet's gravity
@@ -87,10 +86,10 @@ namespace GXPEngine
 					_gravityRange.ballColor = System.Drawing.Color.Blue;
 					break;
 				case PlanetType.PURPLE:
-
+					_gravityRange.ballColor = System.Drawing.Color.Pink;
 					break;
 				case PlanetType.RED:
-
+					_gravityRange.ballColor = System.Drawing.Color.LightCoral;
 					break;
 			}
 
@@ -160,6 +159,31 @@ namespace GXPEngine
 			get
 			{
 				return _reflectionFactor;
+			}
+		}
+
+		/// <summary>
+		/// Freezers the burn.
+		/// </summary>
+		/// <returns><c>true</c>, if burn was freezered, <c>false</c> otherwise.</returns>
+		/// <param name="burn">If set to <c>true</c> burn.</param>
+		public bool FreezerBurn(out bool burn)
+		{
+			if (_planetType == PlanetType.PURPLE)
+			{
+				burn = true;
+			}
+			else
+			{
+				burn = false;
+			}
+			if (_planetType == PlanetType.BLUE)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
 			}
 		}
 	}

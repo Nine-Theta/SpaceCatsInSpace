@@ -24,7 +24,7 @@ namespace Purroject_SpaceCats
 			{
 				case "Sprites/Milk.png":
 					//Milk stuffs
-					_gameRef.SetCats(10);
+					//_gameRef.AddCats(10);
 					break;
 				case "Sprites/Fish.png":
 					//Fish stuffs

@@ -8,6 +8,7 @@ namespace GXPEngine
 		private XMLMap _currentMap;
 		private MyGame _gameRef;
 		private int _currentlevel;
+		private int[] _catCount = { 15, 15, 15, 15, 15, 15, 15 };
 
 		public LevelManager(int pLevel, MyGame pGameRef)
 		{
@@ -20,6 +21,7 @@ namespace GXPEngine
 		{
 			_currentlevel = pLevel;
 			_currentMap = _currentMap.ReadMap(pLevel);
+			_gameRef.SetCats(_catCount[pLevel]);
 			foreach (TiledObject tObject in _currentMap.objectGroup.TiledObject)
 			{
 				InterpretObject(tObject);
@@ -138,8 +140,8 @@ namespace GXPEngine
 					AddChild(pickup2);
 					break;
 				case "cow":
-					//Cow cow = new Cow((int)(pObject.Width / 2), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Cow.png");
-					//AddChild(cow);
+					CowFO cow = new CowFO((int)(pObject.Width / 2), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)));
+					AddChild(cow);
 					break;
 				case "spaceship":
 					//SpaceShip spaceship = new SpaceShip((int)(pObject.Width / 2), new Vec2(pObject.X + (pObject.Width / 2), pObject.Y + (pObject.Height / 2)), "Sprites/Cow.png");
