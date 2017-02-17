@@ -230,5 +230,12 @@ namespace GXPEngine
 			}
 			return null;
 		}
+		public int currentLevel
+		{
+			get
+			{
+				return _currentlevel;
+			}
+		}
 	}
 }

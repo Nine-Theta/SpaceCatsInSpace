@@ -203,6 +203,10 @@ namespace Purroject_SpaceCats
 					_creditScreen.alpha = 0.0f;
 					_secondCreditScreen.alpha = 1.0f;
 				}
+				else if (_endScreen.alpha == 1.0f && _endScreen.currentFrame == 0)
+				{
+					Retry();
+				}
 				else
 				{
 					_inOtherScreen = false;
@@ -299,7 +303,9 @@ namespace Purroject_SpaceCats
 			_ruleScreen.alpha = 0.0f;
 			_levelScreenForeground.alpha = 0.0f;
 			_levelScreenBackground.alpha = 0.0f;
+			_achievementMessage.alpha = 0.0f;
 			_creditScreen.alpha = 0.0f;
+			_storyScreen.alpha = 0.0f;
 			_endScreen.alpha = 1.0f;
 			if (pWon)
 			{
@@ -356,6 +362,11 @@ namespace Purroject_SpaceCats
 			int secondDigit = pScore % 10;
 			_endDecaScore.SetNumber(firstDigit);
 			_endFlatScore.SetNumber(secondDigit);
+		}
+
+		private void Retry()
+		{
+			StartGame(_gameRef.GetCurrentLevel());
 		}
 	}
 }

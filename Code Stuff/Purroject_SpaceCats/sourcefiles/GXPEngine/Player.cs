@@ -157,7 +157,11 @@ namespace GXPEngine
 						else if (planet.gravityRadius + radius > deltaVec.Length()){
 							_acceleration.Subtract(deltaVec.Normalize().Scale(planet.gravityForce));
 							_freezing = planet.FreezerBurn(out _burning);
-							Console.WriteLine("Freezing: {0}, Burning: {1}", _freezing, _burning);
+							//Console.WriteLine("Freezing: {0}, Burning: {1}", _freezing, _burning);
+							if (_burning)
+							{
+								_velocity.Scale(1.05f);
+							}
 						}
 					}
 				}

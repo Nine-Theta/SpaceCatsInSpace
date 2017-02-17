@@ -74,6 +74,10 @@ public class MyGame : Game
 
 	public void InitializeGame(int pLevel)
 	{
+		if (_levelManager != null)
+		{
+			_levelManager.Destroy();
+		}
 		_oldTime = Time.now;
 		_levelManager = new LevelManager(pLevel, this);
 		_backgroundSprite = new Sprite("Sprites/Background v2.png");
@@ -107,10 +111,10 @@ public class MyGame : Game
 		_topBoundary = border;
 		_bottomBoundary = _gameHeight - border;
 
-		DrawBorder(_leftBoundary, true);
-		DrawBorder(_rightBoundary, true);
-		DrawBorder(_topBoundary, false);
-		DrawBorder(_bottomBoundary, false);
+		//DrawBorder(_leftBoundary, true);
+		//DrawBorder(_rightBoundary, true);
+		//DrawBorder(_topBoundary, false);
+		//DrawBorder(_bottomBoundary, false);
 
 		_screenSizeOverlay = new Sprite("Sprites/screenSizeDebug.png");
 		AddChild(_screenSizeOverlay);
@@ -322,7 +326,7 @@ public class MyGame : Game
 
 			_mouseDelta.SetXY((Input.mouseX - game.x) - _player.position.x, (Input.mouseY - game.y) - _player.position.y);
 
-			_background.graphics.DrawLine(new Pen(Color.White), _playerLastPosition.x, _playerLastPosition.y, _player.x, _player.y);
+			//_background.graphics.DrawLine(new Pen(Color.White), _playerLastPosition.x, _playerLastPosition.y, _player.x, _player.y);
 
 			_playerLastPosition.x = _player.x;
 			_playerLastPosition.y = _player.y;
@@ -450,6 +454,10 @@ public class MyGame : Game
 	public void KillCats(int cats)
 	{
 		_catCounter = cats;
+	}
+	public int GetCurrentLevel()
+	{
+		return _levelManager.currentLevel;
 	}
 
 	/// <summary>
