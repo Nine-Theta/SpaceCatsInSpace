@@ -16,6 +16,7 @@ namespace Purroject_SpaceCats
 		private Sprite _levelScreenBackground;
 		private Sprite _levelScreenForeground;
 		private AnimSprite _endScreen;
+		private Sound _buttonPressed;
 		private Digit _endDecaScore;
 		private Digit _endFlatScore;
 		private Digit _endHectaTime;
@@ -29,6 +30,7 @@ namespace Purroject_SpaceCats
 
 		public MenuScreen(int pWidth, int pHeight) : base(pWidth, pHeight)
 		{
+			_buttonPressed = new Sound("Music/Menu Sound.mp3");
 			_titleScreen = new AnimSprite("Sprites/Menu/Title.png",  4, 1);
 			AddChild(_titleScreen);
 			_titleScreen.width = pWidth;
@@ -115,6 +117,7 @@ namespace Purroject_SpaceCats
 			}
 			if(Input.GetKeyDown(Key.SPACE) || Input.GetKeyDown(Key.ENTER))
 			{
+				_buttonPressed.Play();
 				if (!_inOtherScreen)
 				{
 					switch (_selectedButton)
