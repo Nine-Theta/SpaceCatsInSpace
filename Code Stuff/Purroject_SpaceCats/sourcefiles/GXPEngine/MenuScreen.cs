@@ -53,7 +53,7 @@ namespace Purroject_SpaceCats
 			_secondCreditScreen = new AnimSprite("Sprites/Menu/Logo.png", 3, 1);
 			AddChild(_secondCreditScreen);
 			_secondCreditScreen.alpha = 0.0f;
-			_endScreen = new AnimSprite("Sprites/Menu/Endscreen.png", 4, 1);
+			_endScreen = new AnimSprite("Sprites/Menu/Endscreen.png", 5, 1);
 			AddChild(_endScreen);
 			_endScreen.alpha = 0.0f;
 
@@ -130,6 +130,14 @@ namespace Purroject_SpaceCats
 					_selectedButton++;
 					_mainScreen.SetFrame(_selectedButton);
 				}
+			}
+			if (_endScreen.alpha == 1.0f && _endScreen.currentFrame == 0 && Input.GetKeyDown(Key.DOWN))
+			{
+				_endScreen.SetFrame(1);
+			}
+			else if (_endScreen.alpha == 1.0f && _endScreen.currentFrame == 1 && Input.GetKeyDown(Key.UP))
+			{
+				_endScreen.SetFrame(0);
 			}
 			if(Input.GetKeyDown(Key.SPACE) || Input.GetKeyDown(Key.ENTER))
 			{
@@ -315,15 +323,15 @@ namespace Purroject_SpaceCats
 				}
 				if (pScore >= 12)
 				{
-					_endScreen.SetFrame(3);
+					_endScreen.SetFrame(4);
 				}
 				else if (pScore >= 8)
 				{
-					_endScreen.SetFrame(2);
+					_endScreen.SetFrame(3);
 				}
 				else
 				{
-					_endScreen.SetFrame(1);
+					_endScreen.SetFrame(2);
 				}
 				AssignScores(pScore, pTime);
 			}

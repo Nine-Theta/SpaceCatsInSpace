@@ -18,16 +18,20 @@ namespace Purroject_SpaceCats
 			y = _position.y;
 		}
 
-		public Vec2 position{
-			set{
+		public Vec2 position
+		{
+			set
+			{
 				_position = value ?? Vec2.zero;
 			}
-			get{
+			get
+			{
 				return _position;
 			}
 		}
 
-		public void Step(){
+		public void Step()
+		{
 			x = _position.x;
 			y = _position.y;
 		}

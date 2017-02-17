@@ -30,19 +30,11 @@ namespace Purroject_SpaceCats
 
 		public XMLMap ReadMap(int pLevel)
 		{
-			//try
-			{
-				XmlSerializer serializer = new XmlSerializer(typeof(XMLMap));
+			XmlSerializer serializer = new XmlSerializer(typeof(XMLMap));
 
-				TextReader reader = new StreamReader(levelFiles[pLevel]);
-				XMLMap map = serializer.Deserialize(reader) as XMLMap;
-				return map;
-			}
-			//catch
-			{
-				//Console.WriteLine("Invalid map loaded, returning empty uninitialized map");
-				//return new XMLMap();
-			}
+			TextReader reader = new StreamReader(levelFiles[pLevel]);
+			XMLMap map = serializer.Deserialize(reader) as XMLMap;
+			return map;
 		}
 	}
 

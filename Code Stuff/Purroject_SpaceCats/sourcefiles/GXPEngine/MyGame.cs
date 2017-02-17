@@ -216,11 +216,13 @@ public class MyGame : Game
 			{
 				_player.velocity.SetXY(0, 0);
 				_player.acceleration.SetXY(0, 0);
-				if (other is BlackHole){
+				if (other is BlackHole)
+				{
 					_player.position = other.position;
 				}
 			}
-			else{
+			else
+			{
 				_player.acceleration.Subtract(deltaVec.Clone().Normalize().Scale(other.gravityForce));
 			}
 		}
@@ -236,16 +238,20 @@ public class MyGame : Game
 		}
 	}
 
-	private void scrollToTarget(){
-		if (_scrollTarget != null){
+	private void scrollToTarget()
+	{
+		if (_scrollTarget != null)
+		{
 			y = (game.height / 2 - _scrollTarget.y);
 			_backgroundSprite.y = _scrollTarget.y;
 			_hud.y = _backgroundSprite.y - (height/2);
 			_catlessWarning.y = _backgroundSprite.y - (height / 2);
-			if (_switchScreenSizeOverlay){
+			if (_switchScreenSizeOverlay)
+			{
 				_screenSizeOverlay.SetXY(_scrollTarget.x, _scrollTarget.y);
 			}
-			else {
+			else 
+			{
 				_screenSizeOverlay.SetXY(-2000, -2000);
 			}
 		}
@@ -263,7 +269,8 @@ public class MyGame : Game
 		bool topExit = (casualty.y < -100);
 		bool bottomExit = (casualty.y > (_gameHeight + 100));
 
-		if (leftExit || rightExit || topExit || bottomExit){
+		if (leftExit || rightExit || topExit || bottomExit)
+		{
 			_listDisposableCat.RemoveAt(index);
 			casualty.Destroy();
 			casualty = null;
@@ -272,29 +279,38 @@ public class MyGame : Game
 		}
 	}
 
-	private void Debug(){
-		if (Input.GetKeyDown(Key.ONE)){
+	private void Debug()
+	{
+		if (Input.GetKeyDown(Key.ONE))
+		{
 			targetFps = 60;
 		}
-		if (Input.GetKeyDown(Key.TWO)){
+		if (Input.GetKeyDown(Key.TWO))
+		{
 			targetFps = 12;
 		}
-		if (Input.GetKeyDown(Key.THREE)){
+		if (Input.GetKeyDown(Key.THREE))
+		{
 			targetFps = 2;
 		}
-		if (Input.GetKeyDown(Key.FOUR)){
+		if (Input.GetKeyDown(Key.FOUR))
+		{
 			targetFps = 240;
 		}
-		if (Input.GetKeyDown(Key.FIVE)){
+		if (Input.GetKeyDown(Key.FIVE))
+		{
 			targetFps = 999999999; 	//You have been in suspension for: 9 9 9 9 9 [/*&#%]		...9 
 		}
-		if (Input.GetKeyDown(Key.SIX)){
+		if (Input.GetKeyDown(Key.SIX))
+		{
 			targetFps = 1;
 		}
-		if (Input.GetKeyDown(Key.SEVEN)){
+		if (Input.GetKeyDown(Key.SEVEN))
+		{
 			_switchBoundaryCollision = !_switchBoundaryCollision;
 		}
-		if (Input.GetKeyDown(Key.EIGHT)){
+		if (Input.GetKeyDown(Key.EIGHT))
+		{
 			_switchScreenSizeOverlay = !_switchScreenSizeOverlay;
 		}
 	}
@@ -302,8 +318,10 @@ public class MyGame : Game
 	//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 	//																									UPDATE																									//
 	//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-	void Update(){
-		if (_started){
+	void Update()
+	{
+		if (_started)
+		{
 			scrollToTarget();
 
 			Debug();
@@ -317,8 +335,10 @@ public class MyGame : Game
 			_player.cat.position.SetXY(_mouseDelta.Clone().Normalize().Scale(_player.radius*2));
 			_player.cat.rotation = _mouseDelta.GetAngleDegrees()+90;
 
-			if (_disposableCat != null && _listDisposableCat.Contains(_disposableCat)){
-				for (int i = 0; i < _listDisposableCat.Count; i++){
+			if (_disposableCat != null && _listDisposableCat.Contains(_disposableCat))
+			{
+				for (int i = 0; i < _listDisposableCat.Count; i++)
+				{
 					_listDisposableCat[i].Step();
 					CheckForCatDestruction(_listDisposableCat[i], i);
 				}
@@ -331,7 +351,8 @@ public class MyGame : Game
 			_playerLastPosition.x = _player.x;
 			_playerLastPosition.y = _player.y;
 
-			if (_switchBoundaryCollision){
+			if (_switchBoundaryCollision)
+			{
 				//checkBoundaryCollisions();
 				//_player.ballColor = Color.Red;
 			}
@@ -343,7 +364,8 @@ public class MyGame : Game
 
 			float tTime = (Time.now - _oldTime) / 1000;
 			_oldTime = Time.now;
-			if (tTime >= 1.0f){
+			if (tTime >= 1.0f)
+			{
 				tTime = 0.0f;
 			}
 			_time += tTime;
@@ -370,12 +392,14 @@ public class MyGame : Game
 				}
 			}
 		}
-		else{
+		else
+		{
 			_menuScreen.Step();
 		}
 	}
 
-	static void Main(){
+	static void Main()
+	{
 		new MyGame().Start();
 	}
 
@@ -384,31 +408,37 @@ public class MyGame : Game
 	/// This will be used until the normal version works properly.
 	/// Doesn't that make this the normal version and the other one the broken one?
 	/// </summary>
-	private void brokenBoundaryCollisionCheck(){
+	private void brokenBoundaryCollisionCheck()
+	{
 		bool leftHit = (_player.x - _player.radius) < _leftBoundary;
 		bool rightHit = (_player.x + _player.radius) > _rightBoundary;
 		bool topHit = (_player.y - _player.radius) < _topBoundary;
 		bool bottomHit = (_player.y + _player.radius) > _bottomBoundary;
 
-		if (leftHit || rightHit || topHit || bottomHit){
+		if (leftHit || rightHit || topHit || bottomHit)
+		{
 			_playerBouncePos.x = _player.x;
 			_playerBouncePos.y = _player.y;
 			_player.ballColor = Color.Maroon;
 
 			_playerPOI.SetXY(_playerBouncePos.Clone().Subtract(_playerLastPosition));
 
-			if (leftHit){
+			if (leftHit)
+			{
 				_player.position.Add(_playerPOI);
 				_player.velocity.Scale(-1, 1);
 			}
-			if (rightHit){
+			if (rightHit)
+			{
 				_player.position.Add(_playerPOI);
 				_player.velocity.Scale(-1, 1);
 			}
-			if (topHit){
+			if (topHit)
+			{
 				WinScreen(true);
 			}
-			if (bottomHit){
+			if (bottomHit)
+			{
 				_player.position.Add(_playerPOI);
 				_player.velocity.Scale(1, -1);
 			}
@@ -418,10 +448,12 @@ public class MyGame : Game
 		}
 	}
 
-	public void AddScore(int pScore){
+	public void AddScore(int pScore)
+	{
 		_scoreCounter += pScore;
 	}
-	public void AddCats(int pCats){
+	public void AddCats(int pCats)
+	{
 		_catCounter += pCats;
 	}
 	public void SetCats(int pCats)
@@ -429,11 +461,13 @@ public class MyGame : Game
 		_catCounter = pCats;
 	}
 
-	private void WinScreen(bool pTrue){
+	private void WinScreen(bool pTrue)
+	{
 		_player.velocity.Scale(0);
 		_scoreCounter += _catCounter;
 		_menuScreen.ShowEndScreen(_scoreCounter, (int)(_time), pTrue);
-		for (int i = 0; i < _listDisposableCat.Count; i++){
+		for (int i = 0; i < _listDisposableCat.Count; i++)
+		{
 			_listDisposableCat[i].alpha = 0.0f;
 		}
 		y = 0;

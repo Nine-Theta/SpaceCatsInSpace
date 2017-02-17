@@ -101,7 +101,8 @@ namespace GXPEngine
 				x = x / tLength;
 				y = y / tLength;
 			}
-			else{
+			else
+			{
 				Console.WriteLine("Normalize failed, 0 in formula");
 			}
 			return this;

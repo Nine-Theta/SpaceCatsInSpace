@@ -27,7 +27,8 @@ namespace Purroject_SpaceCats
 			cow.SetOrigin(cow.width / 2, cow.height / 2);
 		}
 
-		public override void Step(){
+		public override void Step()
+		{
 			rotation += 1;
 			base.Step();
 		}

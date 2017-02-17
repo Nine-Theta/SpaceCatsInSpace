@@ -37,10 +37,6 @@ namespace GXPEngine
 			_planetSprite.SetOrigin(_planetSprite.width / 2, _planetSprite.height / 2);
 			alpha = 0.0f;
 			AddChild(_planetSprite);
-			//_planetSprite.SetScaleXY(0.66f, 0.66f);
-			//_planetSprite.alpha = 0.5f;
-
-			//Console.WriteLine(pFilename);
 
 			//Are these types really necessary? You can access the filename through _planetSprite.name too, so you can cut out the middle man here 
 			//Also: Switch statements. 
@@ -57,13 +53,14 @@ namespace GXPEngine
 
 			SetHitball();
 
-			if (pGravityRange != 0){
+			if (pGravityRange != 0)
+			{
 				_gravityRange = new Ball((int)(pGravityRange), Vec2.zero, System.Drawing.Color.Cyan);
 			}
-			else{
+			else
+			{
 				//If gravity range is not specified, set range of gravity to twice the size of the hitbox
 				_gravityRange = new Ball((int)(width * 3), Vec2.zero);
-				//Console.WriteLine(_gravityRange.radius);
 			}
 
 			_gravityRadius = _gravityRange.radius;
@@ -97,14 +94,21 @@ namespace GXPEngine
 			_gravityRange.alpha = 0.125f;
 		}
 
-		private void SetHitball(){
-			//Switch statement?Especially with the spacing you normally use this was unclear
+		private void SetHitball()
+		{
+			//Switch statement?
 			if (_planetType == PlanetType.BLUE)
-				_hitball = new Ball((int)(_planetSprite.width / 2.5f), new Vec2(20,-6));
+			{
+				_hitball = new Ball((int)(_planetSprite.width / 2.5f), new Vec2(20, -6));
+			}
 			if (_planetType == PlanetType.PURPLE)
+			{
 				_hitball = new Ball((int)(_planetSprite.width / 2.3f), Vec2.zero);
+			}
 			if (_planetType == PlanetType.GREEN)
-				_hitball = new Ball((int)(_planetSprite.width / 3.6f), new Vec2(-2,-12));
+			{
+				_hitball = new Ball((int)(_planetSprite.width / 3.6f), new Vec2(-2, -12));
+			}
 			if (_planetType == PlanetType.RED)
 			{
 				_hitball = new Ball((int)(_planetSprite.width / 3.0f), new Vec2(-8, -7));
@@ -119,37 +123,45 @@ namespace GXPEngine
 			
 			_hitball.alpha = 0.0f;
 			AddChild(_hitball);
-			//Console.WriteLine(_planetType);
 		}
 
 		/// <summary>
 		/// Gets the gravity force.
 		/// </summary>
 		/// <value>the scalar for calculating gravitational force</value>
-		public float gravityForce{
-			get{
+		public float gravityForce
+		{
+			get
+			{
 				return _gravityForce;
 			}
 		}
 
-		public int gravityRadius{
-			get{
+		public int gravityRadius
+		{
+			get
+			{
 				return _gravityRadius;
 			}
 		}
 
 
-		void Update(){
+		void Update()
+		{
 			rotation += _rotationSpeed;
 		}
 
-		public Vec2 posVec{
-			get{
+		public Vec2 posVec
+		{
+			get
+			{
 				return _posVec;
 			}
 		}
-		public Ball hitball{
-			get{
+		public Ball hitball
+		{
+			get
+			{
 				return _hitball;
 			}
 		}
@@ -162,11 +174,6 @@ namespace GXPEngine
 			}
 		}
 
-		/// <summary>
-		/// Freezers the burn.
-		/// </summary>
-		/// <returns><c>true</c>, if burn was freezered, <c>false</c> otherwise.</returns>
-		/// <param name="burn">If set to <c>true</c> burn.</param>
 		public bool FreezerBurn(out bool burn)
 		{
 			if (_planetType == PlanetType.PURPLE)

@@ -46,71 +46,92 @@ namespace GXPEngine
 			_arrow.alpha = 0.0f;
 		}
 
-		public Vec2 velocity{
-			set{
+		public Vec2 velocity
+		{
+			set
+			{
 				_velocity = value ?? Vec2.zero;
 			}
-			get{
+			get
+			{
 				return _velocity;
 			}
 		}
-		public Vec2 acceleration{
-			set{
+		public Vec2 acceleration
+		{
+			set
+			{
 				_acceleration = value ?? Vec2.zero;
 			}
-			get{
+			get
+			{
 				return _acceleration;
 			}
 		}
 		public LevelManager levelRef
 		{
-			set{
+			set
+			{
 				_levelRef = value;
 			}
 		}
-		public bool selected{
-			set{
+		public bool selected
+		{
+			set
+			{
 				_selected = value;
 			}
 		}
 
-		public Cat cat{
-			set{
+		public Cat cat
+		{
+			set
+			{
 				_cat = value ?? null;
 			}
-			get{
+			get
+			{
 				return _cat;
-				}
+			}
 		}
-		public Arrow arrow{
-			set{
+		public Arrow arrow
+		{
+			set
+			{
 				_arrow = value ?? null;
 			}
-			get{
+			get
+			{
 				return _arrow;
 			}
 		}
 		public AnimSprite yarnSprite
 		{
-			get{
+			get
+			{
 				return _yarnSprite;
 			}
 		}
 
-		private void AnimationCycle(){
+		private void AnimationCycle()
+		{
 			int tFrame = 0;
-			if (_selected){
+			if (_selected)
+			{
 				tFrame = 4;
 				tFrame += _yarnSprite.currentFrame % 4;
 				tFrame++;
-				if (tFrame >= 8){
+				if (tFrame >= 8)
+				{
 					tFrame = 4;
 				}
 			}
-			else{
+			else
+			{
 				tFrame += _yarnSprite.currentFrame % 4;
 				tFrame++;
-				if (tFrame >= 4){
+				if (tFrame >= 4)
+				{
 					tFrame = 0;
 				}
 			}
@@ -126,7 +147,8 @@ namespace GXPEngine
 			_yarnSprite.SetFrame(tFrame);
 		}
 
-		private void PlanetGravity(){
+		private void PlanetGravity()
+		{
 			if (_levelRef != null && _levelRef.planetList != null)
 			{
 				_bouncedOffPlanetTimer--;
@@ -138,15 +160,18 @@ namespace GXPEngine
 					if (planet != null)
 					{
 						Vec2 deltaVec = position.Clone().Subtract(planet.posVec);
-						if (planet.hitball.radius + radius > deltaVec.Length() && _bouncedOffPlanetTimer < 0){
-							if (planet is BlackHole){
+						if (planet.hitball.radius + radius > deltaVec.Length() && _bouncedOffPlanetTimer < 0)
+						{
+							if (planet is BlackHole)
+							{
 								position = planet.position;
 								_velocity = Vec2.zero;
 								_bouncedOffPlanetTimer = -1;
 								_gameRef.KillCats(0);
 								//Get all cats to die for the glory of the emperor
 							}
-							else{
+							else
+							{
 								Vec2 normalDelta = deltaVec.Clone().Normalize();
 								Vec2 projectedVec = _velocity.Clone().Normalize().Scale(deltaVec.Dot(normalDelta));
 								projectedVec.RotateDegrees(180);
@@ -154,13 +179,14 @@ namespace GXPEngine
 								_bouncedOffPlanetTimer = 3;
 							}
 						}
-						else if (planet.gravityRadius + radius > deltaVec.Length()){
+						else if (planet.gravityRadius + radius > deltaVec.Length())
+						{
 							_acceleration.Subtract(deltaVec.Normalize().Scale(planet.gravityForce));
 							_freezing = planet.FreezerBurn(out _burning);
 							//Console.WriteLine("Freezing: {0}, Burning: {1}", _freezing, _burning);
 							if (_burning)
 							{
-								_velocity.Scale(1.05f);
+								_velocity.Scale(1.01f);
 							}
 						}
 					}
@@ -177,13 +203,16 @@ namespace GXPEngine
 						Vec2 deltaVec = position.Clone().Subtract(asteroid.position);
 						if ((radius + asteroid.radius) > deltaVec.Length())
 						{
-							if (asteroid is CowFO){
+							if (asteroid is CowFO)
+							{
 								_velocity.Scale(0.75f);
 								asteroid.acceleration.Add(_velocity.Clone().Scale(0.7f));
 								_moo.Play();
 							}
-							else{
-								if (_velocity.Length() > 7.5f && !asteroid.crushed){
+							else
+							{
+								if (_velocity.Length() > 7.5f && !asteroid.crushed)
+								{
 									asteroid.Crush();
 								}
 								_velocity.Scale(0.5f);
@@ -213,7 +242,8 @@ namespace GXPEngine
 			}
 		}
 
-		public void Step(){
+		public void Step()
+		{
 			_velocity.Add(_acceleration);
 			if (_velocity.Length() > 25.0f)
 			{
@@ -231,7 +261,8 @@ namespace GXPEngine
 			_arrow.Step();
 
 			_animTimer--;
-			if (_animTimer < 0){
+			if (_animTimer < 0)
+			{
 				AnimationCycle();
 				_animTimer = 4;
 			}

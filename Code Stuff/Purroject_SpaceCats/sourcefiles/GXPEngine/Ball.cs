@@ -22,7 +22,8 @@ namespace GXPEngine
 			y = position.y;
 		}
 
-		private void draw(){
+		private void draw()
+		{
 			graphics.Clear(Color.Empty);
 			graphics.FillEllipse(
 				new SolidBrush(_ballColor),
@@ -30,21 +31,27 @@ namespace GXPEngine
 			);
 		}
 
-		public Color ballColor{
-			get{
+		public Color ballColor
+		{
+			get
+			{
 				return _ballColor;
 			}
-			set{
+			set
+			{
 				_ballColor = value;
 				draw();
 			}
 		}
 
-		public Vec2 position{
-			set{
+		public Vec2 position
+		{
+			set
+			{
 				_position = value ?? Vec2.zero;
 			}
-			get{
+			get
+			{
 				return _position;
 			}
 		}

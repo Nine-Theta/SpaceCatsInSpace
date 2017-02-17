@@ -31,34 +31,43 @@ namespace GXPEngine
 			acceleration = Vec2.zero;
 		}
 
-		public Vec2 position{
-			set{
+		public Vec2 position
+		{
+			set
+			{
 				_position = value ?? Vec2.zero;
 			}
-			get{
+			get
+			{
 				return _position;
 			}
 		}
 
-		public Vec2 velocity{
-			set{
+		public Vec2 velocity
+		{
+			set
+			{
 				_velocity = value ?? Vec2.zero;
 			}
-			get{
+			get
+			{
 				return _velocity;
 			}
 		}
 		public Vec2 acceleration
 		{
-			set{
+			set
+			{
 				_acceleration = value ?? Vec2.zero;
 			}
-			get{
+			get
+			{
 				return _acceleration;
 			}
 		}
 
-		public void Step(){
+		public void Step()
+		{
 			_velocity.Add(_acceleration);
 			_position.Add(_velocity);
 

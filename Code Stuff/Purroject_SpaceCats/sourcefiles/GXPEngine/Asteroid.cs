@@ -15,7 +15,8 @@ namespace Purroject_SpaceCats
 
 		public Asteroid(int pRadius, Vec2 pPosVec, bool isAsteroid = true) : base((int)(pRadius * 0.2), pPosVec)
 		{
-			if (isAsteroid){
+			if (isAsteroid)
+			{
 				_crushedSprite = new AnimSprite("Sprites/astroid sprite.png", 10, 1);
 				_crushedSprite.SetOrigin(_crushedSprite.width / 2, _crushedSprite.height / 2);
 				AddChild(_crushedSprite);
@@ -50,7 +51,8 @@ namespace Purroject_SpaceCats
 			}
 		}
 
-		public virtual void Step(){
+		public virtual void Step()
+		{
 			_velocity.Add(_acceleration);
 			position.Add(_velocity);
 
@@ -59,7 +61,8 @@ namespace Purroject_SpaceCats
 
 			_acceleration = Vec2.zero;
 
-			if (!_velocity.EqualsTo(Vec2.zero) && !crushed){
+			if (!_velocity.EqualsTo(Vec2.zero) && !crushed)
+			{
 				ExtremelyBasicBoundaryCollsion();
 			}
 
@@ -81,14 +84,18 @@ namespace Purroject_SpaceCats
 				}
 			}
 
-			if (crushed){
+			if (crushed)
+			{
 				_counter--;
-				if (_counter <= 0){
+				if (_counter <= 0)
+				{
 					_counter = 3;
-					if (_crushedSprite.currentFrame < _crushedSprite.frameCount - 1){
+					if (_crushedSprite.currentFrame < _crushedSprite.frameCount - 1)
+					{
 						_crushedSprite.NextFrame();
 					}
-					else{
+					else
+					{
 						_crushedSprite.alpha = 0.0f;
 						_crushedSprite.Destroy();
 						this.Destroy();
@@ -97,7 +104,8 @@ namespace Purroject_SpaceCats
 			}
 		}
 
-		public void Crush(){
+		public void Crush()
+		{
 			crushed = true;
 		}
 
@@ -108,17 +116,22 @@ namespace Purroject_SpaceCats
 			bool topHit = (y - radius) < -1;
 			bool bottomHit = (y + radius) > 6510;
 
-			if (leftHit || rightHit || topHit || bottomHit){
-				if (leftHit){
+			if (leftHit || rightHit || topHit || bottomHit)
+			{
+				if (leftHit)
+				{
 					velocity.Scale(-1, 1);
 				}
-				if (rightHit){
+				if (rightHit)
+				{
 					velocity.Scale(-1, 1);
 				}
-				if (topHit){
+				if (topHit)
+				{
 					velocity.Scale(1, -1);
 				}
-				if (bottomHit){
+				if (bottomHit)
+				{
 					velocity.Scale(1, -1);
 				}
 			}
