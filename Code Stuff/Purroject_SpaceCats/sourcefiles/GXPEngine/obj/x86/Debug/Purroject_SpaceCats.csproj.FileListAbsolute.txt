@@ -26,3 +26,5 @@ D:\Gebruikers\Gebruiker\Downloads\School\Y1Q3\Project Physics\GIT\Code Stuff\Pur
 C:\SourceTreeGitMasterFolder\Project Space Cats in Space\Code Stuff\Purroject_SpaceCats\sourcefiles\GXPEngine\obj\x86\Debug\GXPEngine.exe
 C:\SourceTreeGitMasterFolder\Project Space Cats in Space\Code Stuff\Purroject_SpaceCats\sourcefiles\GXPEngine\obj\x86\Debug\GXPEngine.pdb
 C:\SourceTreeGitMasterFolder\Project Space Cats in Space\Code Stuff\Purroject_SpaceCats\sourcefiles\GXPEngine\bin\Debug\GXPEngine.pdb
+D:\Projects\Space Cats In Space\Code Stuff\Purroject_SpaceCats\sourcefiles\GXPEngine\obj\x86\Debug\GXPEngine.exe
+D:\Projects\Space Cats In Space\Code Stuff\Purroject_SpaceCats\sourcefiles\GXPEngine\obj\x86\Debug\GXPEngine.pdb
