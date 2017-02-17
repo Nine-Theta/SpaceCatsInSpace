@@ -154,7 +154,7 @@ namespace GXPEngine
 						Vec2 deltaVec = position.Clone().Subtract(asteroid.position);
 						if ((radius + asteroid.radius) > deltaVec.Length())
 						{
-							if (_velocity.Length() > 10.0f && !asteroid.crushed)
+							if (_velocity.Length() > 7.5f && !asteroid.crushed)
 							{
 								asteroid.Crush();
 							}
