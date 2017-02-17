@@ -94,7 +94,7 @@ public class MyGame : Game
 		_player.arrow.alpha = 0.0f;
 
 		_cowFO = new CowFO(50, new Vec2(300, 6000));
-		AddChild(_cowFO);
+		//AddChild(_cowFO);
 
 		_listDisposableCat = new List<Cat>();
 

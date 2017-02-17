@@ -20,6 +20,7 @@ namespace Purroject_SpaceCats
 			_velocity = Vec2.zero;
 			_acceleration = Vec2.zero;
 			_rotationSpeed = pRotationSpeed;
+			_isTouchable = pIsTouchable;
 
 			Sprite cow = new Sprite("Sprites/Cow.png");
 			AddChild(cow);

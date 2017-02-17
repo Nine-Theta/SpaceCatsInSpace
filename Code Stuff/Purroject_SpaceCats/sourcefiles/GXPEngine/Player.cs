@@ -173,19 +173,18 @@ namespace GXPEngine
 						Vec2 deltaVec = position.Clone().Subtract(asteroid.position);
 						if ((radius + asteroid.radius) > deltaVec.Length())
 						{
-							if (_velocity.Length() > 7.5f && !asteroid.crushed)
-							{
-								asteroid.Crush();
-							}
-							_velocity.Scale(0.5f);
-							_acceleration.Subtract(asteroid.velocity.Clone().Scale(0.0f));
-							asteroid.acceleration.Add(_velocity.Clone().Scale(0.5f));
-							if (asteroid is CowFO)
-							{
+							if (asteroid is CowFO){
+								_velocity.Scale(0.75f);
+								asteroid.acceleration.Add(_velocity.Clone().Scale(0.7f));
 								_moo.Play();
 							}
-							else
-							{
+							else{
+								if (_velocity.Length() > 7.5f && !asteroid.crushed){
+									asteroid.Crush();
+								}
+								_velocity.Scale(0.5f);
+								_acceleration.Subtract(asteroid.velocity.Clone().Scale(0.0f));
+								asteroid.acceleration.Add(_velocity.Clone().Scale(0.5f));
 								_asteroidCrash.Play();
 							}
 						}
