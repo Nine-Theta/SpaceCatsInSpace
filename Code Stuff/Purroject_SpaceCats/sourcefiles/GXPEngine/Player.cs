@@ -10,10 +10,14 @@ namespace GXPEngine
 		private MyGame _gameRef;
 		private AnimSprite _yarnSprite;
 		private LevelManager _levelRef;
+		private Sound _asteroidCrash;
+		private Sound _moo;
 		private Cat _cat = null;
 		private Arrow _arrow = null;
 
 		private bool _selected;
+		private bool _burning;
+		private bool _freezing;
 		private int _animTimer = 5;
 		//Very bad fix: Shank me
 		//Amount of frames of "invulnerability" to planet bumping
@@ -25,8 +29,10 @@ namespace GXPEngine
 			position = pPosition;
 			_velocity = Vec2.zero;
 			_acceleration = Vec2.zero;
+			_asteroidCrash = new Sound("Music/boulder_impact_from_catapult_or_trebuchet.mp3");
+			_moo = new Sound("Music/cow_moo.mp3");
 
-			_yarnSprite = new AnimSprite("Sprites/Spritesheet.png", 4, 2);
+			_yarnSprite = new AnimSprite("Sprites/Spritesheet.png", 4, 6);
 			_yarnSprite.SetOrigin(_yarnSprite.width / 2, _yarnSprite.height / 2);
 			_yarnSprite.SetScaleXY(0.3f, 0.3f);
 			alpha = 0.0f;
@@ -108,6 +114,15 @@ namespace GXPEngine
 					tFrame = 0;
 				}
 			}
+			if (_burning)
+			{
+				tFrame += 16;
+			}
+			if (_freezing)
+			{
+				tFrame += 8;
+			}
+
 			_yarnSprite.SetFrame(tFrame);
 		}
 
@@ -115,6 +130,8 @@ namespace GXPEngine
 			if (_levelRef != null && _levelRef.planetList != null)
 			{
 				_bouncedOffPlanetTimer--;
+				_freezing = false;
+				_burning = false;
 				for (int i = 0; i < _levelRef.planetList.Length; i++)
 				{
 					Planet planet = _levelRef.planetList[i];
@@ -133,12 +150,14 @@ namespace GXPEngine
 								Vec2 normalDelta = deltaVec.Clone().Normalize();
 								Vec2 projectedVec = _velocity.Clone().Normalize().Scale(deltaVec.Dot(normalDelta));
 								projectedVec.RotateDegrees(180);
-								_velocity.Reflect(normalDelta, 1).Scale(0.8f);
+								_velocity.Reflect(normalDelta, 1).Scale(0.8f * planet.reflectionFactor);
 								_bouncedOffPlanetTimer = 3;
 							}
 						}
 						else if (planet.gravityRadius + radius > deltaVec.Length()){
 							_acceleration.Subtract(deltaVec.Normalize().Scale(planet.gravityForce));
+							_freezing = planet.FreezerBurn(out _burning);
+							Console.WriteLine("Freezing: {0}, Burning: {1}", _freezing, _burning);
 						}
 					}
 				}
@@ -154,13 +173,20 @@ namespace GXPEngine
 						Vec2 deltaVec = position.Clone().Subtract(asteroid.position);
 						if ((radius + asteroid.radius) > deltaVec.Length())
 						{
-							if (_velocity.Length() > 10.0f && !asteroid.crushed)
-							{
-								asteroid.Crush();
+							if (asteroid is CowFO){
+								_velocity.Scale(0.75f);
+								asteroid.acceleration.Add(_velocity.Clone().Scale(0.7f));
+								_moo.Play();
 							}
-							_velocity.Scale(0.5f);
-							_acceleration.Subtract(asteroid.velocity.Clone().Scale(0.4f));
-							asteroid.acceleration.Add(_velocity.Clone().Scale(0.9f));
+							else{
+								if (_velocity.Length() > 7.5f && !asteroid.crushed){
+									asteroid.Crush();
+								}
+								_velocity.Scale(0.5f);
+								_acceleration.Subtract(asteroid.velocity.Clone().Scale(0.0f));
+								asteroid.acceleration.Add(_velocity.Clone().Scale(0.5f));
+								_asteroidCrash.Play();
+							}
 						}
 					}
 				}

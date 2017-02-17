@@ -4,10 +4,10 @@
   <object id="3" name="station" x="56" y="6008" width="528" height="328"/>
   <object id="4" name="station" x="64" y="56" width="528" height="328"/>
   <object id="5" name="player" x="112" y="5728" width="160" height="152"/>
-  <object id="6" name="planet 1" x="-252" y="4548" width="532" height="544">
+  <object id="6" name="planet 1" x="-381" y="4078" width="532" height="544">
    <ellipse/>
   </object>
-  <object id="7" name="planet 4" x="-148" y="3852" width="532" height="544">
+  <object id="7" name="planet 4" x="-167" y="3484" width="532" height="544">
    <ellipse/>
   </object>
   <object id="10" name="planet 3" x="266.788" y="2824.61" width="643.394" height="631.273">
@@ -38,7 +38,7 @@
    <ellipse/>
   </object>
   <object id="53" name="astroid" x="60.8485" y="1920.97" width="64" height="80"/>
-  <object id="57" name="pick up" x="227.394" y="3559.76" width="80" height="76">
+  <object id="57" name="pick up" x="75.394" y="3248.76" width="80" height="76">
    <ellipse/>
   </object>
   <object id="58" name="astroid" x="151.758" y="2051.27" width="64" height="80"/>

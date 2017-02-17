@@ -2,42 +2,34 @@
 using GXPEngine;
 namespace Purroject_SpaceCats
 {
-	public class CowFO : Ball //Our CFO needs RPC
+	public class CowFO : Asteroid //Our CFO needs RPC
 	{
 		private Vec2 _velocity;
 		private Vec2 _acceleration;
 
-		public CowFO(int pRadius, Vec2 pPosition) : base((int)(pRadius * 0.2), pPosition)
+		private float _rotationSpeed;
+
+		private bool _isTouchable;
+
+		public CowFO(int pRadius, Vec2 pPosition, float pRotationSpeed = 1.0f, bool pIsTouchable = false) : base(pRadius, pPosition, false)
 		{
+			SetOrigin(width / 2, height / 2);
+			scale = 0.8f;
+
 			position = pPosition;
 			_velocity = Vec2.zero;
 			_acceleration = Vec2.zero;
+			_rotationSpeed = pRotationSpeed;
+			_isTouchable = pIsTouchable;
+
+			Sprite cow = new Sprite("Sprites/Cow.png");
+			AddChild(cow);
+			cow.SetOrigin(cow.width / 2, cow.height / 2);
 		}
 
-		public Vec2 velocity{
-			set{
-				_velocity = value ?? Vec2.zero;
-			}
-			get{
-				return _velocity;
-			}
-		}
-		public Vec2 acceleration{
-			set{
-				_acceleration = value ?? Vec2.zero;
-			}
-			get{
-				return _acceleration;
-			}
-		}
-
-		public void Step(){
-			_velocity.Add(_acceleration);
-			position.Add(_velocity);
-
-			x = position.x;
-			y = position.y;
-
+		public override void Step(){
+			rotation += 1;
+			base.Step();
 		}
 	}
 }

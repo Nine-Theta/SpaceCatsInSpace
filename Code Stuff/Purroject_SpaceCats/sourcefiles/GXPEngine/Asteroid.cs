@@ -13,11 +13,13 @@ namespace Purroject_SpaceCats
 		private int _counter = 3;
 		public bool crushed;
 
-		public Asteroid(int pRadius, Vec2 pPosVec) : base((int)(pRadius * 0.2), pPosVec)
+		public Asteroid(int pRadius, Vec2 pPosVec, bool isAsteroid = true) : base((int)(pRadius * 0.2), pPosVec)
 		{
-			_crushedSprite = new AnimSprite("Sprites/astroid sprite.png", 10,1);
-			_crushedSprite.SetOrigin(_crushedSprite.width / 2, _crushedSprite.height / 2);
-			AddChild(_crushedSprite);
+			if (isAsteroid){
+				_crushedSprite = new AnimSprite("Sprites/astroid sprite.png", 10, 1);
+				_crushedSprite.SetOrigin(_crushedSprite.width / 2, _crushedSprite.height / 2);
+				AddChild(_crushedSprite);
+			}
 			SetScaleXY(0.2f);
 			alpha = 0.1f;
 			position = pPosVec;
@@ -48,7 +50,7 @@ namespace Purroject_SpaceCats
 			}
 		}
 
-		public void Step(){
+		public virtual void Step(){
 			_velocity.Add(_acceleration);
 			position.Add(_velocity);
 

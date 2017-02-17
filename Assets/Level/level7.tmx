@@ -40,7 +40,7 @@
   <object id="55" name="pick up" x="228" y="1360" width="80" height="76">
    <ellipse/>
   </object>
-  <object id="38" name="black hole" x="332" y="3488" width="496" height="512">
+  <object id="38" name="black hole" x="386" y="3201" width="496" height="512">
    <ellipse/>
   </object>
   <object id="57" name="pick up" x="147.394" y="3359.76" width="80" height="76">

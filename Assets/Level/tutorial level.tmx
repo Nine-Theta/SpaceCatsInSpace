@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="100" tilewidth="64" tileheight="64" nextobjectid="24">
  <objectgroup name="Objectlaag 1">
-  <object id="3" name="station" x="56" y="6008" width="528" height="328"/>
+  <object id="3" name="earth" x="56" y="6008" width="528" height="328"/>
   <object id="4" name="station" x="64" y="56" width="528" height="328"/>
   <object id="5" name="player" x="112" y="5728" width="160" height="152"/>
   <object id="6" name="planet" x="328" y="4808" width="532" height="544">

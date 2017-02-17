@@ -1,55 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="100" tilewidth="64" tileheight="64" nextobjectid="56">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="100" tilewidth="64" tileheight="64" nextobjectid="77">
  <objectgroup name="Objectlaag 1">
   <object id="3" name="station" x="56" y="6008" width="528" height="328"/>
   <object id="4" name="station" x="64" y="56" width="528" height="328"/>
   <object id="5" name="player" x="112" y="5728" width="160" height="152"/>
-  <object id="6" name="planet 3" x="-220" y="3916" width="532" height="544">
+  <object id="6" name="planet 1" x="-381" y="4078" width="532" height="544">
    <ellipse/>
   </object>
-  <object id="7" name="planet 4" x="-212" y="2668" width="532" height="544">
+  <object id="7" name="planet 4" x="-167" y="3484" width="532" height="544">
    <ellipse/>
   </object>
-  <object id="10" name="planet 2" x="354.788" y="2264.61" width="643.394" height="631.273">
+  <object id="10" name="planet 3" x="266.788" y="2824.61" width="643.394" height="631.273">
    <ellipse/>
   </object>
-  <object id="11" name="planet 1" x="-244" y="1932" width="532" height="544">
+  <object id="11" name="planet 2" x="-244" y="1276" width="532" height="544">
    <ellipse/>
   </object>
-  <object id="18" name="pick up" x="276" y="572" width="80" height="76">
+  <object id="56" name="planet 1" x="348" y="820" width="532" height="544">
    <ellipse/>
   </object>
-  <object id="19" name="pick up" x="192" y="2520" width="80" height="76">
+  <object id="18" name="pick up" x="353.848" y="670.273" width="80" height="76">
    <ellipse/>
   </object>
-  <object id="20" name="pick up" x="334" y="3313" width="80" height="76">
+  <object id="19" name="pick up" x="265.939" y="2161.09" width="80" height="76">
    <ellipse/>
   </object>
-  <object id="21" name="pick up" x="392" y="4768" width="80" height="76">
+  <object id="21" name="pick up" x="280" y="4528" width="80" height="76">
    <ellipse/>
   </object>
-  <object id="22" name="pick up" x="260" y="5300" width="80" height="76">
+  <object id="22" name="pick up" x="179.879" y="5282.79" width="80" height="76">
    <ellipse/>
   </object>
-  <object id="55" name="pick up" x="284" y="1344" width="80" height="76">
+  <object id="55" name="pick up" x="388" y="1464" width="80" height="76">
    <ellipse/>
   </object>
-  <object id="38" name="black hole" x="356" y="1576" width="496" height="512">
+  <object id="38" name="black hole" x="436" y="4264" width="496" height="512">
    <ellipse/>
   </object>
-  <object id="41" name="astroid" x="320" y="3980" width="64" height="80"/>
-  <object id="42" name="astroid" x="420" y="4144" width="64" height="80"/>
-  <object id="43" name="astroid" x="348" y="4236" width="64" height="80"/>
-  <object id="44" name="astroid" x="476" y="4324" width="64" height="80"/>
-  <object id="45" name="astroid" x="524" y="4064" width="64" height="80"/>
-  <object id="46" name="astroid" x="296" y="4472" width="64" height="80"/>
-  <object id="47" name="astroid" x="48" y="1708" width="64" height="80"/>
-  <object id="48" name="astroid" x="176" y="1624" width="64" height="80"/>
-  <object id="49" name="astroid" x="518.424" y="1154.3" width="64" height="80"/>
-  <object id="50" name="astroid" x="409.333" y="1039.15" width="64" height="80"/>
-  <object id="51" name="astroid" x="315.394" y="1099.76" width="64" height="80"/>
-  <object id="52" name="astroid" x="191.152" y="887.636" width="64" height="80"/>
-  <object id="53" name="astroid" x="94.1818" y="969.455" width="64" height="80"/>
-  <object id="54" name="astroid" x="121.455" y="1157.33" width="64" height="80"/>
+  <object id="53" name="astroid" x="60.8485" y="1920.97" width="64" height="80"/>
+  <object id="57" name="pick up" x="322.394" y="3460.76" width="80" height="76">
+   <ellipse/>
+  </object>
+  <object id="58" name="astroid" x="151.758" y="2051.27" width="64" height="80"/>
+  <object id="59" name="astroid" x="72.9697" y="2236.12" width="64" height="80"/>
+  <object id="60" name="astroid" x="218.424" y="2336.12" width="64" height="80"/>
+  <object id="61" name="astroid" x="354.788" y="2481.58" width="64" height="80"/>
+  <object id="63" name="astroid" x="406.303" y="2260.36" width="64" height="80"/>
+  <object id="64" name="astroid" x="512.364" y="2411.88" width="64" height="80"/>
+  <object id="65" name="astroid" x="554.788" y="2120.97" width="64" height="80"/>
+  <object id="66" name="astroid" x="388.121" y="1990.67" width="64" height="80"/>
+  <object id="67" name="astroid" x="251.758" y="1839.15" width="64" height="80"/>
+  <object id="68" name="astroid" x="112.364" y="2460.36" width="64" height="80"/>
+  <object id="69" name="astroid" x="16.545" y="2612.21" width="64" height="80"/>
+  <object id="70" name="astroid" x="488.121" y="1763.39" width="64" height="80"/>
+  <object id="71" name="astroid" x="438.848" y="4228" width="64" height="80"/>
+  <object id="72" name="astroid" x="518" y="3967.7" width="64" height="80"/>
+  <object id="73" name="astroid" x="552.697" y="4149.18" width="64" height="80"/>
+  <object id="74" name="astroid" x="539.879" y="5098.64" width="64" height="80"/>
+  <object id="75" name="astroid" x="488.364" y="4947.97" width="64" height="80"/>
+  <object id="76" name="astroid" x="362.303" y="4831.67" width="64" height="80"/>
  </objectgroup>
 </map>
