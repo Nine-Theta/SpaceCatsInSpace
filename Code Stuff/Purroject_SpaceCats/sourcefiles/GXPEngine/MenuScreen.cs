@@ -12,9 +12,12 @@ namespace Purroject_SpaceCats
 		private AnimSprite _mainScreen;
 		private AnimSprite _ruleScreen;
 		private AnimSprite _creditScreen;
+		private AnimSprite _secondCreditScreen;
 		private AnimSprite _levelScreen;
+		private AnimSprite _storyScreen;
 		private Sprite _levelScreenBackground;
 		private Sprite _levelScreenForeground;
+		private Sprite _achievementMessage;
 		private AnimSprite _endScreen;
 		private Sound _buttonPressed;
 		private Digit _endDecaScore;
@@ -47,6 +50,9 @@ namespace Purroject_SpaceCats
 			_creditScreen = new AnimSprite("Sprites/Menu/Logo.png", 3, 1);
 			AddChild(_creditScreen);
 			_creditScreen.alpha = 0.0f;
+			_secondCreditScreen = new AnimSprite("Sprites/Menu/Logo.png", 3, 1);
+			AddChild(_secondCreditScreen);
+			_secondCreditScreen.alpha = 0.0f;
 			_endScreen = new AnimSprite("Sprites/Menu/Endscreen.png", 4, 1);
 			AddChild(_endScreen);
 			_endScreen.alpha = 0.0f;
@@ -61,6 +67,16 @@ namespace Purroject_SpaceCats
 			_levelScreenForeground = new Sprite("Sprites/Menu/Menu Bars.png");
 			AddChild(_levelScreenForeground);
 			_levelScreenForeground.alpha = 0.0f;
+
+			_storyScreen = new AnimSprite("Sprites/Menu/Story.png", 8, 1);
+			AddChild(_storyScreen);
+			_storyScreen.alpha = 0.0f;
+
+			_achievementMessage = new Sprite("Sprites/Achievement.png");
+			_achievementMessage.SetOrigin(_achievementMessage.width / 2, _achievementMessage.height / 2);
+			_achievementMessage.SetXY(width / 2, height / 2);
+			AddChild(_achievementMessage);
+			_achievementMessage.alpha = 0.0f;
 
 			_endDecaScore = new Digit(260.0f, 547.0f);
 			_endFlatScore = new Digit(282.0f, 547.0f);
@@ -150,7 +166,10 @@ namespace Purroject_SpaceCats
 					switch (_selectedButton)
 					{
 						case 0:
-							StartGame(_selectedButton);
+							_levelScreenBackground.alpha = 0.0f;
+							_levelScreen.alpha = 0.0f;
+							_levelScreen.alpha = 0.0f;
+							_storyScreen.alpha = 1.0f;
 							break;
 						case 1:
 							StartGame(_selectedButton);
@@ -175,6 +194,15 @@ namespace Purroject_SpaceCats
 							break;
 					}
 				}
+				else if (_storyScreen.alpha == 1.0f)
+				{
+					StartGame(0);
+				}
+				else if (_creditScreen.alpha == 1.0f)
+				{
+					_creditScreen.alpha = 0.0f;
+					_secondCreditScreen.alpha = 1.0f;
+				}
 				else
 				{
 					_inOtherScreen = false;
@@ -186,6 +214,7 @@ namespace Purroject_SpaceCats
 					_levelScreenForeground.alpha = 0.0f;
 					_ruleScreen.alpha = 0.0f;
 					_creditScreen.alpha = 0.0f;
+					_secondCreditScreen.alpha = 0.0f;
 					_endScreen.alpha = 0.0f;
 					_backgroundTimer = 5;
 					_endDecaScore.alpha = 0.0f;
@@ -193,6 +222,7 @@ namespace Purroject_SpaceCats
 					_endHectaTime.alpha = 0.0f;
 					_endDecaTime.alpha = 0.0f;
 					_endFlatTime.alpha = 0.0f;
+					_achievementMessage.alpha = 0.0f;
 				}
 			}
 		}
@@ -224,6 +254,11 @@ namespace Purroject_SpaceCats
 				if (_titleScreen.alpha == 1.0f)
 				{
 					_titleScreen.NextFrame();
+					_backgroundTimer = 10;
+				}
+				if (_storyScreen.alpha == 1.0f)
+				{
+					_storyScreen.NextFrame();
 					_backgroundTimer = 10;
 				}
 			}
@@ -268,6 +303,10 @@ namespace Purroject_SpaceCats
 			_endScreen.alpha = 1.0f;
 			if (pWon)
 			{
+				if (pScore >= 20)
+				{
+					_achievementMessage.alpha = 1.0f;
+				}
 				if (pScore >= 12)
 				{
 					_endScreen.SetFrame(3);

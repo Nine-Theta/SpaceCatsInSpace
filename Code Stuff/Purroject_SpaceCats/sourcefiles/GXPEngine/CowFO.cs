@@ -11,10 +11,10 @@ namespace Purroject_SpaceCats
 
 		private bool _isTouchable;
 
-		public CowFO(int pRadius, Vec2 pPosition, float pRotationSpeed = 1.0f, bool pIsTouchable = false) : base((int)(pRadius * 0.2), pPosition, false)
+		public CowFO(int pRadius, Vec2 pPosition, float pRotationSpeed = 1.0f, bool pIsTouchable = false) : base(pRadius, pPosition, false)
 		{
 			SetOrigin(width / 2, height / 2);
-			scale = 2.4f;
+			scale = 0.8f;
 
 			position = pPosition;
 			_velocity = Vec2.zero;
@@ -28,21 +28,8 @@ namespace Purroject_SpaceCats
 		}
 
 		public override void Step(){
-			_velocity.Add(_acceleration);
-			position.Add(_velocity);
-
-			x = position.x;
-			y = position.y;
-
-
-			if (_isTouchable){
-				
-			}
-			else {
-				//rotation += _rotationSpeed * 2;
-				//position.RotateAroundDegrees(new Vec2(320, 6500), 1);
-			}
-
+			rotation += 1;
+			base.Step();
 		}
 	}
 }

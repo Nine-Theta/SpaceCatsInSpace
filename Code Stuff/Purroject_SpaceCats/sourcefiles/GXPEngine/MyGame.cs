@@ -9,9 +9,10 @@ public class MyGame : Game
 	private MouseHandler _catHandler = null; //playerhandler won the vote over "ballhandler" & "ballfondler" //Renamed playerhandler to cathandler
 	private Player _player = null;
 	private LevelManager _levelManager = null;
+	//private Cat _cat = null;
 	private Cat _disposableCat = null; //Acceptable losses
-	private CowFO _cowFO = null;
-
+	//
+	//private Cat[] _arrayDisposableCat;
 	private List<Cat> _listDisposableCat;
 
 	private Canvas _background = null;
@@ -93,9 +94,6 @@ public class MyGame : Game
 		_playerPOI = Vec2.zero;
 		_player.arrow.alpha = 0.0f;
 
-		_cowFO = new CowFO(50, new Vec2(300, 6000));
-		//AddChild(_cowFO);
-
 		_listDisposableCat = new List<Cat>();
 
 		_catHandler = new MouseHandler(_player.yarnSprite);
@@ -109,16 +107,16 @@ public class MyGame : Game
 		_topBoundary = border;
 		_bottomBoundary = _gameHeight - border;
 
-		//DrawBorder(_leftBoundary, true);
-		//DrawBorder(_rightBoundary, true);
-		//DrawBorder(_topBoundary, false);
-		//DrawBorder(_bottomBoundary, false);
+		DrawBorder(_leftBoundary, true);
+		DrawBorder(_rightBoundary, true);
+		DrawBorder(_topBoundary, false);
+		DrawBorder(_bottomBoundary, false);
 
 		_screenSizeOverlay = new Sprite("Sprites/screenSizeDebug.png");
 		AddChild(_screenSizeOverlay);
 		_screenSizeOverlay.SetOrigin(_screenSizeOverlay.width / 2, _screenSizeOverlay.height / 2);
 		_screenSizeOverlay.alpha = 0.25f;
-
+		//
 		_hud = new HUD(width, height);
 		AddChild(_hud);
 		_hud.SetCats(_catCounter);
@@ -128,12 +126,12 @@ public class MyGame : Game
 		_player.SetGameRef(this);
 		_musicChannel.Stop();
 		_musicChannel = _gameMusic.Play();
-
-		_musicChannel.Volume = 0.0f; //----------------------------------------------------------REMOVE THIS BEFORE PRESENTATION!------------------------------------------------------------------------------------------//
 	}
 
-	private void DrawBorder(float boundary, bool isXBoundary){
-		if (isXBoundary){
+	private void DrawBorder(float boundary, bool isXBoundary)
+	{
+		if (isXBoundary)
+		{
 			_background.graphics.DrawLine(new Pen(Color.Lime), boundary, 0, boundary, _gameHeight);
 		}
 		else {
@@ -141,8 +139,10 @@ public class MyGame : Game
 		}
 	}
 
-	private void onCatMouseDown(GameObject target, MouseEventType type){
-		if (_catCounter > 0){
+	private void onCatMouseDown(GameObject target, MouseEventType type)
+	{
+		if (_catCounter > 0)
+		{
 			_catHandler.OnMouseMove += onCatMouseMove;
 			_catHandler.OnMouseUp += onCatMouseUp;
 			_catHandler.OnMouseRightDown += onCatRightMouseDown;
@@ -150,11 +150,12 @@ public class MyGame : Game
 			_player.selected = true;
 			_player.arrow.alpha = 1.0f;
 		}
-		else{
+		else
+		{
 			//Instant forfeit? Special Icon?
-			//Console.WriteLine("You cats are on another yarn flying through space.");
+			Console.WriteLine("You cats are on another yarn flying through space.");
 			//Console.WriteLine("And their last memory, was that of pain.");
-			Console.WriteLine("In space, meow-one can hear you purr.");
+			//Console.WriteLine("In space, meow-one can hear you purr.");
 			//Console.WriteLine("Cats, report. Cats? Caaaaaaaaaaaaaaaaaats!");
 			//Console.WriteLine("A life not spent serving the emperor, is a life wasted.")
 		}
@@ -247,56 +248,6 @@ public class MyGame : Game
 	}
 
 	/// <summary>
-	/// The boundary collision check that is currently being worked on.
-	/// </summary>
-	//private void checkBoundaryCollisions()
-	//{
-	//	bool leftHit = (_player.x - _player.radius) < _leftBoundary;
-	//	bool rightHit = (_player.x + _player.radius) > _rightBoundary;
-	//	bool topHit = (_player.y - _player.radius) < _topBoundary;
-	//	bool bottomHit = (_player.y + _player.radius) > _bottomBoundary;
-	//	if (leftHit || rightHit || topHit || bottomHit)
-	//	{
-	//		_playerBouncePos.x = _player.x;
-	//		_playerBouncePos.y = _player.y;
-	//		_player.ballColor = Color.Maroon;
-	//		//_playerPOI.SetXY(_playerBouncePos.Clone().Subtract(_playerLastPosition));
-	//		//Console.WriteLine("_playerBounce(" + _playerBouncePos + ") - _playerLastPosition(" + _playerLastPosition + ") = _playerPOI(" + _playerPOI + ")");
-	//		//_playerPOI.SetXY(_playerLastPosition.Clone().Subtract(_playerBouncePos));
-	//		//Console.WriteLine("_playerLastPosition(" + _playerLastPosition + ") - _playerBounce(" + _playerBouncePos + ") = _playerPOI(" + _playerPOI + ")");
-	//		if (leftHit)
-	//		{
-	//			//Console.WriteLine("Last Pos PreCalc:D " + _playerLastPosition);
-	//			_playerPOI.SetXY(_playerLastPosition.Clone().Normalize().Scale(_playerLastPosition.x - _leftBoundary));
-	//			//Console.WriteLine("Last Pos PostCalc:D " + _playerPOI);
-	//			_player.position.SetXY(_playerLastPosition.Add(_playerPOI.Clone().Normalize().Scale(_playerPOI.Length())));
-	//			_player.velocity.Scale(-1, 1);
-	//		}
-	//		if (rightHit)
-	//		{
-	//			_playerPOI.SetXY(_playerLastPosition.Clone().Normalize().Scale(_rightBoundary - _playerLastPosition.x));
-	//			_player.position.SetXY(_playerPOI.Add(_playerLastPosition));
-	//			_player.velocity.Scale(-1, 1);
-	//		}
-	//		if (topHit)
-	//		{
-	//			_playerPOI.SetXY(_playerLastPosition.Clone().Normalize().Scale(_playerLastPosition.y - _topBoundary));
-	//			_player.position.SetXY(_playerPOI.Add(_playerLastPosition));
-	//			_player.velocity.Scale(1, -1);
-	//		}
-	//		if (bottomHit)
-	//		{
-	//			_playerPOI.SetXY(_playerLastPosition.Clone().Normalize().Scale(_bottomBoundary - _playerLastPosition.y));
-	//			_player.position.SetXY(_playerPOI.Add(_playerLastPosition));
-	//			_player.velocity.Scale(1, -1);
-	//		}
-	//	}
-	//	else {
-	//		_player.ballColor = Color.Pink;
-	//	}
-	//}
-
-	/// <summary>
 	/// Any cat unfortunate enough to be "misplaced" out of the game area, will be fed to the god-emperor of mankind
 	/// </summary>
 	/// <param name="casualty">The Cat in question</param>
@@ -355,8 +306,6 @@ public class MyGame : Game
 
 			_player.Step();
 
-			_cowFO.Step();
-
 			_player.arrow.position.SetXY(_mouseDelta.Clone().Normalize().Scale((_player.radius*-2) - (_accelerationValue*3)));
 			_player.arrow.rotation = _mouseDelta.GetAngleDegrees() + 180;
 			_player.arrow.scaleX = (0.5f + (_accelerationValue / 100));
@@ -373,7 +322,7 @@ public class MyGame : Game
 
 			_mouseDelta.SetXY((Input.mouseX - game.x) - _player.position.x, (Input.mouseY - game.y) - _player.position.y);
 
-			//_background.graphics.DrawLine(new Pen(Color.White), _playerLastPosition.x, _playerLastPosition.y, _player.x, _player.y);
+			_background.graphics.DrawLine(new Pen(Color.White), _playerLastPosition.x, _playerLastPosition.y, _player.x, _player.y);
 
 			_playerLastPosition.x = _player.x;
 			_playerLastPosition.y = _player.y;
@@ -468,10 +417,12 @@ public class MyGame : Game
 	public void AddScore(int pScore){
 		_scoreCounter += pScore;
 	}
-	public void SetCats(int pCats){
-		if (_catCounter < pCats){
-			_catCounter = pCats;
-		}
+	public void AddCats(int pCats){
+		_catCounter += pCats;
+	}
+	public void SetCats(int pCats)
+	{
+		_catCounter = pCats;
 	}
 
 	private void WinScreen(bool pTrue){
