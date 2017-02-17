@@ -31,6 +31,13 @@ public class MyGame : Game
 	private float _deathTimer = 8.0f;
 
 	private Sound _menuMusic = null;
+	private SoundChannel _musicChannel = null;
+	private Sound _gameMusic = null;
+	private Sound _meowSound = null;
+	/// <summary>
+	/// The meow channel. Minimum talk, maximum Meow. Apparently totally not needed though. 
+	/// </summary>
+	//private SoundChannel _meowChannel = null;
 
 	private bool _started = false;
 	private MenuScreen _menuScreen = null;
@@ -55,8 +62,11 @@ public class MyGame : Game
 	public MyGame() : base(640, 960, false, false) //Screen size should be 640x960. Don't overstep this boundary
 	{
 		targetFps = 60;
-		//_menuMusic = new Sound("Music/Rushjet1_-_11_-_The_Voyage.mp3", true);
-		//_menuMusic.Play();
+		_menuMusic = new Sound("Music/the_environment.mp3", true);
+		_gameMusic = new Sound("Music/Rushjet1_-_11_-_The_Voyage.mp3", true);
+		_musicChannel = _menuMusic.Play();
+		_meowSound = new Sound("Music/KittyMeow1.mp3");
+		//_meowChannel = _meowSound.Play(true);
 		_menuScreen = new MenuScreen(width, height);
 		AddChild(_menuScreen);
 		_menuScreen.SetGameRef(this);
@@ -114,6 +124,8 @@ public class MyGame : Game
 		_catlessWarning = new AnimSprite("Sprites/Message.png", 4, 1);
 		_catlessWarning.alpha = 0.0f;
 		_player.SetGameRef(this);
+		_musicChannel.Stop();
+		_musicChannel = _gameMusic.Play();
 	}
 
 	private void DrawBorder(float boundary, bool isXBoundary)
@@ -160,7 +172,8 @@ public class MyGame : Game
 		_catHandler.OnMouseUp -= onCatMouseUp;
 		_player.arrow.alpha = 0.0f;
 		_player.selected = false;
-		_player.cat.alpha = 0.0f; 
+		_player.cat.alpha = 0.0f;
+		_meowSound.Play();
 		SpawnDisposableCat();
 		_player.acceleration.Add(_mouseDelta.Clone().Normalize().Scale(-_accelerationValue));
 		_catCounter--;

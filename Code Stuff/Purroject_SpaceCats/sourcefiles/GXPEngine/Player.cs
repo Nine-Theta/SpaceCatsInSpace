@@ -133,7 +133,7 @@ namespace GXPEngine
 								Vec2 normalDelta = deltaVec.Clone().Normalize();
 								Vec2 projectedVec = _velocity.Clone().Normalize().Scale(deltaVec.Dot(normalDelta));
 								projectedVec.RotateDegrees(180);
-								_velocity.Reflect(normalDelta, 1).Scale(0.8f);
+								_velocity.Reflect(normalDelta, 1).Scale(0.8f * planet.reflectionFactor);
 								_bouncedOffPlanetTimer = 3;
 							}
 						}

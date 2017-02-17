@@ -147,6 +147,7 @@ namespace GXPEngine
 					break;
 				case "earth":
 					Sprite earth = new Sprite("Sprites/Earth.png");
+					earth.SetXY(pObject.X, pObject.Y);
 					AddChild(earth);
 					break;
 				default:
