@@ -29,7 +29,7 @@ namespace GXPEngine
 		private float _reflectionFactor = 1.0f;
 		private PlanetType _planetType;
 
-		public Planet(Vec2 pPosVec, string pFilename, float pRadius, float pGravityForce = 1.0f, int pGravityRange = 0, float pRotationSpeed = 1.0f) : base (1, pPosVec)
+		public Planet(Vec2 pPosVec, string pFilename, float pRadius, float pGravityForce = 1.0f, int pGravityRange = 0, float pRotationSpeed = 0.2f) : base (1, pPosVec)
 		{
 			_posVec = pPosVec;
 			SetXY(_posVec.x, _posVec.y);
@@ -53,6 +53,8 @@ namespace GXPEngine
 				_planetType = PlanetType.GREEN;
 			if (pFilename == "Sprites/Planet 4.png")
 				_planetType = PlanetType.RED;
+			if (pFilename == "Sprites/Black Hole.png")
+				_planetType = PlanetType.BLACKHOLE;
 
 			SetHitball();
 
@@ -73,13 +75,22 @@ namespace GXPEngine
 			{
 				case PlanetType.GREEN:
 					_gravityForce *= 0.5f;
+					_gravityRange.ballColor = System.Drawing.Color.Green;
 					break;
 				case PlanetType.BLACKHOLE:
 					//Tried this increase, too strong
+					_gravityRange.ballColor = System.Drawing.Color.Purple;
 					//_gravityForce *= 1.5f;
 					break;
 				case PlanetType.BLUE:
 					_reflectionFactor = 0.5f;
+					_gravityRange.ballColor = System.Drawing.Color.Blue;
+					break;
+				case PlanetType.PURPLE:
+
+					break;
+				case PlanetType.RED:
+
 					break;
 			}
 
@@ -101,6 +112,10 @@ namespace GXPEngine
 				_hitball2 = new Ball((int)(_planetSprite.width / 10.0f), new Vec2(165, 123));
 				AddChild(_hitball2);
 				_hitball2.alpha = 0.0f;
+			}
+			if (_planetType == PlanetType.BLACKHOLE)
+			{
+				_hitball = new Ball((int)(_planetSprite.width / 3.6f), new Vec2(-2, -12));
 			}
 			
 			_hitball.alpha = 0.0f;

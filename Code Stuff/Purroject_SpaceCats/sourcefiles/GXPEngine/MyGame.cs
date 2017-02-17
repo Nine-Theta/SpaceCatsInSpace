@@ -28,7 +28,7 @@ public class MyGame : Game
 	private Vec2 _playerBouncePos = null;
 	private Vec2 _playerPOI = null;
 	private HUD _hud = null;
-	private float _deathTimer = 8.0f;
+	private float _deathTimer = 5.0f;
 
 	private Sound _menuMusic = null;
 	private SoundChannel _musicChannel = null;
